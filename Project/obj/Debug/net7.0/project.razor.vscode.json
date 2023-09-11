@@ -24060,6 +24060,11 @@
       "FilePath": "/workspaces/PSI-1/Project/Views/Home/Privacy.cshtml",
       "TargetPath": "Views\\Home\\Privacy.cshtml",
       "FileKind": "mvc"
+    },
+    {
+      "FilePath": "/workspaces/PSI-1/Project/Views/InOut/Index.cshtml",
+      "TargetPath": "Views\\InOut\\Index.cshtml",
+      "FileKind": "mvc"
     }
   ]
 }

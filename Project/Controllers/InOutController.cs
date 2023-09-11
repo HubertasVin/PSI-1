@@ -9,7 +9,7 @@ public class InOutController : Controller
     // returns a localhost/InOut view
     public IActionResult Index() 
     {
-        var InOutModel = new InOutModel { Message = "Testing123" };
+        var InOutModel = new InOutModel("../Project/src/text.txt");
         return View(InOutModel); //passing model so that I could see content on web page
     }
     public IActionResult Error()

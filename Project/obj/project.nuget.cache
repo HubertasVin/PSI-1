@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PAkAZqy/nN45FasEidA0zkkI3oSNMuDf7CAHJhLcq3VTiQbPqK4+jT2F2Vpq+yYpCXfFkTx5t7Yn0t6WgINMtA==",
+  "dgSpecHash": "sRANFH/fqI91TXwV/SGWS1gcOH37/GrBOQu99qksyVXUKZ/NZn77wolk76B2nb2yXRDJf9Y8094anxqDaszNrw==",
   "success": true,
-  "projectFilePath": "/workspaces/PSI-1/Project/Project.csproj",
+  "projectFilePath": "/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/Project.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

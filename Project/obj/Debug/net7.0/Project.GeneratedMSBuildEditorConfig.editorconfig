@@ -9,41 +9,41 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Project
 build_property.RootNamespace = Project
-build_property.ProjectDir = /workspaces/PSI-1/Project/
+build_property.ProjectDir = /home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /workspaces/PSI-1/Project
+build_property.MSBuildProjectDirectory = /home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project
 build_property._RazorSourceGeneratorDebug = 
 
-[/workspaces/PSI-1/Project/Views/Home/Index.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/Home/Privacy.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/InOut/Index.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/InOut/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSW5PdXQvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/Shared/Error.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/Shared/_ValidationScriptsPartial.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/_ViewImports.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/_ViewStart.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/workspaces/PSI-1/Project/Views/Shared/_Layout.cshtml]
+[/home/hubertas/Documents/BackupFolder/Programming/C\#/PSI-1/Project/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-r07nuq4tb0

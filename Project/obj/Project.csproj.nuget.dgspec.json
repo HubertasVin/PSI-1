@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/Project.csproj": {}
+    "C:\\Users\\Žygimantas\\source\\repos\\PSI-1\\Project\\Project.csproj": {}
   },
   "projects": {
-    "/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/Project.csproj": {
+    "C:\\Users\\Žygimantas\\source\\repos\\PSI-1\\Project\\Project.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/Project.csproj",
+        "projectUniqueName": "C:\\Users\\Žygimantas\\source\\repos\\PSI-1\\Project\\Project.csproj",
         "projectName": "Project",
-        "projectPath": "/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/Project.csproj",
-        "packagesPath": "/home/hubertas/.nuget/packages/",
-        "outputPath": "/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/obj/",
+        "projectPath": "C:\\Users\\Žygimantas\\source\\repos\\PSI-1\\Project\\Project.csproj",
+        "packagesPath": "C:\\Users\\Žygimantas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Žygimantas\\source\\repos\\PSI-1\\Project\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/hubertas/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Žygimantas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -37,6 +39,32 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.AspNetCore.Identity.UI": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "target": "Package",
+              "version": "[7.0.10, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[7.0.9, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -56,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/7.0.110/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }

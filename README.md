@@ -4,7 +4,7 @@ Programų sistemų rudens semestro projekto saugykla
 
 ## IDĖJA:
 
-Aplikacija veikianti kaip forumas, kurioje galima platinti ir rasti kitų žmonių konspektus.
+Interneto puslapis, kuriame galima platinti ir rasti kitų žmonių konspektus.
 
 - Vartotojas gali skelbti savo konspeką, suteikti jam pavadinimą ir tag'us, pagal kuriuos kiti vartotojai gali jį atrasti.
 - Vartotojas gali komentuoti po konspektais, taip pat like'inti ir dislike'inti juos. Gavęs access prie konspekto, gali jį redaguoti.

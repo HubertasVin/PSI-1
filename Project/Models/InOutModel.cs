@@ -1,37 +1,23 @@
 using System.Text.Json;
+using Project.InOut;
 
-namespace Project.Models;
-
-public class InOutModel
+namespace Project.Models
 {
-    public struct MessageData
+    public class InOutModel
     {
-        public string Name { get; set; }
-        public string Text { get; set; }
-    }
-    // public int Id { get; set; }
-    public MessageData[] Message { get; set; }
-    
-    public InOutModel(FileStream file)
-    {
-        JsonElement json = JsonDocument.Parse(file).RootElement;
-        if (json.ValueKind != JsonValueKind.Array) return;
+        public List<InOut.JSONParser.MessageData> Messages { get; set; }
+        public string InputMessage { get; set; }
 
-        List<MessageData> messages = new List<MessageData>();
-
-        foreach (JsonElement element in json.EnumerateArray())
+        public InOutModel(FileStream file)
         {
-            if (element.TryGetProperty("name", out JsonElement name))
-            {
-                MessageData message = new MessageData();
-                message.Name = name.GetString();
-                if (element.TryGetProperty("message", out JsonElement text))
-                    message.Text = text.GetString();
-                messages.Add(message);
-                System.Console.WriteLine(message.Name?.ToString());
-            }
+            var chatHistory = new InOut.JSONParser(file);
+            this.Messages = JSONParser.Messages;
+            this.InputMessage = string.Empty; // Initialize InputMessage in the constructor
         }
 
-        Message = messages.ToArray();
+        public void AddMessage(string name, string message, string path)
+        {
+            Project.InOut.JSONParser.AddJSONMessage(name, message, path);
+        }
     }
 }

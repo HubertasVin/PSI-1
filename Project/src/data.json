@@ -1,14 +1,1 @@
-[
-{
-    "id": 1,
-    "name": "Thomas",
-    "message": "Hello World!",
-    "emergencyPhoneNumbers": ["+4530303030", "+4510203040"]
-},
-{
-    "id": 2,
-    "name": "Niels",
-    "message": "Hello aswell!",
-    "emergencyPhoneNumbers": []
-}
-]
+[{"Name":"Guest","Text":"a"},{"Name":"Guest","Text":"b"},{"Name":"Guest","Text":"c"}]

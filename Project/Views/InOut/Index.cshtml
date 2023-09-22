@@ -4,7 +4,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@foreach(var message in Model.Message)
+@foreach(var message in Model.Messages)
 {
     <h2>@message.Name: @message.Text</h2>
 }
+
+<form id="myForm" asp-controller="InOut" asp-action="AddMessage" method="post">
+    <textarea asp-for="InputMessage"></textarea>
+    <button type="submit" src=".">Send</button>
+</form>

@@ -4,4 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Message</h2>
+@foreach(var message in Model.Message)
+{
+    <h2>@message.Name: @message.Text</h2>
+}

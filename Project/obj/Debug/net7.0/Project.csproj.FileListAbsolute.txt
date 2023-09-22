@@ -60,3 +60,10 @@
 /home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/obj/Debug/net7.0/Project.pdb
 /home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/obj/Debug/net7.0/Project.genruntimeconfig.cache
 /home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/obj/Debug/net7.0/ref/Project.dll
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/bin/Debug/net7.0/src/data.json
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/bin/Debug/net7.0/Newtonsoft.Json.dll
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/bin/Debug/net7.0/xunit.abstractions.dll
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/bin/Debug/net7.0/xunit.assert.dll
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/bin/Debug/net7.0/xunit.core.dll
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/bin/Debug/net7.0/xunit.execution.dotnet.dll
+/home/hubertas/Documents/BackupFolder/Programming/C#/PSI-1/Project/obj/Debug/net7.0/Project.csproj.CopyComplete

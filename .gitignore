@@ -1,0 +1,5 @@
+﻿.vscode
+.config
+./Project/obj
+./Project/bin
+.vs

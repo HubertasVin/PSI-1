@@ -1,15 +1,25 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Project.Models;
+using System.Diagnostics;
 
-namespace Project.Controllers;
+namespace JsonParsing;
 
 public class InOutController : Controller
 {
+    [HttpPost]
+    public IActionResult AddMessage(string InputMessage)
+    {
+        FileStream file = System.IO.File.OpenRead("src/data.json");
+        var InOutModel = new InOutModel(file);
+        InOutModel.AddMessage("Guest", InputMessage, "src/data.json");
+        return RedirectToAction("Index");
+    }
+    
     // returns a localhost/InOut view
     public IActionResult Index() 
     {
-        var InOutModel = new InOutModel("../Project/src/text.txt");
+        using FileStream file = System.IO.File.OpenRead("src/data.json");
+        var InOutModel = new InOutModel(file);
         return View(InOutModel); //passing model so that I could see content on web page
     }
     public IActionResult Error()

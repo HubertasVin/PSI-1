@@ -1,6 +1,7 @@
-.vscode
-.config
-Project/obj
-Project/bin
+﻿.vscode
 .vs
-Project/net7.0
+.config
+Project/obj/
+Project/bin/
+Project/net7.0/
+Project/.vs/

@@ -9,7 +9,6 @@ namespace Project.Hubs
     {
         protected string path = "src/SignalRData.json";
         protected readonly List<MessageData> chatMessages = new List<MessageData>();
-
         public async Task SendMessage(string user, string message)
         {
             var chatMessage = new MessageData
@@ -24,7 +23,12 @@ namespace Project.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
-        
-
+        public async void GetAllMessages() 
+        {
+            foreach (MessageData msg in chatMessages)
+            {
+                await Clients.All.SendAsync("LoadMessages", msg.User, msg.Message);
+            }
+        }
     }
 }

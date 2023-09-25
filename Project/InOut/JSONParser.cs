@@ -33,9 +33,10 @@ namespace Project.InOut
                         if (element.TryGetProperty("Message", out JsonElement text))
                         {
                             message.Message = text.GetString() ?? string.Empty;
-                            if (element.TryGetDateTime(out DateTime d))
-                                message.Timestamp = d;
                         }
+                        if (element.TryGetProperty("Timestamp", out JsonElement dateTime))
+                                message.Timestamp = dateTime.GetDateTime();
+                        Console.WriteLine("user:" + message.User + "\nmessage:" + message.Message);
                         Messages.Add(message);
                     }
                 }

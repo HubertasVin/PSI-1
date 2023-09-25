@@ -11,6 +11,12 @@ connection.on("ReceiveMessage", function (user, message) {
     li.textContent = `${user}: ${message}`;
 });
 
+connection.on("LoadMessages", function (user, message) {
+    var li = document.createElement("li");
+    document.getElementById.appendChild(li);
+    li.textContent = `${user}: ${message}`;
+})
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 }).catch(function (err) {

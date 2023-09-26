@@ -8,7 +8,8 @@ namespace Project.Hubs
     public class ChatHub : Hub
     {
         protected string path = "src/SignalRData.json";
-        protected readonly List<MessageData> chatMessages = new List<MessageData>();
+        protected List<MessageData> chatMessages = new List<MessageData>();
+        
         public async Task SendMessage(string user, string message)
         {
             var chatMessage = new MessageData
@@ -23,12 +24,34 @@ namespace Project.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
-        public async void GetAllMessages() 
+        public async Task LoadMessage() 
         {
+            var JsonParser = new JSONParser(path, chatMessages);
+            // JSONParser(path, chatMessages);
+            List<Task> listOfTasks = new List<Task>();
+            Console.WriteLine("LoadMessage called");
+            Console.WriteLine(chatMessages.Count);
             foreach (MessageData msg in chatMessages)
             {
-                await Clients.All.SendAsync("LoadMessages", msg.User, msg.Message);
+                Console.WriteLine("Contents: user:" + msg.User + " | " + msg.Message);
+                listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message));
             }
+            await Task.WhenAll(listOfTasks);
+            // for(int i = 0; i < chatMessages.Count; i++)
+            // {
+                // MessageData? msg = chatMessages[i];
+                // if (Clients == null) 
+                // {
+                //     Console.WriteLine("Clients is null");
+                //     continue;
+                // }
+                
+                // if (Clients.Caller != null)
+                // {
+                //     await Clients.Caller.SendAsync("LoadMessage", msg.User, msg.Message);
+                // }
+            // }
         }
+
     }
 }

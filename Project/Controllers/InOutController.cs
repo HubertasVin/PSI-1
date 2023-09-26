@@ -19,6 +19,7 @@ public class InOutController : Controller
     {
         // using FileStream file = System.IO.File.OpenRead("src/SignalRData.json");
         var InOutModel = new InOutModel();
+        // InOutModel.LoadAllMessages();
         return View(); //passing model so that I could see content on web page
     }
     public IActionResult Error()

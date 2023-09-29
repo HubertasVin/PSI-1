@@ -14,10 +14,5 @@ namespace Project.Models
         }
 
         public InOutModel() {}
-
-        public void AddMessage(string user, string message, DateTime date, string path, List<MessageData> Messages) // adds message to JSON file
-        {
-            AddJSONMessage(user, message, date, path, Messages);
-        }
     }
 }

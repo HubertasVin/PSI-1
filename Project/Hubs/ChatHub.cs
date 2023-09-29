@@ -20,7 +20,7 @@ namespace Project.Hubs
             };
 
             chatMessages.Add(chatMessage);
-            AddJSONMessage(chatMessage.User, chatMessage.Message, chatMessage.Timestamp, path, chatMessages);
+            AddJSONMessage(chatMessage, path, chatMessages);
             await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString());
         }
 

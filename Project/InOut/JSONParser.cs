@@ -9,7 +9,7 @@ namespace Project.InOut
         public static List<MessageData> ReadMessagesFromJSON(string filePath)
         {
             CreateJSONFileIfNotExists(filePath);
-            
+
             List<MessageData> messages = new List<MessageData>();
             using (FileStream file = File.OpenRead(filePath))
             {
@@ -40,15 +40,9 @@ namespace Project.InOut
             return messages;
         }
 
-        
 
-        public static void AddJSONMessage(
-            string user,
-            string message,
-            DateTime date,
-            string path,
-            List<MessageData> messages
-        )
+
+        public static void AddJSONMessage(MessageData messageData, string path, List<MessageData> messages)
         {
             var jsonData = System.IO.File.ReadAllText(path);
             messages.Clear();
@@ -56,14 +50,7 @@ namespace Project.InOut
                 JsonConvert.DeserializeObject<List<MessageData>>(jsonData)
                 ?? new List<MessageData>();
 
-            messages.Add(
-                new MessageData()
-                {
-                    User = user,
-                    Message = message,
-                    Timestamp = date
-                }
-            );
+            messages.Add(messageData);
 
             jsonData = JsonConvert.SerializeObject(messages);
             System.IO.File.WriteAllText(path, jsonData);
@@ -73,7 +60,7 @@ namespace Project.InOut
         {
             if (!File.Exists(filePath))
             {
-                using(FileStream fs = File.Create(filePath)) 
+                using (FileStream fs = File.Create(filePath))
                 {
                     fs.Close();
                     File.WriteAllText(filePath, "[]");

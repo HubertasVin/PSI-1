@@ -6,14 +6,25 @@ namespace Project.InOut
 {
     public class JSONParser
     {
-        public JSONParser(string path, List<MessageData> Messages)
+        // private string filePath;
+        // private List<MessageData> messages = new List<MessageData>();
+        // public JSONParser(string path) // Once a JSON Parser is created, you specifiy the path of the file with which is class will work with
+        // {
+        //     filePath = path;
+        // }
+
+        public static List<MessageData> ReadMessagesFromJSON(string filePath)
         {
-            using (FileStream file = File.OpenRead(path))
+            List<MessageData> messages = new List<MessageData>();
+            using (FileStream file = File.OpenRead(filePath))
             {
                 JsonElement json = JsonDocument.Parse(file).RootElement;
-                if (json.ValueKind != JsonValueKind.Array || Messages.Count() != 0)
-                    return;
-
+                if (json.ValueKind != JsonValueKind.Array || messages.Count() != 0)
+                {
+                    Console.WriteLine("JSON file is not an array or messages is not empty");
+                    return messages;
+                }
+                
                 foreach (JsonElement element in json.EnumerateArray())
                 {
                     if (element.TryGetProperty("User", out JsonElement name))
@@ -25,14 +36,13 @@ namespace Project.InOut
                             message.Message = text.GetString() ?? string.Empty;
                         }
                         if (element.TryGetProperty("Timestamp", out JsonElement dateTime))
-                                message.Timestamp = dateTime.GetDateTime();
+                            message.Timestamp = dateTime.GetDateTime();
                         Console.WriteLine("user:" + message.User + "\nmessage:" + message.Message);
-                        Messages.Add(message);
+                        messages.Add(message);
                     }
                 }
             }
-
-            // Message = Messages.ToArray();
+            return messages;
         }
 
         public static void AddJSONMessage(
@@ -40,16 +50,16 @@ namespace Project.InOut
             string message,
             DateTime date,
             string path,
-            List<MessageData> Messages
+            List<MessageData> messages
         )
         {
             var jsonData = System.IO.File.ReadAllText(path);
-            Messages.Clear();
-            Messages =
+            messages.Clear();
+            messages =
                 JsonConvert.DeserializeObject<List<MessageData>>(jsonData)
                 ?? new List<MessageData>();
 
-            Messages.Add(
+            messages.Add(
                 new MessageData()
                 {
                     User = user,
@@ -58,7 +68,7 @@ namespace Project.InOut
                 }
             );
 
-            jsonData = JsonConvert.SerializeObject(Messages);
+            jsonData = JsonConvert.SerializeObject(messages);
             System.IO.File.WriteAllText(path, jsonData);
         }
     }

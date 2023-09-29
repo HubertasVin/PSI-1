@@ -6,14 +6,6 @@ namespace JsonParsing;
 
 public class InOutController : Controller
 {
-    // public IActionResult AddMessage(string InputMessage)
-    // {
-    //     FileStream file = System.IO.File.OpenRead("src/data.json");
-    //     var InOutModel = new InOutModel(file);
-    //     InOutModel.AddMessage("Guest", InputMessage, "src/data.json");
-    //     return RedirectToAction("Index");
-    // }
-    
     // returns a localhost/InOut view
     public IActionResult Index() 
     {

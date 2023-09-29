@@ -21,7 +21,7 @@ namespace Project.Hubs
 
             chatMessages.Add(chatMessage);
             AddJSONMessage(chatMessage.User, chatMessage.Message, chatMessage.Timestamp, path, chatMessages);
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString());
         }
 
         public async Task LoadMessage() 
@@ -32,8 +32,8 @@ namespace Project.Hubs
             Console.WriteLine(chatMessages.Count);
             foreach (MessageData msg in chatMessages)
             {
-                Console.WriteLine("Contents: user:" + msg.User + " | " + msg.Message);
-                listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message));
+                Console.WriteLine("Contents: user:" + msg.User + " | " + msg.Message + " | " + msg.Timestamp);
+                listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message, msg.Timestamp.ToString()));
             }
             await Task.WhenAll(listOfTasks);
         }

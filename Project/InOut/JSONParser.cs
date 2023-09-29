@@ -8,6 +8,15 @@ namespace Project.InOut
     {
         public static List<MessageData> ReadMessagesFromJSON(string filePath)
         {
+            if (!DoesJSONExist(filePath)) 
+            {
+                using(FileStream fs = File.Create(filePath)) 
+                {
+                    fs.Close();
+                    File.WriteAllText(filePath, "[]");
+                }
+            }
+            
             List<MessageData> messages = new List<MessageData>();
             using (FileStream file = File.OpenRead(filePath))
             {
@@ -36,6 +45,11 @@ namespace Project.InOut
                 }
             }
             return messages;
+        }
+
+        private static bool DoesJSONExist(string path)
+        {
+            return System.IO.File.Exists(path);
         }
 
         public static void AddJSONMessage(

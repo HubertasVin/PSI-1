@@ -6,13 +6,6 @@ namespace Project.InOut
 {
     public class JSONParser
     {
-        // private string filePath;
-        // private List<MessageData> messages = new List<MessageData>();
-        // public JSONParser(string path) // Once a JSON Parser is created, you specifiy the path of the file with which is class will work with
-        // {
-        //     filePath = path;
-        // }
-
         public static List<MessageData> ReadMessagesFromJSON(string filePath)
         {
             List<MessageData> messages = new List<MessageData>();
@@ -24,7 +17,7 @@ namespace Project.InOut
                     Console.WriteLine("JSON file is not an array or messages is not empty");
                     return messages;
                 }
-                
+
                 foreach (JsonElement element in json.EnumerateArray())
                 {
                     if (element.TryGetProperty("User", out JsonElement name))

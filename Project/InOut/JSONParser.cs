@@ -8,14 +8,7 @@ namespace Project.InOut
     {
         public static List<MessageData> ReadMessagesFromJSON(string filePath)
         {
-            if (!DoesJSONExist(filePath)) 
-            {
-                using(FileStream fs = File.Create(filePath)) 
-                {
-                    fs.Close();
-                    File.WriteAllText(filePath, "[]");
-                }
-            }
+            CreateJSONFileIfNotExists(filePath);
             
             List<MessageData> messages = new List<MessageData>();
             using (FileStream file = File.OpenRead(filePath))
@@ -47,10 +40,7 @@ namespace Project.InOut
             return messages;
         }
 
-        private static bool DoesJSONExist(string path)
-        {
-            return System.IO.File.Exists(path);
-        }
+        
 
         public static void AddJSONMessage(
             string user,
@@ -77,6 +67,18 @@ namespace Project.InOut
 
             jsonData = JsonConvert.SerializeObject(messages);
             System.IO.File.WriteAllText(path, jsonData);
+        }
+
+        private static void CreateJSONFileIfNotExists(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                using(FileStream fs = File.Create(filePath)) 
+                {
+                    fs.Close();
+                    File.WriteAllText(filePath, "[]");
+                }
+            }
         }
     }
 }

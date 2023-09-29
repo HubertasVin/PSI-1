@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Project.InOut;
+using static Project.InOut.JSONParser;
 using static Project.Models.InOutModel;
 
 namespace Project.Hubs
@@ -20,14 +20,13 @@ namespace Project.Hubs
             };
 
             chatMessages.Add(chatMessage);
-            JSONParser.AddJSONMessage(chatMessage.User, chatMessage.Message, chatMessage.Timestamp, path, chatMessages);
+            AddJSONMessage(chatMessage.User, chatMessage.Message, chatMessage.Timestamp, path, chatMessages);
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
         public async Task LoadMessage() 
         {
-            var JsonParser = new JSONParser(path, chatMessages);
-            // JSONParser(path, chatMessages);
+            chatMessages = ReadMessagesFromJSON(path);
             List<Task> listOfTasks = new List<Task>();
             Console.WriteLine("LoadMessage called");
             Console.WriteLine(chatMessages.Count);

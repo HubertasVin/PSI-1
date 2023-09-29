@@ -6,7 +6,7 @@ namespace Project.Models
 {
     public class InOutModel : ChatHub
     {
-        public struct MessageData 
+        public struct MessageData // struct used to store message data
         {
             public string User { get; set; }
             public string Message { get; set; }
@@ -15,7 +15,7 @@ namespace Project.Models
 
         public InOutModel() {}
 
-        public void AddMessage(string user, string message, DateTime date, string path, List<MessageData> Messages)
+        public void AddMessage(string user, string message, DateTime date, string path, List<MessageData> Messages) // adds message to JSON file
         {
             AddJSONMessage(user, message, date, path, Messages);
         }

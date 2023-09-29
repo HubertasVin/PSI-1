@@ -8,10 +8,10 @@ namespace Project.InOut
     {
         public static List<MessageData> ReadMessagesFromJSON(string filePath)
         {
-            CreateJSONFileIfNotExists(filePath);
+            CreateJSONFileIfNotExists(filePath); // create file if it doesn't exist
 
             List<MessageData> messages = new List<MessageData>();
-            using (FileStream file = File.OpenRead(filePath))
+            using (FileStream file = File.OpenRead(filePath)) // Opens file and closes it when "using" is done
             {
                 JsonElement json = JsonDocument.Parse(file).RootElement;
                 if (json.ValueKind != JsonValueKind.Array || messages.Count() != 0)
@@ -20,7 +20,7 @@ namespace Project.InOut
                     return messages;
                 }
 
-                foreach (JsonElement element in json.EnumerateArray())
+                foreach (JsonElement element in json.EnumerateArray()) // Goes through each element in the array and adds it to the list
                 {
                     if (element.TryGetProperty("User", out JsonElement name))
                     {
@@ -42,7 +42,7 @@ namespace Project.InOut
 
 
 
-        public static void AddJSONMessage(MessageData messageData, string path, List<MessageData> messages)
+        public static void AddJSONMessage(MessageData messageData, string path, List<MessageData> messages) // Adds a message to the JSON file
         {
             var jsonData = System.IO.File.ReadAllText(path);
             messages.Clear();
@@ -56,7 +56,7 @@ namespace Project.InOut
             System.IO.File.WriteAllText(path, jsonData);
         }
 
-        private static void CreateJSONFileIfNotExists(string filePath)
+        private static void CreateJSONFileIfNotExists(string filePath) // Creates a JSON file if it doesn't exist
         {
             if (!File.Exists(filePath))
             {

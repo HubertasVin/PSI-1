@@ -9,7 +9,7 @@ public class InOutController : Controller
     // returns a localhost/InOut view
     public IActionResult Index() 
     {
-        return View(); //passing model so that I could see content on web page
+        return View();
     }
     public IActionResult Error()
     {

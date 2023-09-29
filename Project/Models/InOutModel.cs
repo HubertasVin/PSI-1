@@ -1,6 +1,6 @@
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Project.Hubs;
-using Project.InOut;
+using static Project.InOut.JSONParser;
 
 namespace Project.Models
 {
@@ -13,14 +13,11 @@ namespace Project.Models
             public DateTime Timestamp { get; set; }
         }
 
-        public InOutModel()
-        {
-            var chatHistory = new JSONParser(path, chatMessages);
-        }
+        public InOutModel() {}
 
         public void AddMessage(string user, string message, DateTime date, string path, List<MessageData> Messages)
         {
-            Project.InOut.JSONParser.AddJSONMessage(user, message, date, path, Messages);
+            AddJSONMessage(user, message, date, path, Messages);
         }
     }
 }

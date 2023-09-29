@@ -11,8 +11,19 @@ connection.on("ReceiveMessage", function (user, message) {
     li.textContent = `${user}: ${message}`;
 });
 
+// connection.on("LoadMessages", function (user, message) {
+//     var li = document.createElement("li");
+//     document.getElementById.appendChild(li);
+//     li.textContent = `${user}: ${message}`;
+// })
+
 connection.start().then(function () {
+    console.log("connection successful!");
     document.getElementById("sendButton").disabled = false;
+    connection.invoke("LoadMessage").catch(function (err) {
+        return console.error(err.toString());
+    })
+    console.log("connection invoked?");
 }).catch(function (err) {
     return console.error(err.toString());
 });

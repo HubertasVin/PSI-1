@@ -6,16 +6,6 @@ namespace Project.InOut
 {
     public class JSONParser
     {
-        // public struct MessageData
-        // {
-        //     public string Name { get; set; }
-        //     public string Text { get; set; }
-        // }
-
-        // public MessageData Message { get; set; } // Initialize Message with an empty array
-
-        // public static List<MessageData> Messages = new List<MessageData>();
-
         public JSONParser(string path, List<MessageData> Messages)
         {
             using (FileStream file = File.OpenRead(path))

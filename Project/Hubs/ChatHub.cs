@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Project.InOut;
+using static Project.InOut.JSONParser;
 using static Project.Models.InOutModel;
 
 namespace Project.Hubs
 {
     public class ChatHub : Hub
     {
-        protected string path = "src/SignalRData.json";
+        protected string path = "src/SignalRData.json"; // Specifying the path for debugging purposes
         protected List<MessageData> chatMessages = new List<MessageData>();
         
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string user, string message) // Sends a message to all clients including the sender (chat.js calls this)
         {
             var chatMessage = new MessageData
             {
@@ -20,23 +20,22 @@ namespace Project.Hubs
             };
 
             chatMessages.Add(chatMessage);
-            JSONParser.AddJSONMessage(chatMessage.User, chatMessage.Message, chatMessage.Timestamp, path, chatMessages);
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            AddJSONMessage(chatMessage, path, chatMessages);
+            await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString()); // Sends the message to all clients
         }
 
-        public async Task LoadMessage() 
+        public async Task LoadMessage() // Loads all messages from the JSON file and sends them to the client (chat.js calls this)
         {
-            var JsonParser = new JSONParser(path, chatMessages);
-            // JSONParser(path, chatMessages);
-            List<Task> listOfTasks = new List<Task>();
-            Console.WriteLine("LoadMessage called");
-            Console.WriteLine(chatMessages.Count);
+            chatMessages = ReadMessagesFromJSON(path);
+            List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed
+            Console.WriteLine("LoadMessage called"); // FOR DEBUGGING PURPOSES
+            Console.WriteLine(chatMessages.Count); // FOR DEBUGGING PURPOSES
             foreach (MessageData msg in chatMessages)
             {
-                Console.WriteLine("Contents: user:" + msg.User + " | " + msg.Message);
-                listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message));
+                Console.WriteLine("Contents: user:" + msg.User + " | " + msg.Message + " | " + msg.Timestamp); // FOR DEBUGGING PURPOSES
+                listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message, msg.Timestamp.ToString())); // Adds a task to the list
             }
-            await Task.WhenAll(listOfTasks);
+            await Task.WhenAll(listOfTasks); // Waits for all tasks to be completed
         }
 
     }

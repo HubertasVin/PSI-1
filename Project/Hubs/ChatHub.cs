@@ -37,20 +37,6 @@ namespace Project.Hubs
                 listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message));
             }
             await Task.WhenAll(listOfTasks);
-            // for(int i = 0; i < chatMessages.Count; i++)
-            // {
-                // MessageData? msg = chatMessages[i];
-                // if (Clients == null) 
-                // {
-                //     Console.WriteLine("Clients is null");
-                //     continue;
-                // }
-                
-                // if (Clients.Caller != null)
-                // {
-                //     await Clients.Caller.SendAsync("LoadMessage", msg.User, msg.Message);
-                // }
-            // }
         }
 
     }

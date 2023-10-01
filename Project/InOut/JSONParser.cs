@@ -6,18 +6,18 @@ namespace Project.InOut
 {
     public class JSONParser
     {
-        public static List<MessageData> ReadMessagesFromJSON(string filePath)
+        // Task iterate through collections
+        public static IEnumerable<MessageData> ReadMessagesFromJSON(string filePath)
         {
             CreateJSONFileIfNotExists(filePath); // create file if it doesn't exist
 
-            List<MessageData> messages = new List<MessageData>();
             using (FileStream file = File.OpenRead(filePath)) // Opens file and closes it when "using" is done
             {
                 JsonElement json = JsonDocument.Parse(file).RootElement;
-                if (json.ValueKind != JsonValueKind.Array || messages.Count() != 0)
+                if (json.ValueKind != JsonValueKind.Array)
                 {
-                    Console.WriteLine("JSON file is not an array or messages is not empty");
-                    return messages;
+                    Console.WriteLine("JSON file is not an array");
+                    yield break;
                 }
 
                 foreach (JsonElement element in json.EnumerateArray()) // Goes through each element in the array and adds it to the list
@@ -27,17 +27,16 @@ namespace Project.InOut
                         MessageData message = new MessageData();
                         message.User = name.GetString() ?? string.Empty;
                         if (element.TryGetProperty("Message", out JsonElement text))
-                        {
                             message.Message = text.GetString() ?? string.Empty;
-                        }
                         if (element.TryGetProperty("Timestamp", out JsonElement dateTime))
                             message.Timestamp = dateTime.GetDateTime();
-                        Console.WriteLine("user:" + message.User + "\nmessage:" + message.Message);
-                        messages.Add(message);
+                        if (element.TryGetProperty("Priority", out JsonElement priority))
+                            message.Priority = MessagePriority.Normal;
+                        Console.WriteLine("user:" + message.User + "\nmessage:" + message.Message + "\npriority" + message.Priority);
+                        yield return message;
                     }
                 }
             }
-            return messages;
         }
 
 

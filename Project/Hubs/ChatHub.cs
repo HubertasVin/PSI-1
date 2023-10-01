@@ -10,23 +10,29 @@ namespace Project.Hubs
         protected string path = "src/SignalRData.json"; // Specifying the path for debugging purposes
         protected List<MessageData> chatMessages = new List<MessageData>();
         
-        public async Task SendMessage(string user, string message) // Sends a message to all clients including the sender (chat.js calls this)
+        // Task optional argument
+        public async Task SendMessage(string user, string message, MessagePriority priority = MessagePriority.Normal) // Sends a message to all clients including the sender (chat.js calls this)
         {
             var chatMessage = new MessageData
             {
                 User = user,
                 Message = message,
-                Timestamp = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow,
+                Priority = priority
             };
 
             chatMessages.Add(chatMessage);
-            AddJSONMessage(chatMessage, path, chatMessages);
+            // Task named arguments
+            AddJSONMessage(path: path, messageData: chatMessage, messages: chatMessages);
             await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString()); // Sends the message to all clients
         }
 
         public async Task LoadMessage() // Loads all messages from the JSON file and sends them to the client (chat.js calls this)
         {
-            chatMessages = ReadMessagesFromJSON(path);
+            foreach (MessageData message in ReadMessagesFromJSON(path))
+            {
+                await Clients.Caller.SendAsync("ReceiveMessage", message.User, message.Message, message.Timestamp.ToString());
+            }
             List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed
             Console.WriteLine("LoadMessage called"); // FOR DEBUGGING PURPOSES
             Console.WriteLine(chatMessages.Count); // FOR DEBUGGING PURPOSES

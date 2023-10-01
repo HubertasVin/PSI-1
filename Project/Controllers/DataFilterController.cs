@@ -9,9 +9,10 @@ using System.Linq;
 using System.Reflection;
 using static Project.Models.InOutModel;
 
+
 namespace Project.Controllers
 {
-    public class DataFilterController : ControllerBase
+    public class DataFilterController : Controller
     {
         private readonly List<MessageData> chatMessages;
 
@@ -23,29 +24,32 @@ namespace Project.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFilteredData(string username = null, string messageContains = null, DateTime? timestamp = null)
+        [Route("DataFilter/GetFilteredData")]
+        public IActionResult GetFilteredData(string searchMessage = null, string searchUsername = null, DateTime? searchDate = null)
         {
             var filteredMessages = chatMessages;
 
+            // Filter by message content
+            if (!string.IsNullOrEmpty(searchMessage))
+            {
+                filteredMessages = filteredMessages.Where(m => m.Message.Contains(searchMessage)).ToList();
+            }
+
             // Filter by username
-            if (!string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(searchUsername))
             {
-                filteredMessages = filteredMessages.Where(m => m.User == username).ToList();
+                filteredMessages = filteredMessages.Where(m => m.User == searchUsername).ToList();
             }
 
-            // Filter by message containing a word
-            if (!string.IsNullOrEmpty(messageContains))
+            // Filter by date
+            if (searchDate.HasValue)
             {
-                filteredMessages = filteredMessages.Where(m => m.Message.Contains(messageContains)).ToList();
+                filteredMessages = filteredMessages.Where(m => m.Timestamp.Date == searchDate.Value.Date).ToList();
             }
 
-            // Filter by timestamp (if provided)
-            if (timestamp.HasValue)
-            {
-                filteredMessages = filteredMessages.Where(m => m.Timestamp == timestamp.Value).ToList();
-            }
-
-            return Ok(filteredMessages);
+            // Return the view with filtered messages
+            return View("FilteredMessages", filteredMessages);
         }
+
     }
 }

@@ -1,11 +1,19 @@
-﻿<h4>Search for a conspect</h4>
+﻿<h4>Search for Messages</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ShowSearchResults">
+        <form asp-controller="DataFilter" asp-action="GetFilteredData" method="get">
             <div class="form-group">
-                <label for="searchPhrase" class="control-label"></label>
-                <input name ="searchPhrase" class="form-control" />
+                <label for="searchMessage" class="control-label">Search by Message:</label>
+                <input name="searchMessage" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="searchUsername" class="control-label">Search by Username:</label>
+                <input name="searchUsername" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="searchDate" class="control-label">Search by Date (YYYY-MM-DD):</label>
+                <input name="searchDate" type="date" class="form-control" />
             </div>
             <div class="form-group">
                 <input type="submit" value="Search" class="btn btn-primary" />
@@ -13,5 +21,3 @@
         </form>
     </div>
 </div>
-
-

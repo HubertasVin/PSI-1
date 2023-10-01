@@ -1,54 +1,51 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Project.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using static Project.Models.InOutModel;
 
 namespace Project.Controllers
 {
-    public class DataFilterController : Controller
+    public class DataFilterController : ControllerBase
     {
-        public class Concept
+        private readonly List<MessageData> chatMessages;
+
+        public DataFilterController()
         {
-            public required string Name { get; set; }
-            public required DateTime Date { get; set; }
-            public required int Size { get; set; }
-            public required string User { get; set; }
+            // Load data from the JSON file into the list when the controller is initialized.
+            var json = System.IO.File.ReadAllText("src/SignalRData.json");
+            chatMessages = JsonConvert.DeserializeObject<List<MessageData>>(json);
         }
 
-        // Define a method to filter concepts by user
-        [HttpGet("FilterByUser")]
-        public IActionResult FilterByUser(string userName)
+        [HttpGet]
+        public IActionResult GetFilteredData(string username = null, string messageContains = null, DateTime? timestamp = null)
         {
-            try
+            var filteredMessages = chatMessages;
+
+            // Filter by username
+            if (!string.IsNullOrEmpty(username))
             {
-                // Get the application's root directory
-                string rootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-                // Construct the full path to the "data.json" file in the "src" folder
-                string jsonFilePath = Path.Combine(rootPath, "src", "SignalIRData.json");
-
-                // Read the JSON data from the file into a string
-                string json = System.IO.File.ReadAllText(jsonFilePath);
-
-                // Deserialize the JSON into a list of Concept objects
-                List<Concept> concepts = JsonConvert.DeserializeObject<List<Concept>>(json);
-
-                // Use LINQ to filter concepts by user
-                var filteredConcepts = concepts.Where(c => c.User == userName).ToList();
-
-                return Ok(filteredConcepts);
+                filteredMessages = filteredMessages.Where(m => m.User == username).ToList();
             }
-            catch (Exception ex)
+
+            // Filter by message containing a word
+            if (!string.IsNullOrEmpty(messageContains))
             {
-                return StatusCode(500, $"Internal Server Error: {ex.Message}");
+                filteredMessages = filteredMessages.Where(m => m.Message.Contains(messageContains)).ToList();
             }
+
+            // Filter by timestamp (if provided)
+            if (timestamp.HasValue)
+            {
+                filteredMessages = filteredMessages.Where(m => m.Timestamp == timestamp.Value).ToList();
+            }
+
+            return Ok(filteredMessages);
         }
-
-        // Define other methods to filter concepts based on different criteria (e.g., by date, size, etc.)
-        // Add additional actions as needed to handle various filtering requirements.
     }
 }

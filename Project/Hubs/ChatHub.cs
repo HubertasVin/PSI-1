@@ -8,17 +8,16 @@ namespace Project.Hubs
     public class ChatHub : Hub
     {
         protected string path = "src/SignalRData.json"; // Specifying the path for debugging purposes
-        protected List<MessageData> chatMessages = new List<MessageData>();
+        protected List<MessageData> chatMessages = new List<MessageData>(); // Possible generic type for task 7
         
         // Task optional argument
-        public async Task SendMessage(string user, string message, MessagePriority priority = MessagePriority.Normal) // Sends a message to all clients including the sender (chat.js calls this)
+        public async Task SendMessage(string user, string message) // Sends a message to all clients including the sender (chat.js calls this)
         {
             var chatMessage = new MessageData
             {
                 User = user,
                 Message = message,
                 Timestamp = DateTime.UtcNow,
-                Priority = priority
             };
 
             chatMessages.Add(chatMessage);
@@ -33,7 +32,7 @@ namespace Project.Hubs
             {
                 await Clients.Caller.SendAsync("ReceiveMessage", message.User, message.Message, message.Timestamp.ToString());
             }
-            List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed
+            List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed // Possible generic type for task 7
             Console.WriteLine("LoadMessage called"); // FOR DEBUGGING PURPOSES
             Console.WriteLine(chatMessages.Count); // FOR DEBUGGING PURPOSES
             foreach (MessageData msg in chatMessages)

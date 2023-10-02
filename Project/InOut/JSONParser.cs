@@ -7,7 +7,7 @@ namespace Project.InOut
     public class JSONParser
     {
         // Task iterate through collections
-        public static IEnumerable<MessageData> ReadMessagesFromJSON(string filePath)
+        public static IEnumerable<MessageData> ReadMessagesFromJSON(string filePath) // Possible generic type for task 7
         {
             CreateJSONFileIfNotExists(filePath); // create file if it doesn't exist
 
@@ -47,7 +47,7 @@ namespace Project.InOut
             messages.Clear();
             messages =
                 JsonConvert.DeserializeObject<List<MessageData>>(jsonData)
-                ?? new List<MessageData>();
+                ?? new List<MessageData>(); // Possible generic type for task 7
 
             messages.Add(messageData);
 

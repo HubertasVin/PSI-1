@@ -7,7 +7,7 @@ namespace Project.InOut
     public class JSONParser
     {
         // Task iterate through collections
-        public static IEnumerable<MessageData> ReadMessagesFromJSON(string filePath) // Possible generic type for task 7
+        public static IEnumerable<MessageData> ReadMessagesFromJSON(string filePath) // Possible interface implementation for task 10?
         {
             CreateJSONFileIfNotExists(filePath); // create file if it doesn't exist
 

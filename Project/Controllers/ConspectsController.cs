@@ -29,7 +29,7 @@ namespace Project.Controllers
         }
 
         // GET: Conspects/ShowSearchBar
-        public async Task<IActionResult> ShowSearchBar()
+        public IActionResult ShowSearchBar()
         {
             return View();
         }

@@ -1,1 +1,13 @@
-﻿
+﻿@{
+    ViewData["Title"] = "NoteBlend";
+}
+<link rel="stylesheet" href="~/css/Index.css" />
+<h1 class="main_title">@ViewData["Title"]</h1>
+<div>
+    <h3 class="text-center">Select function</h3>
+    <div class="flex-container">
+        <button class="btn btn-primary flex-grow-1" onclick="window.location.href = '/Chat'">Chat</button>
+        <button class="btn btn-primary flex-grow-1" onclick="window.location.href = '/Conspects/ShowSearchBar'">Search</button>
+        <button class="btn btn-primary flex-grow-1" onclick="window.location.href = '/Conspects'">Lecture notes</button>
+    </div>
+</div>

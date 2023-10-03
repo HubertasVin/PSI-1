@@ -8,19 +8,21 @@ namespace Project.Hubs
     public class ChatHub : Hub
     {
         protected string path = "src/SignalRData.json"; // Specifying the path for debugging purposes
-        protected List<MessageData> chatMessages = new List<MessageData>();
+        protected List<MessageData> chatMessages = new List<MessageData>(); // Possible generic type for task 7
         
+        // Task optional argument
         public async Task SendMessage(string user, string message) // Sends a message to all clients including the sender (chat.js calls this)
         {
             var chatMessage = new MessageData
             {
                 User = user,
                 Message = message,
-                Timestamp = DateTime.UtcNow
+                Timestamp = DateTime.UtcNow,
             };
 
             chatMessages.Add(chatMessage);
-            AddJSONMessage(chatMessage, path, chatMessages);
+            // Task named arguments
+            AddJSONMessage(path: path, messageData: chatMessage, messages: chatMessages);
             await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString()); // Sends the message to all clients
         }
 

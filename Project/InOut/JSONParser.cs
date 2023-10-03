@@ -28,7 +28,7 @@ namespace Project.InOut
             messages.Clear();
             messages =
                 JsonConvert.DeserializeObject<List<MessageData>>(jsonData)
-                ?? new List<MessageData>();
+                ?? new List<MessageData>(); // Possible generic type for task 7
 
             messages.Add(messageData);
 

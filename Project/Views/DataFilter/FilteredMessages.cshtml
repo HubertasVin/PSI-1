@@ -1,0 +1,22 @@
+﻿@model List<Project.Models.InOutModel.MessageData>
+
+<h4>Filtered Messages</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Message</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var message in Model)
+        {
+            <tr>
+                <td>@message.User</td>
+                <td>@message.Message</td>
+                <td>@message.Timestamp.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+        }
+    </tbody>
+</table>

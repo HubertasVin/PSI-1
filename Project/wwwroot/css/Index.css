@@ -1,0 +1,16 @@
+* {
+    font-family: 'Jetbrains Mono', monospace;
+}
+.main_title {
+    text-align: center;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn {
+    margin: 20px;
+}

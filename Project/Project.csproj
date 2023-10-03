@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <None Remove="Hubs\" />
+    <None Include="wwwroot\css\Index.css" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Hubs\" />

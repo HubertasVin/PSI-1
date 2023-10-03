@@ -6,43 +6,23 @@ namespace Project.InOut
 {
     public class JSONParser
     {
-        public static List<MessageData> ReadMessagesFromJSON(string filePath)
+        public static List<T> ReadFromJSON<T>(string filePath)
         {
             CreateJSONFileIfNotExists(filePath); // create file if it doesn't exist
 
-            List<MessageData> messages = new List<MessageData>();
+            List<T> items = new List<T>();
             using (FileStream file = File.OpenRead(filePath)) // Opens file and closes it when "using" is done
             {
-                JsonElement json = JsonDocument.Parse(file).RootElement;
-                if (json.ValueKind != JsonValueKind.Array || messages.Count() != 0)
-                {
-                    Console.WriteLine("JSON file is not an array or messages is not empty");
-                    return messages;
-                }
-
-                foreach (JsonElement element in json.EnumerateArray()) // Goes through each element in the array and adds it to the list
-                {
-                    if (element.TryGetProperty("User", out JsonElement name))
-                    {
-                        MessageData message = new MessageData();
-                        message.User = name.GetString() ?? string.Empty;
-                        if (element.TryGetProperty("Message", out JsonElement text))
-                        {
-                            message.Message = text.GetString() ?? string.Empty;
-                        }
-                        if (element.TryGetProperty("Timestamp", out JsonElement dateTime))
-                            message.Timestamp = dateTime.GetDateTime();
-                        Console.WriteLine("user:" + message.User + "\nmessage:" + message.Message);
-                        messages.Add(message);
-                    }
-                }
+                items = System.Text.Json.JsonSerializer.Deserialize<List<T>>(file)!;
             }
-            return messages;
+            return items;
         }
 
-
-
-        public static void AddJSONMessage(MessageData messageData, string path, List<MessageData> messages) // Adds a message to the JSON file
+        public static void AddJSONMessage(
+            MessageData messageData,
+            string path,
+            List<MessageData> messages
+        ) // Adds a message to the JSON file
         {
             var jsonData = System.IO.File.ReadAllText(path);
             messages.Clear();

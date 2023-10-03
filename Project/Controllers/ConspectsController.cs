@@ -29,7 +29,7 @@ namespace Project.Controllers
         }
 
         // GET: Conspects/ShowSearchBar
-        public async Task<IActionResult> ShowSearchBar()
+        public IActionResult ShowSearchBar()
         {
             return View();
         }
@@ -37,7 +37,7 @@ namespace Project.Controllers
         // PoST: Conspects/ShowSearchResults
         public async Task<IActionResult> ShowSearchResults(string searchPhrase)
         {
-            return View("Index", await _context.Conspect.Where(j => j.name.Contains(searchPhrase)).ToListAsync()); // Filters out search terms that do not match
+            return View("Index", await _context.Conspect.Where(j => j.name.Contains(searchPhrase)).ToListAsync()); // Filters out search terms that do not match // Uses Linq to object which is a Task 9 requirement
         }
 
         // GET: Conspects/Details/5

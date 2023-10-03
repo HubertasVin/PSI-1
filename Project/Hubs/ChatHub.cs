@@ -26,7 +26,7 @@ namespace Project.Hubs
 
         public async Task LoadMessage() // Loads all messages from the JSON file and sends them to the client (chat.js calls this)
         {
-            chatMessages = ReadMessagesFromJSON(path);
+            chatMessages = ReadFromJSON<MessageData>(path);
             List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed
             Console.WriteLine("LoadMessage called"); // FOR DEBUGGING PURPOSES
             Console.WriteLine(chatMessages.Count); // FOR DEBUGGING PURPOSES

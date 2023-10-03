@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace JsonParsing;
 
-public class InOutController : Controller
+public class ChatController : Controller
 {
     // returns a localhost/InOut view
     public IActionResult Index() 

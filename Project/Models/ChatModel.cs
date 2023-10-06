@@ -1,9 +1,7 @@
 using Project.Hubs;
-using static Project.InOut.JSONParser;
-
 namespace Project.Models
 {
-    public class InOutModel : ChatHub
+    public class ChatModel : ChatHub
     {
         // Task enum
         public enum MessagePriority
@@ -22,6 +20,6 @@ namespace Project.Models
             public MessagePriority Priority { get; set; }
         }
 
-        public InOutModel() {}
+        public ChatModel() {}
     }
 }

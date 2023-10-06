@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Models;
@@ -28,8 +23,7 @@ namespace Project.Controllers
                           Problem("Entity set 'ApplicationDbContext.Conspect'  is null.");
         }
 
-        // GET: Conspects/ShowSearchBar
-        public IActionResult ShowSearchBar()
+        public IActionResult ShowConspectSearch()
         {
             return View();
         }

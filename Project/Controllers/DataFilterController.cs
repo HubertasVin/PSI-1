@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using static Project.Models.InOutModel;
+using static Project.Models.ChatModel;
 
 
 namespace Project.Controllers

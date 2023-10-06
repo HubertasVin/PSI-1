@@ -6,7 +6,7 @@ namespace JsonParsing;
 
 public class ChatController : Controller
 {
-    // returns a localhost/InOut view
+    // returns a localhost/Chat view
     public IActionResult Index() 
     {
         return View();

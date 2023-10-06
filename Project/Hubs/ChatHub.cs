@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using static Project.InOut.JSONParser;
+using static Project.Chat.JSONParser;
 using static Project.Models.ChatModel;
 
 namespace Project.Hubs

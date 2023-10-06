@@ -2,7 +2,7 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using static Project.Models.ChatModel;
 
-namespace Project.InOut
+namespace Project.Chat
 {
     public class JSONParser
     {

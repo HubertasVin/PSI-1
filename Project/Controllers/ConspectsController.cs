@@ -23,8 +23,7 @@ namespace Project.Controllers
                           Problem("Entity set 'ApplicationDbContext.Conspect'  is null.");
         }
 
-        // GET: Conspects/ShowSearchBar
-        public IActionResult ShowSearchBar()
+        public IActionResult ShowConspectSearch()
         {
             return View();
         }

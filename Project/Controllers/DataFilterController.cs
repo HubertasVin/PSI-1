@@ -12,7 +12,7 @@ using static Project.Models.ChatModel;
 
 namespace Project.Controllers
 {
-    public class DataFilterController : Controller, IComparable<MessageData>
+    public class DataFilterController : Controller
     {
         private readonly List<MessageData> chatMessages;
 
@@ -40,10 +40,10 @@ namespace Project.Controllers
         {
             var filteredMessages = chatMessages;
             Console.WriteLine(sortType);
-            if (sortType == SortType.Ascending)
-                Console.WriteLine("Woohoo sortBy is ascending");
-            else
+            if (sortType == SortType.Descending)
                 Console.WriteLine("sortBy is descending");
+            else
+                Console.WriteLine("sortBy is ascending");
 
             // Filter by message content
             if (!string.IsNullOrEmpty(searchMessage))
@@ -66,14 +66,12 @@ namespace Project.Controllers
                     .Where(m => m.Timestamp.Date == searchDate.Value.Date)
                     .ToList();
             }
+            
+            if (sortType == SortType.Descending)
+                filteredMessages.Sort();
 
             // Return the view with filtered messages
             return View("FilteredMessages", filteredMessages);
-        }
-
-        public int CompareTo(MessageData other)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -52,7 +52,21 @@ public IActionResult GetFilteredData(
 
 ###
 
-- [ ] Extension method usage
+- [x] Extension method usage
+
+JSONParser.cs
+```csharp
+public static class Extensions
+{
+    public static List<T> AddJsonToList<T>(this List<T> input, string path)
+    {
+        List<T> newList = JsonConvert.DeserializeObject<List<T>>(File.ReadAllText(path)) ?? new List<T>();
+        input.AddRange(newList);
+        return input;
+    }
+}
+```
+
 - [x] Iterating through collection the right way
 
 Proper iteration through a collection used in ChatHub.cs

@@ -29,11 +29,8 @@ namespace Project.Hubs
         {
             chatMessages = ReadFromJSON<MessageData>(path);
             List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed
-            Console.WriteLine("LoadMessage called"); // FOR DEBUGGING PURPOSES
-            Console.WriteLine(chatMessages.Count); // FOR DEBUGGING PURPOSES
             foreach (MessageData msg in chatMessages)
             {
-                Console.WriteLine("Contents: user:" + msg.User + " | " + msg.Message + " | " + msg.Timestamp); // FOR DEBUGGING PURPOSES
                 listOfTasks.Add(Clients.Caller.SendAsync("ReceiveMessage", msg.User, msg.Message, msg.Timestamp.ToString())); // Adds a task to the list
             }
             await Task.WhenAll(listOfTasks); // Waits for all tasks to be completed

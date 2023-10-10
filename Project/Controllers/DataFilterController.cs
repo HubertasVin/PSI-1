@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using NuGet.Packaging.Signing;
 using Project.Models;
 using System;
 using System.Collections.Generic;
@@ -9,12 +10,17 @@ using System.Linq;
 using System.Reflection;
 using static Project.Models.ChatModel;
 
-
 namespace Project.Controllers
 {
     public class DataFilterController : Controller
     {
         private readonly List<MessageData> chatMessages;
+
+        public enum SortType
+        {
+            Ascending,
+            Descending
+        }
 
         public DataFilterController()
         {
@@ -25,14 +31,26 @@ namespace Project.Controllers
 
         [HttpGet]
         [Route("DataFilter/GetFilteredData")]
-        public IActionResult GetFilteredData(string searchMessage = null, string searchUsername = null, DateTime? searchDate = null)
+        public IActionResult GetFilteredData(
+            string searchMessage = null,
+            string searchUsername = null,
+            DateTime? searchDate = null,
+            SortType sortType = SortType.Ascending
+        )
         {
             var filteredMessages = chatMessages;
+            Console.WriteLine(sortType);
+            if (sortType == SortType.Descending)
+                Console.WriteLine("sortBy is descending");
+            else
+                Console.WriteLine("sortBy is ascending");
 
             // Filter by message content
             if (!string.IsNullOrEmpty(searchMessage))
             {
-                filteredMessages = filteredMessages.Where(m => m.Message.Contains(searchMessage)).ToList();
+                filteredMessages = filteredMessages
+                    .Where(m => m.Message.Contains(searchMessage))
+                    .ToList();
             }
 
             // Filter by username
@@ -44,12 +62,16 @@ namespace Project.Controllers
             // Filter by date
             if (searchDate.HasValue)
             {
-                filteredMessages = filteredMessages.Where(m => m.Timestamp.Date == searchDate.Value.Date).ToList();
+                filteredMessages = filteredMessages
+                    .Where(m => m.Timestamp.Date == searchDate.Value.Date)
+                    .ToList();
             }
+            
+            if (sortType == SortType.Descending)
+                filteredMessages.Sort();
 
             // Return the view with filtered messages
             return View("FilteredMessages", filteredMessages);
         }
-
     }
 }

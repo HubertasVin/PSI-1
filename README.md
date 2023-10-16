@@ -14,7 +14,7 @@ Interneto puslapis, kuriame galima platinti ir rasti kitų žmonių konspektus.
 
 ## UŽDUOTYS:
  - [ ] Duomenų bazė, į kurią galima įterpti konspektus ir informaciją apie juos
- - [ ] Būdas įtraukti konspektą į duomenų bazę (Su konspekto pavadinimu, aprašymu ir tag'ais (math, english, Čyras))
+ - [ ] Būdas įtraukti konspektą į duomenų bazę (Su konspekto pavadinimu, aprašymu ir tag'ais (math, english))
  - [ ] Nuskaityti docx, pdf ir kitus failus, kad jų turinį būtų galima atspausdinti ekrane
  - [ ] Paieškos sistema
  - [ ] Filtravimo sistema

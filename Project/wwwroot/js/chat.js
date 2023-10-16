@@ -22,11 +22,22 @@ connection.start().then(function () {
     return console.error(err.toString());
 });
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
+document.getElementById("messageInput").addEventListener("keypress", function(e) {
+    if (e.code === "Enter") {
+        SendMessage(e);
+    }
+});
+
+document.getElementById("sendButton").addEventListener("click", function (e) {
+    SendMessage(e);
+});
+
+function SendMessage(e) {
+    console.log("This works");
     var user = document.getElementById("userInput").value;
     var message = document.getElementById("messageInput").value;
     connection.invoke("SendMessage", user, message).catch(function (err) {
         return console.error(err.toString());
     });
-    event.preventDefault();
-});
+    e.preventDefault();
+}

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using static Project.Chat.JSONParser;
+using Project.Chat;
 using static Project.Models.ChatModel;
 
 namespace Project.Hubs
@@ -21,13 +21,13 @@ namespace Project.Hubs
 
             chatMessages.Add(chatMessage);
             // Task named arguments
-            AddJSONMessage(path: path, messageData: chatMessage, messages: chatMessages);
+            JSONParser.AddJSONMessage(path: path, messageData: chatMessage, messages: chatMessages);
             await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString()); // Sends the message to all clients
         }
 
         public async Task LoadMessage() // Loads all messages from the JSON file and sends them to the client (chat.js calls this)
         {
-            chatMessages = ReadFromJSON<MessageData>(path);
+            chatMessages = JSONParser.ReadFromJSON<MessageData>(path);
             List<Task> listOfTasks = new List<Task>(); // List of tasks to be completed
             foreach (MessageData msg in chatMessages)
             {
@@ -35,6 +35,5 @@ namespace Project.Hubs
             }
             await Task.WhenAll(listOfTasks); // Waits for all tasks to be completed
         }
-
     }
 }

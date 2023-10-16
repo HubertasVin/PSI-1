@@ -54,7 +54,7 @@ public IActionResult GetFilteredData(
 
 - [x] Extension method usage
 
-JSONParser.cs
+JsonExtensions.cs
 ```csharp
 public static class Extensions
 {

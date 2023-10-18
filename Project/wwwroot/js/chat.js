@@ -32,12 +32,32 @@ document.getElementById("sendButton").addEventListener("click", function (e) {
     SendMessage(e);
 });
 
+document.getElementById("optionalArg").addEventListener("click", function (e) {
+    SendOptionalArgs(e);
+});
+
 function SendMessage(e) {
     console.log("This works");
     var user = document.getElementById("userInput").value;
+    console.log(user);
+    if (user == "")
+        user = "Guest";
     var message = document.getElementById("messageInput").value;
+    if (message == "")
+    {
+        alert("Message field cannot be empty!");
+        return;
+    }
+        
     connection.invoke("SendMessage", user, message).catch(function (err) {
         return console.error(err.toString());
     });
     e.preventDefault();
+}
+
+function SendOptionalArgs(e){
+    console.log("Sending optional args");
+    connection.invoke("OptionalArgSend").catch(function (err) {
+        return console.error(err.toString());
+    });
 }

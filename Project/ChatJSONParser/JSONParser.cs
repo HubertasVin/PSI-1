@@ -28,6 +28,10 @@ namespace Project.Chat
             var jsonData = System.IO.File.ReadAllText(path);
             messages.Clear();
             messages.AddJsonToList(path); //TODO paaiskinti kaip veikia
+            /*
+            Explanation: AddJsonToList method is generic type method (that means we should specify a type of the list)
+            but in this instance, it takes the type of messages at compile time, so we don't need to specify it (better to specify it for readability)
+            */
             messages.Add(messageData);
 
             jsonData = JsonConvert.SerializeObject(messages);

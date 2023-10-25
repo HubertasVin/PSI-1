@@ -27,11 +27,29 @@ namespace Project.Chat
         {
             var jsonData = System.IO.File.ReadAllText(path);
             messages.Clear();
-            messages.AddJsonToList(path);
+            messages.AddJsonToList(path); //TODO paaiskinti kaip veikia
+            /*
+            Explanation: AddJsonToList method is generic type method (that means we should specify a type of the list)
+            but in this instance, it takes the type of messages at compile time, so we don't need to specify it (better to specify it for readability)
+            */
             messages.Add(messageData);
 
             jsonData = JsonConvert.SerializeObject(messages);
             System.IO.File.WriteAllText(path, jsonData);
+        }
+
+        public static void AddJSONMessageOptional(List<MessageData> messages, string user = "Guest", string message = "Empty message",
+            DateTime? timestamp = null)
+        {
+            if (timestamp == null)
+                timestamp = new DateTime(2000, 1, 1);
+            var chatMessage = new MessageData
+            {
+                User = user,
+                Message = message,
+                Timestamp = timestamp.Value
+            };
+            AddJSONMessage(chatMessage, "src/SignalRData.json", messages);
         }
 
         private static void CreateJSONFileIfNotExists(string filePath) // Creates a JSON file if it doesn't exist

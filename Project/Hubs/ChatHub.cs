@@ -25,6 +25,11 @@ namespace Project.Hubs
             await Clients.All.SendAsync("ReceiveMessage", chatMessage.User, chatMessage.Message, chatMessage.Timestamp.ToString()); // Sends the message to all clients
         }
 
+        public void OptionalArgSend() // Proper usage of optional args
+        {
+            JSONParser.AddJSONMessageOptional(chatMessages, timestamp: DateTime.Now);
+        }
+
         public async Task LoadMessage() // Loads all messages from the JSON file and sends them to the client (chat.js calls this)
         {
             chatMessages = JSONParser.ReadFromJSON<MessageData>(path);

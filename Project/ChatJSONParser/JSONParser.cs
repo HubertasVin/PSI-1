@@ -18,6 +18,17 @@ namespace Project.Chat
             }
             return items;
         }
+        
+        public static List<T> WriteToJSON<T>(string filePath, List<T> items)
+        {
+            CreateJSONFileIfNotExists(filePath); // create file if it doesn't exist
+
+            using (FileStream file = File.OpenWrite(filePath)) // Opens file and closes it when "using" is done
+            {
+                System.Text.Json.JsonSerializer.SerializeAsync(file, items);
+            }
+            return items;
+        }
 
         public static void AddJSONMessage(
             MessageData messageData,

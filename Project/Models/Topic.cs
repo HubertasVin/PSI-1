@@ -1,16 +1,16 @@
 ﻿namespace Project.Models;
 
-public class TopicModel : BaseModel
+public class Topic : BaseModel
 {
     public string Name { get; set; }
     public Subject Subject { get; init; }
 
-    public TopicModel()
+    public Topic()
     {
         
     }
 
-    public TopicModel(string name, Subject subject)
+    public Topic(string name, Subject subject)
     {
         Name = name;
         Subject = subject;

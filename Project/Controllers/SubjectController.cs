@@ -22,6 +22,15 @@ public class SubjectController : ControllerBase
     //     _subjectContents = subjectContents;
     // }
 
+    [HttpGet("get/{id}")]
+    public IActionResult GetSubject(string id)
+    {
+        Subject? subject = _subjectContents.GetSubject(id);
+        return subject == null
+            ? NotFound(new { error = $"Subject with id {id} could not be found" })
+            : Ok(subject);
+    }
+    
     [HttpGet("list")]
     public IActionResult ListSubjects()
     {
@@ -32,7 +41,7 @@ public class SubjectController : ControllerBase
     public IActionResult UploadSubject([FromBody] JsonElement request)
     {
         Console.WriteLine("In upload subject");
-        Console.WriteLine(request);
+        // Console.WriteLine(request);
         Subject? addedSubject = _subjectContents.CreateSubject(request);
         return addedSubject == null
             ? BadRequest("Invalid request body")

@@ -27,7 +27,9 @@ export const Subject = () => {
                         name: subject.name
                     };
                 });
-
+                
+                console.log("Subject data: ", subjectData)
+                
                 setSubjects(subjectData);
                 
                 console.log("Subjects: ", subjects)
@@ -61,9 +63,10 @@ export const Subject = () => {
                 const data = await response.json();
                 
                 subjects.push ({
-                    id: data.id,
-                    name: data.name
+                    name: data.name,
+                    id: data.id
                 });
+                
                 setSubjects(subjects);
                 setNewSubject('');
                 setShowDialog(false);
@@ -85,6 +88,7 @@ export const Subject = () => {
                             key={index}
                             className="subject-grid-item"
                             title={subject.name}
+                            onClick={() => navigate('/Subjects/' + subject.id)}
                         >
                             <h2>{subjectNames[index]}</h2>
                         </div>

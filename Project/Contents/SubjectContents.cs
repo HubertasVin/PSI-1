@@ -25,6 +25,11 @@ public class SubjectContents
     {
         return _subjectsList;
     }
+    
+    public Subject GetSubject(string id)
+    {
+        return _subjectsList.Find(subject => subject.id == id);
+    }
 
     public Subject? CreateSubject(JsonElement req)
     {

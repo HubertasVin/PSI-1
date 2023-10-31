@@ -17,6 +17,14 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy"
       }
     },
+    "API Only": {
+      "commandName": "Project",
+       "launchBrowser": false,
+       "applicationUrl": "https://localhost:7015;http://localhost:5178",
+       "environmentVariables": {
+         "ASPNETCORE_ENVIRONMENT": "Development"
+       }
+    },
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,

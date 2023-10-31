@@ -7,6 +7,7 @@ import './userContext';
 import {UserProvider} from "./userContext";
 import { Home } from './components/Home';
 import { Subject } from "./components/Subject";
+import { Topic } from "./components/Topic";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -18,7 +19,7 @@ export default class App extends Component {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Subjects" element={<Subject />} />
-          {/*<Route path="/Subjects/:id" element={<Topic />} /> */}
+          <Route path="/Subjects/:id" element={<Topic />} /> 
           {/*{AppRoutes.map((route, index) => {*/}
           {/*  const { element, ...rest } = route;*/}
           {/*  return <Route key={index} {...rest} element={element} />;*/}

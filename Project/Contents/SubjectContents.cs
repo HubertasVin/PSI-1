@@ -1,34 +1,37 @@
 ﻿using System.Text.Json;
 using Project.Chat;
+using Project.Data;
 using Project.Models;
 
 namespace Project.Contents;
 
-public class SubjectContents
+public class SubjectContents : Contents<Subject>
 {
-    private List<Subject> _subjectsList;
-    private string _filePath = "src/SubjectData.json";
+
+    public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
+    // private List<Subject> _subjectsList;
+    // private string _filePath = "src/SubjectData.json";
     
-    public SubjectContents()
+    public SubjectContents(NoteBlendDbContext context) : base (context)
     {
-        InitContents();
+        
     }
 
-    public void InitContents()
-    {
-        string json = File.ReadAllText(_filePath);
-        _subjectsList = JsonSerializer.Deserialize<List<Subject>>(json);
-        Console.WriteLine(_subjectsList);
-    }
+    // public void InitContents()
+    // {
+    //     string json = File.ReadAllText(_filePath);
+    //     _subjectsList = JsonSerializer.Deserialize<List<Subject>>(json);
+    //     Console.WriteLine(_subjectsList);
+    // }
     
     public List<Subject> GetSubjectsList()
     {
-        return _subjectsList;
+        return NoteBlendContext.Subjects.ToList();
     }
     
     public Subject GetSubject(string id)
     {
-        return _subjectsList.Find(subject => subject.id == id);
+        return NoteBlendContext.Subjects.Find(id);
     }
 
     public Subject? CreateSubject(JsonElement req)
@@ -39,8 +42,9 @@ public class SubjectContents
         string? subjectName = subjectNameProperty.GetString();
         Console.WriteLine(subjectName);
         Subject newSubject = new Subject(subjectName);
-        _subjectsList.Add(newSubject);
-        JSONParser.WriteToJSON(_filePath, _subjectsList);
-        return newSubject;
+        Add(newSubject);
+        // JSONParser.WriteToJSON(_filePath, _subjectsList);
+        int changes = NoteBlendContext.SaveChanges();
+        return changes > 0 ? newSubject : null;
     }
 }

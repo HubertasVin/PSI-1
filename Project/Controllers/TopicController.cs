@@ -9,17 +9,17 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class TopicController : ControllerBase
 {
-    private readonly TopicContents _topicContents = new TopicContents();
+    private readonly TopicContents _topicContents;
 
-    public TopicController()
+    public TopicController(TopicContents topicContents)
     {
-        
+        _topicContents = topicContents;
     }
     
     [HttpGet("get/{id}")]
     public IActionResult GetTopic(string id)
     {
-        return Ok(_topicContents.GetTopic(id));
+        return Ok(_topicContents.Get(id));
     }
     
     [HttpGet("list/{subjectId}")]

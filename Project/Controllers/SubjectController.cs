@@ -11,11 +11,9 @@ public class SubjectController : ControllerBase
 {
     private readonly SubjectContents _subjectContents;
 
-    public SubjectController()
+    public SubjectController(SubjectContents subjectContents)
     {
-        if(_subjectContents == null)
-            _subjectContents = new SubjectContents();
-        _subjectContents.InitContents();
+        _subjectContents = subjectContents;
     }
     // public SubjectController(SubjectContents subjectContents)
     // {

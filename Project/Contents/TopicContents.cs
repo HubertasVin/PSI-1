@@ -1,34 +1,25 @@
 ﻿using System.Text.Json;
 using Project.Chat;
+using Project.Data;
 using Project.Models;
 
 namespace Project.Contents;
 
-public class TopicContents
+public class TopicContents : Contents<Topic>
 {
-    private List<Topic> _topicList;
-    private string _filepath = "src/TopicData.json";
-    private SubjectContents _subjectContents = new SubjectContents();
+    public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
+    // private List<Topic> _topicList;
+    // private string _filepath = "src/TopicData.json";
+    // private SubjectContents _subjectContents = new SubjectContents();
     
-    public TopicContents()
+    public TopicContents(NoteBlendDbContext context) : base(context)
     {
-        InitContents();
-    }
-    
-    public void InitContents()
-    {
-        _topicList = JSONParser.ReadFromJSON<Topic>(_filepath);
-        Console.WriteLine(_topicList);
-    }
-    
-    public Topic GetTopic(string id)
-    {
-        return _topicList.Find(topic => topic.id == id);
+        
     }
     
     public List<Topic> GetTopicsList(string subjectId)
     {
-        return _topicList.Select(topic => topic).Where(topic => topic.Subject.id == subjectId).ToList();
+        return NoteBlendContext.Topics.Select(topic => topic).Where(topic => topic.Subject.id == subjectId).ToList();
     }
 
     public Topic? CreateTopic(JsonElement req)
@@ -43,13 +34,14 @@ public class TopicContents
         Console.WriteLine("Topic name: " + topicName);
         Console.WriteLine("Subject ID: " + subjectId);
         
-        Subject? subject = _subjectContents.GetSubject(subjectId);
+        Subject? subject = NoteBlendContext.Subjects.Find(subjectId);
         
         Console.WriteLine($"Creating new topic named: {topicName}");
         Console.WriteLine($"Subject ID: {subjectId}");
         Topic newTopic = new Topic(topicName, subject);
-        _topicList.Add(newTopic);
-        JSONParser.WriteToJSON(_filepath, _topicList);
-        return newTopic;
+        Add(newTopic);
+        int changes = NoteBlendContext.SaveChanges();
+        // JSONParser.WriteToJSON(_filepath, _topicList);
+        return changes > 0 ? newTopic : null;
     }
 }

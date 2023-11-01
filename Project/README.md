@@ -8,19 +8,19 @@ This is still work in progress!
 
 
 ## Section list
-[Getting started: IDE setup](#getting-started:-ide-setup)
+[Getting started: IDE setup](#getting-started-ide-setup)
 
-[Getting started: Cloning the project and starting it](#getting-started:-cloning-the-project-and-starting-it)
+[Getting started: Cloning the project and starting it](#getting-started-cloning-the-project-and-starting-it)
 
-[.NET profiles: Rider](#.net-profiles:-rider)
+[.NET profiles: Rider](#net-profiles-rider)
 
-[.NET profiles: VS Code](#.net-profiles:-vs-code)
+[.NET profiles: VS Code](#net-profiles-vs-code)
 
-[1. Database setup: PostgreSQL](#1.-database-setup:-postgresql)
+[1. Database setup: PostgreSQL](#1-database-setup-postgresql)
 
-[2. Database setup: Inside Rider](#2.-database-setup:-inside-rider)
+[2. Database setup: Inside Rider](#2-database-setup-inside-rider)
 
-[2. Database setup: Using a terminal (for VSC)](#2.-database-setup:-using-a-terminal-(for-vsc))
+[2. Database setup: Using a terminal (for VSC)](#2-database-setup-using-a-terminal-for-vsc)
 
 [API Reference](#api-reference)
 

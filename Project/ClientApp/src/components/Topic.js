@@ -30,7 +30,7 @@ export const Topic = () => {
         //     }
         // }
     }, []);
-    
+
     useEffect(() => {
         const fetchTopics = async () => {
             console.log("Fetching topics");
@@ -62,7 +62,7 @@ export const Topic = () => {
         
         fetchTopics();
     }, [refreshTopics, id]);
-    
+
     const handleAddTopic = async () => {
         if (newTopic) {
             const requestBody = {

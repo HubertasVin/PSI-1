@@ -2,6 +2,7 @@ import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { Subject } from "./components/Subject";
+import Login from "./components/Login";
 
 const AppRoutes = [
   {
@@ -19,6 +20,10 @@ const AppRoutes = [
   {
     path: '/subjects',
     element: <Subject/>
+  },
+  {
+    path: '/login',
+    element: <Login />
   }
 ];
 

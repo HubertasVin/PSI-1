@@ -1,3 +1,4 @@
+using System.Net.Mail;
 using System.Text.Json;
 using Project.Chat;
 using Project.Data;
@@ -28,7 +29,7 @@ public class UserContents : Contents<User>
         return user ?? null;
     }
 
-    public bool CheckEmail(string email)
+    public bool IsEmailTaken(string email)
     {
         User? user = GetUserByEmail(email);
         return user == null;
@@ -92,8 +93,19 @@ public class UserContents : Contents<User>
         return changes > 0 ? newUser : null;
     }
 
-    internal string? CheckEmail(object userEmail)
+    internal string? IsEmailTaken(object userEmail)
     {
         throw new NotImplementedException();
+    }
+
+    internal static bool IsEmailValid(string userEmail)
+    {
+        try {
+            MailAddress m = new(userEmail);
+            return true;
+        }
+        catch (FormatException) {
+            return false;
+        }
     }
 }

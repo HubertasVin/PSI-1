@@ -17,96 +17,66 @@ const Login = () => {
 
   const handleLogin = async () => {
     if (!loginInputEmail || !loginInputPassword) {
+      alert("Login failed: All login fields have to be filled.");
       return;
-    } else {
-      const response = await fetch("https://localhost:7015/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-  
-      if (!response.ok) {
-        alert("Incorrect email or password");
-        return;
-      }
-  
-      const loginToken = await response.text();
-      localStorage.setItem("loginToken", loginToken);
-      const userInfo = await fetch("https://localhost:7015/user/get/" + loginToken, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const userData = await userInfo.json();
-      console.log(userData.name);
+		}
 
-      window.location.href = "/";
-    }
-  };
+		const response = await fetch("https://localhost:7015/user/login", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(requestBody),
+		});
 
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
+		if (!response.ok) {
+      const errorMessage = await response.text();
+      alert(`Login failed: ${errorMessage}` + ".");
+			return;
+		}
+
+		const loginToken = await response.text();
+		localStorage.setItem("loginToken", loginToken);
+
+		window.location.href = "/";
+
+		return;
   };
 
   const handleRegister = async () => {
-    if (!registerInputEmail || !registerInputName || !registerInputSurname || !registerInputPassword) {
+    if (
+      !registerInputEmail ||
+      !registerInputName ||
+      !registerInputSurname ||
+      !registerInputPassword
+    ) {
+      alert("Registration failed: All register fields have to be filled.");
       return;
-    } else {
-      if (!validateEmail(registerInputEmail)) {
-        alert("Invalid email");
-        return;
-      }
-
-      // Check if the email is already registered
-      const checkEmailResponse = await fetch("https://localhost:7015/user/checkEmail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userEmail: registerInputEmail }),
-      });
-      
-      if (!checkEmailResponse.ok) {
-        alert("Email is already registered");
-        return;
-      }
-
-      const requestBody = {
-        userEmail: registerInputEmail,
-        userName: registerInputName,
-        userSurname: registerInputSurname,
-        userPassword: registerInputPassword,
-      };
-      const response = await fetch("https://localhost:7015/user/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
-      });
-  
-      if (!response.ok) {
-        alert("Incorrect email or password");
-        return;
-      }
-
-      const userInfo = await fetch("https://localhost:7015/user/get/" + localStorage.getItem("loginToken"), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const userData = await userInfo.json();
-      console.log(userData.name);
     }
-  }
+
+    const requestBody = {
+      userEmail: registerInputEmail,
+      userName: registerInputName,
+      userSurname: registerInputSurname,
+      userPassword: registerInputPassword,
+    };
+    const response = await fetch("https://localhost:7015/user/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    });
+
+    if (response.ok) {
+      alert("Registration successful, you can now log in.");
+    } else {
+      const errorMessage = await response.text();
+      alert(`Registration failed: ${errorMessage}` + ".");
+    }
+
+    return;
+  };
 
   if (localStorage.getItem("loginToken")) {
     window.location.href = "/";
@@ -155,7 +125,9 @@ const Login = () => {
         onChange={(e) => setRegisterInputPassword(e.target.value)}
       />
       <button onClick={handleRegister}>Register</button>
-      <h5 style={{ color: 'green' }}>{username ? "Logged in as " + username : ""}</h5>
+      <h5 style={{ color: "green" }}>
+        {username ? "Logged in as " + username : ""}
+      </h5>
     </div>
   );
 };

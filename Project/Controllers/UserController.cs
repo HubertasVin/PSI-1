@@ -37,11 +37,24 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public IActionResult UploadTopic([FromBody] JsonElement request)
     {
-        Console.WriteLine("In upload topic");
-        // Console.WriteLine(request);
+        string? userEmail = request.GetProperty("userEmail").GetString();
+        string? userPassword = request.GetProperty("userPassword").GetString();
+        
+        if (userEmail == null && userPassword == null)
+            return BadRequest("Email and password fields cannot be empty");
+        if (userEmail == null)
+            return BadRequest("Email field cannot be empty");
+        if (userPassword == null)
+            return BadRequest("Password field cannot be empty");
+
+        if (!_userContents.IsEmailTaken(userEmail))
+            return BadRequest("Email already exists");
+        if (!UserContents.IsEmailValid(userEmail))
+            return BadRequest("Email is not valid");
+        
         User? addedUser = _userContents.CreateUser(request);
         return addedUser == null
-            ? BadRequest("Invalid request body")
+            ? BadRequest("Invalid register credentials")
             : Ok(addedUser);
     }
 
@@ -51,21 +64,24 @@ public class UserController : ControllerBase
         string? userId = _userContents.CheckLogin(request);
 
         return userId == null
-            ? BadRequest("Invalid request body")
+            ? BadRequest("Invalid login credentials")
             : Ok(userId);
     }
 
-    [HttpPost("checkEmail")]
-    public IActionResult CheckEmail([FromBody] JsonElement request)
+    [HttpPost("isEmailTaken")]
+    public IActionResult isEmailTaken([FromBody] JsonElement request)
     {
-        if (!_userContents.CheckEmail(request.GetProperty("userEmail").GetString()))
+        string? userEmail = request.GetProperty("userEmail").GetString();
+        if (userEmail == null)
+        {
+            return BadRequest("Invalid request body");
+        }
+
+        if (!_userContents.IsEmailTaken(userEmail))
         {
             return BadRequest("Email already exists");
         }
-        string? userEmail = request.GetProperty("userEmail").GetString();
 
-        return userEmail == null
-            ? BadRequest("Invalid request body")
-            : Ok(userEmail);
+        return Ok(userEmail);
     }
 }

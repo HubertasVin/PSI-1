@@ -8,7 +8,7 @@ export const Note = () => {
     const [topicName, setTopicName] = useState('');
 
     useEffect(() => {
-        console.log(showComments)
+        // console.log(showComments)
         fetch("https://localhost:7015/topic/get/"+topicId)
             .then(response => response.json())
             .then(data => {

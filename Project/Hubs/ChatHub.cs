@@ -17,7 +17,7 @@ namespace Project.Hubs
             Console.WriteLine("Joining topic: " + topicId);
             await Groups.AddToGroupAsync(Context.ConnectionId, topicId);
             
-            await Clients.Group(topicId).SendAsync("ReceiveMessage", $"{Context.ConnectionId} has joined the group {topicId}.");
+            // await Clients.Group(topicId).SendAsync("ReceiveMessage", $"{Context.ConnectionId} has joined the group {topicId}.");
         }
         
         public async Task LeaveTopic(string topicId)

@@ -8,10 +8,9 @@ export const Comment = ({show, onClose, topicId}) => {
     const [currentComment, setCurrentComment] = useState('');
     const [connection, setConnection] = useState(null);
     const [prevComments, setPrevComments] = useState([]);
-
+    
+    //NEZINAU KAIP VEIKIA BET VEIKIA TAI ZINAI
     useEffect(() => {
-        console.log("Initializing connection");
-        console.log("Show state: " + show)
         const initConnection = async () => {
             console.log("Creating connection")
             const newConnection = new HubConnectionBuilder()
@@ -24,14 +23,20 @@ export const Comment = ({show, onClose, topicId}) => {
                 .build();
 
             newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
+                console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
                 setComments(prevComments => {
-                    return prevComments.map(comment => {
-                        console.warn("Doing magic with comments")
-                        console.warn("Received messageContent: " + messageContent)
-                        return { ...comment, id: comment.id, isReal: true };
-                        // return comment;
-                    });
+                    console.warn("Doing magic with comments")
+                    console.warn("Received messageContent: " + messageContent)
+                    return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
                 });
+                setPrevComments(comments);
+                    // return prevComments.map(comment => {
+                        // console.warn("Doing magic with comments")
+                        // console.warn("Received messageContent: " + messageContent)
+                        // return { ...comment, id: comment.id, isReal: true };
+                        // return comment;
+                    // });
+                
                 console.warn(comments)
             });
 
@@ -54,8 +59,8 @@ export const Comment = ({show, onClose, topicId}) => {
             // TODO need to fetch all comments for the topic
         }
 
-        console.log("Show state near if: " + show)
-        console.log("Connection: " + connection)
+        // console.log("Show state near if: " + show)
+        console.log("Connection state near IF: " + connection)
         if (show && (!connection || connection.state !== "Connected")) {
             initConnection()
                 .then(newConnection => {
@@ -63,7 +68,7 @@ export const Comment = ({show, onClose, topicId}) => {
                 })
                 .catch(err => console.error("Connection failed", err.toString()));
         }
-        console.log("Connection: " + connection)
+        console.log("Connection after IF: " + connection)
 
         return() => {
             if (connection) {
@@ -75,7 +80,6 @@ export const Comment = ({show, onClose, topicId}) => {
                     .catch(err => console.error("Unable to stop connection", err.toString()));
             }
         };
-
     }, [show, connection, topicId]);
     
     const handleSend = async () => {
@@ -90,12 +94,13 @@ export const Comment = ({show, onClose, topicId}) => {
                 isReal: false
             }
 
-            setComments(prevComments => {
-                return [...prevComments, comment];
-            });
+            // setComments(prevComments => {
+            //     return [...prevComments, comment];
+            // });
 
             try {
                 console.error("Sending message:  " + currentComment)
+                console.error("Sending topicId:  " + topicId)
                 await connection.invoke("SendMessage", topicId, userID, currentComment);
                 setCurrentComment('');
             } catch (err) {
@@ -116,7 +121,7 @@ export const Comment = ({show, onClose, topicId}) => {
                 <button onClick={onClose}>Close</button>
             </div>
             <div className="comment-body">
-                {comments.map((comment, index) => (
+                {comments?.map((comment, index) => (
                     <div key={index} className="comment">
                         <div className="comment-text-content">
                             {comment.text}

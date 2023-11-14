@@ -22,6 +22,28 @@ namespace Project.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Project.Models.Comment", b =>
+                {
+                    b.Property<string>("id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TopicId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Project.Models.Message", b =>
                 {
                     b.Property<string>("id")
@@ -41,7 +63,7 @@ namespace Project.Migrations
 
                     b.HasIndex("Noteid");
 
-                    b.ToTable("Message");
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Project.Models.Note", b =>

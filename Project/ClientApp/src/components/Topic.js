@@ -106,6 +106,7 @@ export const Topic = () => {
                             key={index}
                             className="topic-grid-item"
                             title={topic.name}
+                            onClick={() => navigate('/Subjects/' + id + '/' + topic.id)}
                         >
                             <h2>{topicNames[index]}</h2>
                         </div>

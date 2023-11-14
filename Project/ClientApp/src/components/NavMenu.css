@@ -16,3 +16,13 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.btn {
+  text-decoration: none;
+}
+
+.welcome-msg {
+  font-weight: 800;
+  /* line-height: 1.5; */
+        text-align: center;
+}

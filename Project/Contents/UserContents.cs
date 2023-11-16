@@ -1,5 +1,6 @@
 using System.Net.Mail;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using Project.Chat;
 using Project.Data;
 using Project.Models;
@@ -100,12 +101,7 @@ public class UserContents : Contents<User>
 
     internal static bool IsEmailValid(string userEmail)
     {
-        try {
-            MailAddress m = new(userEmail);
-            return true;
-        }
-        catch (FormatException) {
-            return false;
-        }
+        Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
+        return regex.IsMatch(userEmail);
     }
 }

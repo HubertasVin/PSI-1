@@ -36,7 +36,16 @@ const Login = () => {
 		}
 
 		const loginToken = await response.text();
+    const getUserDataResponse = await fetch("https://localhost:7015/user/get/" + "03684a22-520c-4604-b734-1b70f5d26b9f", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    var userDataJson = await getUserDataResponse.json();
 		localStorage.setItem("loginToken", loginToken);
+		localStorage.setItem("loginName", userDataJson['name']);
+		localStorage.setItem("loginSurname", userDataJson['surname']);
 
 		window.location.href = "/";
 

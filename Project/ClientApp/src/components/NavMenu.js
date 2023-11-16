@@ -32,11 +32,14 @@ export class NavMenu extends Component {
 
   handleLogout = () => {
     localStorage.removeItem("loginToken");
+    localStorage.removeItem("loginName");
+    localStorage.removeItem("loginSurname");
     window.location.reload();
   };
 
   render() {
-    const { username } = this.context;
+    var username = localStorage.getItem("loginName");
+    // const { username } = this.context;
     console.log("Username: ", username);
 
     return (

@@ -10,6 +10,7 @@ Interneto puslapis, kuriame galima platinti ir rasti kitų žmonių konspektus.
 - Vartotojas gali komentuoti po konspektais, taip pat like'inti ir dislike'inti juos. Gavęs access prie konspekto, gali jį redaguoti.
 - Paieškoje galima filruoti konspektus pagal like'ų kiekį ir kitus parametrus.
 - Apie konspektus galima pranešti administratoriams dėl savo nepadorios ar neteisingos informacijos. Report'intus konspektus administratoriai gali ištrinti.
+r
 
 
 ## UŽDUOTYS:

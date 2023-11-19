@@ -19,14 +19,16 @@ public class UserController : ControllerBase
     [HttpGet("get/{id}")]
     public IActionResult GetUserName(string id)
     {
-        return Ok(_userContents.Get(id));
+        try {
+            var user = _userContents.Get(id);
+            return Ok(user?.Name);
+        }
+        catch (UserNotFoundException e) {
+            Console.WriteLine(e);
+            LogToFile.LogException(e);
+            return BadRequest(e.Message);
+        }
     }
-    
-    // [HttpGet("list/{subjectId}")]
-    // public IActionResult ListTopics(string subjectId)
-    // {
-    //     return Ok(_userContents.GetUserList(subjectId));
-    // }
     
     [HttpGet("list")]
     public IActionResult ListUsers()
@@ -50,27 +52,13 @@ public class UserController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] JsonElement request)
     {
-        string? userId = _userContents.CheckLogin(request);
-
-        return userId == null
-            ? BadRequest("Invalid login credentials")
-            : Ok(userId);
-    }
-
-    [HttpPost("isEmailTaken")]
-    public IActionResult IsEmailTaken([FromBody] JsonElement request)
-    {
-        string? userEmail = request.GetProperty("userEmail").GetString();
-        if (userEmail == null)
-        {
-            return BadRequest("Invalid request body");
+        try {
+            return Ok(_userContents.CheckLogin(request));
         }
-
-        if (!_userContents.IsEmailTaken(userEmail))
-        {
-            return BadRequest("Email already exists");
+        catch (UserLoginRegisterException e) {
+            Console.WriteLine(e);
+            LogToFile.LogException(e);
+            return BadRequest(e.Message);
         }
-
-        return Ok(userEmail);
     }
 }

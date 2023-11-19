@@ -36,7 +36,7 @@ public class UserContents : Contents<User>
         return user == null;
     }
 
-    public String? CheckLogin(JsonElement req)
+    public string? CheckLogin(JsonElement req)
     {
         if (!req.TryGetProperty("userEmail", out var userEmailProperty) ||
             !req.TryGetProperty("userPassword", out var userPasswordProperty))
@@ -44,21 +44,16 @@ public class UserContents : Contents<User>
         
         string? userEmail = userEmailProperty.GetString();
         string? userPassword = userPasswordProperty.GetString();
-        
-        Console.WriteLine("User email: " + userEmail);
-        Console.WriteLine("User password: " + userPassword);
 
         if (userEmail == null || userPassword == null)
-        {
-            return null;
-        }
+            throw new UserLoginRegisterException("Email or password field is empty");
         
         User? user = GetUserByEmail(userEmail);
         if (user != null && user.Password == userPassword)
         {
             return user.id;
         }
-        return null;
+        throw new UserLoginRegisterException("Either email or password is incorrect");
     }
 
     public User? CreateUser(JsonElement req)

@@ -1,5 +1,3 @@
-2023-11-19 17:13:30 UserLoginRegisterException: Email is not valid
-   at Project.Controllers.UserController.UploadTopic(JsonElement request) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Controllers/UserController.cs:line 47
-2023-11-19 17:16:37 UserLoginRegisterException: Email is not valid
-   at Project.Contents.UserContents.CreateUser(JsonElement req) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Contents/UserContents.cs:line 80
-   at Project.Controllers.UserController.UploadTopic(JsonElement request) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Controllers/UserController.cs:line 41
+2023-11-19 17:36:38 UserLoginRegisterException: Either email or password is incorrect
+   at Project.Contents.UserContents.CheckLogin(JsonElement req) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Contents/UserContents.cs:line 56
+   at Project.Controllers.UserController.Login(JsonElement request) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Controllers/UserController.cs:line 54

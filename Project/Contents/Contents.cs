@@ -17,7 +17,7 @@ public class Contents<T>
 
     public T? Get(string id)
     {
-        return Context.Set<T>().Find(id);
+        return Context.Set<T>().Find(id) ?? throw new UserNotFoundException("User not found");
     }
 
     public List<T> GetAll()

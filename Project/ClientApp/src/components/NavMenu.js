@@ -52,7 +52,7 @@ export class NavMenu extends Component {
               light
             >
               <NavbarBrand tag={Link} to="/">
-                Project
+                NoteBlend
               </NavbarBrand>
               <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
               <Collapse
@@ -62,18 +62,8 @@ export class NavMenu extends Component {
               >
                 <ul className="navbar-nav flex-grow">
                   <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/">
-                      Home
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/counter">
-                      Counter
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink tag={Link} className="text-dark" to="/fetch-data">
-                      Fetch data
+                    <NavLink tag={Link} className="text-dark" to="/Subjects">
+                      Subjects
                     </NavLink>
                   </NavItem>
                   <NavItem>

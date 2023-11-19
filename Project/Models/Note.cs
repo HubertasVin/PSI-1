@@ -3,7 +3,7 @@
 public class Note : BaseModel
 {
     public string Name { get; set; }
-    public List<Message> Messages { get; set; }
+    // public List<Message> Messages { get; set; }
     
     public Note()
     {
@@ -15,8 +15,8 @@ public class Note : BaseModel
         Name = name;
     }
     
-    public void AddMessage(Message message)
-    {
-        Messages.Add(message);
-    }
+    // public void AddMessage(Message message)
+    // {
+    //     Messages.Add(message);
+    // }
 }

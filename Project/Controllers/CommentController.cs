@@ -45,4 +45,27 @@ public class CommentController : ControllerBase
         }
         return BadRequest("Error getting comments");
     }
+    
+    [HttpPost("add")]
+    public IActionResult AddComment([FromBody] Comment comment)
+    {
+        try
+        {
+            bool result = _commentContents.AddComment(comment);
+            if (result)
+            {
+                return Ok("Comment added successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to add comment");
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error adding comment");
+            return BadRequest("Error adding comment");
+        }
+    }
+
 }

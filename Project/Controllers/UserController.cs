@@ -10,10 +10,12 @@ namespace Project.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserContents _userContents;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(UserContents userContents)
+    public UserController(UserContents userContents, ILogger<UserController> logger)
     {
         _userContents = userContents;
+        _logger = logger;
     }
     
     [HttpGet("get/{id}")]
@@ -24,8 +26,8 @@ public class UserController : ControllerBase
             return Ok(user?.Name);
         }
         catch (UserNotFoundException e) {
-            Console.WriteLine(e);
-            LogToFile.LogException(e);
+            _logger.LogError(e, e.Message);
+            // LogToFile.LogException(e);
             return BadRequest(e.Message);
         }
     }

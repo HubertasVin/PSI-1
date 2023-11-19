@@ -37,25 +37,14 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public IActionResult UploadTopic([FromBody] JsonElement request)
     {
-        string? userEmail = request.GetProperty("userEmail").GetString();
-        string? userPassword = request.GetProperty("userPassword").GetString();
-        
-        if (userEmail == null && userPassword == null)
-            return BadRequest("Email and password fields cannot be empty");
-        if (userEmail == null)
-            return BadRequest("Email field cannot be empty");
-        if (userPassword == null)
-            return BadRequest("Password field cannot be empty");
-
-        if (!_userContents.IsEmailTaken(userEmail))
-            return BadRequest("Email already exists");
-        if (!UserContents.IsEmailValid(userEmail))
-            return BadRequest("Email is not valid");
-        
-        User? addedUser = _userContents.CreateUser(request);
-        return addedUser == null
-            ? BadRequest("Invalid register credentials")
-            : Ok(addedUser);
+        try {
+            return Ok(_userContents.CreateUser(request));
+        }
+        catch (UserLoginRegisterException e) {
+            Console.WriteLine(e);
+            LogToFile.LogException(e);
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPost("login")]
@@ -69,7 +58,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("isEmailTaken")]
-    public IActionResult isEmailTaken([FromBody] JsonElement request)
+    public IActionResult IsEmailTaken([FromBody] JsonElement request)
     {
         string? userEmail = request.GetProperty("userEmail").GetString();
         if (userEmail == null)

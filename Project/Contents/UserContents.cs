@@ -73,7 +73,12 @@ public class UserContents : Contents<User>
         string? userSurname = userSurnameProperty.GetString();
         string? userEmail = userEmailProperty.GetString();
         string? userPassword = userPasswordProperty.GetString();
-        
+
+        if (userEmail != null && !IsEmailTaken(userEmail))
+            throw new UserLoginRegisterException("Email already exists");
+        if (userEmail != null && !IsEmailValid(userEmail))
+            throw new UserLoginRegisterException("Email is not valid");
+
         Console.WriteLine("User name: " + userName);
         Console.WriteLine("User surname: " + userSurname);
         Console.WriteLine("User email: " + userEmail);

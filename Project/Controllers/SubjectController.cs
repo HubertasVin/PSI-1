@@ -38,6 +38,7 @@ public class SubjectController : ControllerBase
     [HttpPost("upload")]
     public IActionResult UploadSubject([FromBody] JsonElement request)
     {
+        // TODO pakeist kad siustu Subject objekta
         Console.WriteLine("In upload subject");
         // Console.WriteLine(request);
         Subject? addedSubject = _subjectContents.CreateSubject(request);

@@ -10,23 +10,27 @@ namespace Project.Controllers;
 public class UserController : ControllerBase
 {
     private readonly UserContents _userContents;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(UserContents userContents)
+    public UserController(UserContents userContents, ILogger<UserController> logger)
     {
         _userContents = userContents;
+        _logger = logger;
     }
     
     [HttpGet("get/{id}")]
     public IActionResult GetUserName(string id)
     {
-        return Ok(_userContents.Get(id));
+        try {
+            var user = _userContents.Get(id);
+            return Ok(user?.Name);
+        }
+        catch (UserNotFoundException e) {
+            _logger.LogError(e, e.Message);
+            // LogToFile.LogException(e);
+            return BadRequest(e.Message);
+        }
     }
-    
-    // [HttpGet("list/{subjectId}")]
-    // public IActionResult ListTopics(string subjectId)
-    // {
-    //     return Ok(_userContents.GetUserList(subjectId));
-    // }
     
     [HttpGet("list")]
     public IActionResult ListUsers()
@@ -37,51 +41,26 @@ public class UserController : ControllerBase
     [HttpPost("register")]
     public IActionResult UploadTopic([FromBody] JsonElement request)
     {
-        string? userEmail = request.GetProperty("userEmail").GetString();
-        string? userPassword = request.GetProperty("userPassword").GetString();
-        
-        if (userEmail == null && userPassword == null)
-            return BadRequest("Email and password fields cannot be empty");
-        if (userEmail == null)
-            return BadRequest("Email field cannot be empty");
-        if (userPassword == null)
-            return BadRequest("Password field cannot be empty");
-
-        if (!_userContents.IsEmailTaken(userEmail))
-            return BadRequest("Email already exists");
-        if (!UserContents.IsEmailValid(userEmail))
-            return BadRequest("Email is not valid");
-        
-        User? addedUser = _userContents.CreateUser(request);
-        return addedUser == null
-            ? BadRequest("Invalid register credentials")
-            : Ok(addedUser);
+        try {
+            return Ok(_userContents.CreateUser(request));
+        }
+        catch (UserLoginRegisterException e) {
+            Console.WriteLine(e);
+            LogToFile.LogException(e);
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpPost("login")]
     public IActionResult Login([FromBody] JsonElement request)
     {
-        string? userId = _userContents.CheckLogin(request);
-
-        return userId == null
-            ? BadRequest("Invalid login credentials")
-            : Ok(userId);
-    }
-
-    [HttpPost("isEmailTaken")]
-    public IActionResult isEmailTaken([FromBody] JsonElement request)
-    {
-        string? userEmail = request.GetProperty("userEmail").GetString();
-        if (userEmail == null)
-        {
-            return BadRequest("Invalid request body");
+        try {
+            return Ok(_userContents.CheckLogin(request));
         }
-
-        if (!_userContents.IsEmailTaken(userEmail))
-        {
-            return BadRequest("Email already exists");
+        catch (UserLoginRegisterException e) {
+            Console.WriteLine(e);
+            LogToFile.LogException(e);
+            return BadRequest(e.Message);
         }
-
-        return Ok(userEmail);
     }
 }

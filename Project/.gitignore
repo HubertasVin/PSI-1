@@ -1,5 +1,6 @@
 ﻿bin
 obj
 .vs
+log.txt
 
 /node_modules

@@ -94,6 +94,11 @@ This should update the PostgreSQL database with all the required tables (if ther
 
 ## 2. Database setup: Using a terminal (for VSC)
 
+Install the dotnet-ef tool
+```bash
+dotnet tool install --global dotnet-ef
+```
+
 You can update the database using this command:
 ```bash
 dotnet ef database update

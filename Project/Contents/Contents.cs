@@ -5,10 +5,11 @@ using Project.Models;
 
 namespace Project.Contents;
 
-public class Contents<T> where T : BaseModel
+public class Contents<T>
+    where T : BaseModel
 {
     protected readonly DbContext Context;
-    
+
     public Contents(NoteBlendDbContext context)
     {
         Context = context;
@@ -18,13 +19,13 @@ public class Contents<T> where T : BaseModel
     {
         return Context.Set<T>().Find(id);
     }
-    
+
     public List<T> GetAll()
     {
         return Context.Set<T>().ToList();
     }
 
-    public List<T> Find(Expression<Func<T,bool>> pred)
+    public List<T> Find(Expression<Func<T, bool>> pred)
     {
         return Context.Set<T>().Where(pred).ToList();
     }

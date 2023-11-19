@@ -22,12 +22,10 @@ public class UserController : ControllerBase
     public IActionResult GetUserName(string id)
     {
         try {
-            var user = _userContents.Get(id);
-            return Ok(user?.Name);
+            return Ok(_userContents.Get(id));
         }
         catch (UserNotFoundException e) {
             _logger.LogError(e, e.Message);
-            // LogToFile.LogException(e);
             return BadRequest(e.Message);
         }
     }

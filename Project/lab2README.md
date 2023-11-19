@@ -26,7 +26,7 @@ Laboratory assignment 2 objectives:
 
 - [x] Lambda expressions usage;
 
-[In Program.cs](Program.cs#L33) Line 33-42
+[In Program.cs](Program.cs#L33) Line 33
 ```csharp
 builder.Services.AddCors(options =>
 {
@@ -52,7 +52,7 @@ builder.Services.AddCors(options =>
 
 - [x] Usage of async/await;
 
-[In ConspectsController.cs](Controllers/ConspectsController.cs#L32) Line 32-35
+[In ConspectsController.cs](Controllers/ConspectsController.cs#L32-L35) Line 32-35
 ```csharp
 public async Task<IActionResult> ShowSearchResults(string searchPhrase)
 {

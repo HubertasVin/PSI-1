@@ -55,6 +55,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddTransient<SubjectContents>();
 builder.Services.AddTransient<TopicContents>();
 builder.Services.AddTransient<UserContents>();
+builder.Services.AddTransient<CommentContents>();
 
 var app = builder.Build();
 

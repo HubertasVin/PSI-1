@@ -36,7 +36,7 @@ const Login = () => {
 		}
 
 		const loginToken = await response.text();
-    const getUserDataResponse = await fetch("https://localhost:7015/user/get/" + "03684a22-520c-4604-b734-1b70f5d26b9f", {
+    const getUserDataResponse = await fetch("https://localhost:7015/user/get/" + loginToken, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

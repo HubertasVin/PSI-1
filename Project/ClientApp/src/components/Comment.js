@@ -8,58 +8,58 @@ export const Comment = ({show, onClose, topicId}) => {
     const [currentComment, setCurrentComment] = useState('');
     const [connection, setConnection] = useState(null);
     const [prevComments, setPrevComments] = useState([]);
-    
+
     const [isConnecting, setIsConnecting] = useState(false);
-    
+
     const initConnection = useCallback(async () => {
         setIsConnecting(true);
         console.log("Creating connection")
-                    const newConnection = new HubConnectionBuilder()
-                        .withUrl("https://localhost:7015/chatHub", {
-                            skipNegotiation: true,
-                            transport: HttpTransportType.WebSockets
-                        })
-                        .configureLogging(LogLevel.Information)
-                        .withAutomaticReconnect()
-                        .build();
+        const newConnection = new HubConnectionBuilder()
+            .withUrl("https://localhost:7015/chatHub", {
+                skipNegotiation: true,
+                transport: HttpTransportType.WebSockets
+            })
+            .configureLogging(LogLevel.Information)
+            .withAutomaticReconnect()
+            .build();
 
-                    newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
-                        console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
-                        setComments(prevComments => {
-                            console.warn("Doing magic with comments")
-                            console.warn("Received messageContent: " + messageContent)
-                            return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
-                        });
-                        setPrevComments(comments);
-                            // return prevComments.map(comment => {
-                                // console.warn("Doing magic with comments")
-                                // console.warn("Received messageContent: " + messageContent)
-                                // return { ...comment, id: comment.id, isReal: true };
-                                // return comment;
-                            // });
+        newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
+            console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
+            setComments(prevComments => {
+                console.warn("Doing magic with comments")
+                console.warn("Received messageContent: " + messageContent)
+                return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
+            });
+            setPrevComments(comments);
+            // return prevComments.map(comment => {
+            // console.warn("Doing magic with comments")
+            // console.warn("Received messageContent: " + messageContent)
+            // return { ...comment, id: comment.id, isReal: true };
+            // return comment;
+            // });
 
-                        console.warn(comments)
-                    });
+            console.warn(comments)
+        });
 
-                    newConnection.on("DeleteMessage", (messageId) => {
-                        setComments(prevComments => {
-                            return prevComments.filter(comment => comment.id !== messageId);
-                        });
-                    });
+        newConnection.on("DeleteMessage", (messageId) => {
+            setComments(prevComments => {
+                return prevComments.filter(comment => comment.id !== messageId);
+            });
+        });
 
-                    // newConnection.stop()
-                    console.log("Starting connection")
-                    newConnection.start()
-                        .then(() => {
-                            console.log("Connection started");
-                            console.log(topicId);
-                            newConnection.invoke("JoinTopic", topicId);
-                            setConnection(newConnection);
-                        })
-                        .catch(err => console.error("Connection failed", err.toString()));
+        // newConnection.stop()
+        console.log("Starting connection")
+        newConnection.start()
+            .then(() => {
+                console.log("Connection started");
+                console.log(topicId);
+                newConnection.invoke("JoinTopic", topicId);
+                setConnection(newConnection);
+            })
+            .catch(err => console.error("Connection failed", err.toString()));
         setIsConnecting(false);
     }, []);
-    
+
     useEffect(() => {
         if (show && !isConnecting && (!connection || connection.state !== "Connected")) {
             initConnection()
@@ -74,100 +74,115 @@ export const Comment = ({show, onClose, topicId}) => {
             }
         };
     }, [show, connection, initConnection, isConnecting, topicId]);
-    // useEffect(() => {
-    //     const initConnection = async () => {
-    //         console.log("Creating connection")
-    //         const newConnection = new HubConnectionBuilder()
-    //             .withUrl("https://localhost:7015/chatHub", {
-    //                 skipNegotiation: true,
-    //                 transport: HttpTransportType.WebSockets
-    //             })
-    //             .configureLogging(LogLevel.Information)
-    //             .withAutomaticReconnect()
-    //             .build();
-    //
-    //         newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
-    //             console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
-    //             setComments(prevComments => {
-    //                 console.warn("Doing magic with comments")
-    //                 console.warn("Received messageContent: " + messageContent)
-    //                 return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
-    //             });
-    //             setPrevComments(comments);
-    //                 // return prevComments.map(comment => {
-    //                     // console.warn("Doing magic with comments")
-    //                     // console.warn("Received messageContent: " + messageContent)
-    //                     // return { ...comment, id: comment.id, isReal: true };
-    //                     // return comment;
-    //                 // });
-    //
-    //             console.warn(comments)
-    //         });
-    //
-    //         newConnection.on("DeleteMessage", (messageId) => {
-    //             setComments(prevComments => {
-    //                 return prevComments.filter(comment => comment.id !== messageId);
-    //             });
-    //         });
-    //        
-    //         // newConnection.stop()
-    //         console.log("Starting connection")
-    //         newConnection.start()
-    //             .then(() => {
-    //                 console.log("Connection started");
-    //                 console.log(topicId);
-    //                 newConnection.invoke("JoinTopic", topicId);
-    //                 setConnection(newConnection);
-    //             })
-    //             .catch(err => console.error("Connection failed", err.toString()));
-    //
-    //         // TODO need to fetch all comments for the topic
-    //     }
-    //
-    //     // console.log("Show state near if: " + show)
-    //     // console.log("Connection state near IF: " + connection)
-    //    
-    //     if (show && (connection === undefined || connection?.state !== "Connected")) {
-    //         initConnection()
-    //             .then(newConnection => {
-    //                 setConnection(newConnection);
-    //             })
-    //             .catch(err => console.error("Connection failed", err.toString()));
-    //     }
-    //     // console.log("Connection after IF: " + connection)
-    //
-    //     return() => {
-    //         if (connection) {
-    //             connection.stop()
-    //                 .then(() => {
-    //                     console.log("Connection has been stopped");
-    //                     setConnection(null);
-    //                 })
-    //                 .catch(err => console.error("Unable to stop connection", err.toString()));
-    //         }
-    //     };
-    // }, [show, connection, topicId]);
     
+    useEffect(() => {
+        //fetching comments
+        console.log("Fetching comments");
+        fetch("https://localhost:7015/comment/get/" + topicId)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Comments: ", data);
+                const commentData = data.map(comment => {
+                    return {
+                        id: comment.id,
+                        userId: comment.userId,
+                        text: comment.message,
+                        isReal: true
+                    };
+                });
+                setComments(commentData);
+                setPrevComments(commentData);
+            });
+    }, []);
+    /*     useEffect(() => {
+             const initConnection = async () => {
+                 console.log("Creating connection")
+                 const newConnection = new HubConnectionBuilder()
+                    .withUrl("https://localhost:7015/chatHub", {
+                        skipNegotiation: true,
+                         transport: HttpTransportType.WebSockets/             })
+                     .configureLogging(LogLevel.Information)
+                    .withAutomaticReconnect()
+                     .build();
+        
+                newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
+        console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
+                    setComments(prevComments => {
+                       console.warn("Doing magic with comments")
+        console.warn("Received messageContent: " + messageContent)
+                         return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
+                     });
+                     setPrevComments(comments);
+                         // return prevComments.map(comment => {
+                             // console.warn("Doing magic with comments")
+                            // console.warn("Received messageContent: " + messageContent)
+                            // return { ...comment, id: comment.id, isReal: true };
+                             // return comment;
+                        // });
+        
+                    console.warn(comments)
+                 });
+        
+                 newConnection.on("DeleteMessage", (messageId) => {
+                     setComments(prevComments => {
+                         return prevComments.filter(comment => comment.id !== messageId);
+                    });
+                 });
+               
+                // newConnection.stop()
+                console.log("Starting connection")
+                newConnection.start()
+                    .then(() => {
+                        console.log("Connection started");
+                       console.log(topicId);
+                         newConnection.invoke("JoinTopic", topicId);
+                        setConnection(newConnection);
+                    })
+                     .catch(err => console.error("Connection failed", err.toString()));
+        
+                 // TODO need to fetch all comments for the topic
+            }
+        
+           // console.log("Show state near if: " + show)
+           // console.log("Connection state near IF: " + connection)
+            
+           if (show && (connection === undefined || connection?.state !== "Connected")) {
+               initConnection()
+                   .then(newConnection => {
+                       setConnection(newConnection);
+                    })
+                     .catch(err => console.error("Connection failed", err.toString()));
+             }
+            // console.log("Connection after IF: " + connection)
+        
+           return() => {
+               if (connection) {
+                    connection.stop()
+                        .then(() => {
+                           console.log("Connection has been stopped");
+                            setConnection(null);
+                        })
+                        .catch(err => console.error("Unable to stop connection", err.toString()));
+                 }
+             };
+         }, [show, connection, topicId]); */
+
+
     const handleSend = async () => {
-        console.log("Sending message")
+        console.log("Sending message");
         if (connection) {
-            console.log("Connection exists")
+            console.log("Connection exists");
             const commentId = Date.now();
             const comment = {
-                id: commentId,
                 userId: userID,
-                text: currentComment,
-                isReal: false
-            }
-
-            // setComments(prevComments => {
-            //     return [...prevComments, comment];
-            // });
+                topicId: topicId,
+                message: currentComment,
+            };
 
             try {
-                console.error("Sending message:  " + currentComment)
-                console.error("Sending topicId:  " + topicId)
+                console.error("Sending message: " + currentComment);
                 await connection.invoke("SendMessage", topicId, userID, currentComment);
+                await handleSaveComment(comment);
                 setCurrentComment('');
             } catch (err) {
                 console.error("Unable to send message", err.toString());
@@ -176,10 +191,36 @@ export const Comment = ({show, onClose, topicId}) => {
         }
     };
 
+    const handleSaveComment = async (comment) => {
+        try {
+            const requestBody = {
+                message: comment.message,
+                userId: "123",
+                topicId: comment.topicId
+            };
+            console.warn("Saving comment: " + comment.userId + " " + comment.topicId + " " + comment.message)
+            const response = await fetch('https://localhost:7015/comment/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody),
+            });
+            console.error("Response: " + response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+        } catch (error) {
+            console.error('Failed to save the comment:', error);
+        }
+    };
+
+
     if (!show) {
         return null;
     }
-    
+
     return (
         <div className="comment-panel">
             <div className="comment-header">
@@ -197,8 +238,8 @@ export const Comment = ({show, onClose, topicId}) => {
             </div>
             <div className="comment-footer">
                 <input
-                    value = {currentComment}
-                    onChange = {(e) => setCurrentComment(e.target.value)}
+                    value={currentComment}
+                    onChange={(e) => setCurrentComment(e.target.value)}
                     placeholder="Enter your comment..."
                 />
                 <button onClick={handleSend}>Send</button>

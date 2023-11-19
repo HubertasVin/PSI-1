@@ -24,10 +24,20 @@ Laboratory assignment 2 objectives:
 
 ###
 
-- [ ] Lambda expressions usage;
+- [x] Lambda expressions usage;
 
+[In Program.cs](Program.cs) Line 33-42
 ```csharp
-
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        builder =>
+            builder
+                .WithOrigins("https://localhost:44465") // Updated with your React app's URL
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+    );
+});
 ```
 
 ###
@@ -42,7 +52,7 @@ Laboratory assignment 2 objectives:
 
 - [x] Usage of async/await;
 
-[In ConspectsController.cs](Controllers/ConspectsController.cs#L32-L35)
+[In ConspectsController.cs](Controllers/ConspectsController.cs) Line 32-35
 ```csharp
 public async Task<IActionResult> ShowSearchResults(string searchPhrase)
 {
@@ -62,7 +72,7 @@ public async Task<IActionResult> ShowSearchResults(string searchPhrase)
 
 - [x] Regex usage;
 
-[In UserContents.cs](Contents/UserContents.cs)
+[In UserContents.cs](Contents/UserContents.cs) Line 104
 ```csharp
 Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
 ```

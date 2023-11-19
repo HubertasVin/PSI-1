@@ -26,7 +26,7 @@ Laboratory assignment 2 objectives:
 
 - [x] Lambda expressions usage;
 
-[In Program.cs](Program.cs) Line 33-42
+[In Program.cs](Program.cs#L33) Line 33-42
 ```csharp
 builder.Services.AddCors(options =>
 {
@@ -52,7 +52,7 @@ builder.Services.AddCors(options =>
 
 - [x] Usage of async/await;
 
-[In ConspectsController.cs](Controllers/ConspectsController.cs) Line 32-35
+[In ConspectsController.cs](Controllers/ConspectsController.cs#L32) Line 32-35
 ```csharp
 public async Task<IActionResult> ShowSearchResults(string searchPhrase)
 {
@@ -72,7 +72,7 @@ public async Task<IActionResult> ShowSearchResults(string searchPhrase)
 
 - [x] Regex usage;
 
-[In UserContents.cs](Contents/UserContents.cs) Line 104
+[In UserContents.cs](Contents/UserContents.cs#L104) Line 104
 ```csharp
 Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
 ```

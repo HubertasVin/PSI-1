@@ -33,7 +33,7 @@ public class CommentContents : Contents<Comment>
     
     public bool AddComment(Comment comment)
     {
-        NoteBlendContext.Comments.Add(comment);
+        Add(comment);
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0;
     }

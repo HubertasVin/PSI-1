@@ -49,10 +49,10 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("register")]
-    public IActionResult UploadTopic([FromBody] JsonElement request)
+    public IActionResult UploadTopic([FromBody] User newUser)
     {
         try {
-            return Ok(_userRepository.CreateUser(request));
+            return Ok(_userRepository.CreateUser(newUser));
         }
         catch (UserLoginRegisterException e) {
             _logger.LogError("Error occured when creating a new user", e);
@@ -61,10 +61,11 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] JsonElement request)
+    public IActionResult Login([FromBody] User existingUser)
     {
-        try {
-            return Ok(_userRepository.CheckLogin(request));
+        try
+        {
+            return Ok(_userRepository.CheckLogin(existingUser));
         }
         catch (UserLoginRegisterException e) {
             _logger.LogError("Error occured when checking credentials", e);

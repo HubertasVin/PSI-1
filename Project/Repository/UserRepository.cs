@@ -7,7 +7,7 @@ namespace Project.Repository;
 
 public class UserRepository : Repository<User>
 {
-    public NoteBlendDbContext? NoteBlendContext => Context as NoteBlendDbContext;
+    public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
     public UserRepository(NoteBlendDbContext context) : base(context)
     {
@@ -31,61 +31,29 @@ public class UserRepository : Repository<User>
         return user == null;
     }
 
-    public string? CheckLogin(JsonElement req)
+    public string? CheckLogin(User existingUser)
     {
-        if (!req.TryGetProperty("userEmail", out var userEmailProperty) ||
-            !req.TryGetProperty("userPassword", out var userPasswordProperty))
-            return null;
-        
-        string? userEmail = userEmailProperty.GetString();
-        string? userPassword = userPasswordProperty.GetString();
-
-        if (userEmail == null || userPassword == null)
+        Console.WriteLine("in check login");
+        if (existingUser.Email == null || existingUser.Password == null)
             throw new UserLoginRegisterException("Email or password field is empty");
         
-        User? user = GetUserByEmail(userEmail);
-        if (user != null && user.Password == userPassword)
+        User? user = GetUserByEmail(existingUser.Email);
+        if (user != null && user.Password == existingUser.Password)
         {
             return user.id;
         }
         throw new UserLoginRegisterException("Either email or password is incorrect");
     }
 
-    public User? CreateUser(JsonElement req)
+    public User? CreateUser(User newUser)
     {
-        if (!req.TryGetProperty("userName", out var userNameProperty) ||
-            !req.TryGetProperty("userSurname", out var userSurnameProperty) ||
-            !req.TryGetProperty("userEmail", out var userEmailProperty) ||
-            !req.TryGetProperty("userPassword", out var userPasswordProperty))
-            return null;
-        
-        string? userName = userNameProperty.GetString();
-        string? userSurname = userSurnameProperty.GetString();
-        string? userEmail = userEmailProperty.GetString();
-        string? userPassword = userPasswordProperty.GetString();
-
-        if (userEmail != null && !IsEmailTaken(userEmail))
+        if (newUser.Email != null && !IsEmailTaken(newUser.Email))
             throw new UserLoginRegisterException("Email already exists");
-        if (userEmail != null && !IsEmailValid(userEmail))
-            throw new UserLoginRegisterException("Email is not valid");
+        // if (newUser.Email != null && !IsEmailValid(newUser.Email))
+        //     throw new UserLoginRegisterException("Email is not valid");
 
-        Console.WriteLine("User name: " + userName);
-        Console.WriteLine("User surname: " + userSurname);
-        Console.WriteLine("User email: " + userEmail);
-        Console.WriteLine("User password: " + userPassword);
-
-        Console.WriteLine($"Creating new user named: {userName}");
-        Console.WriteLine($"User surname: {userSurname}");
-        Console.WriteLine($"User email: {userEmail}");
-        Console.WriteLine($"User password: {userPassword}");
-        User newUser = new User(userName ?? "", userSurname ?? "", userEmail ?? "", userPassword ?? "");
         Add(newUser);
-        int changes = 0;
-        if (NoteBlendContext != null)
-        {
-            changes = NoteBlendContext.SaveChanges();
-        }
-        // JSONParser.WriteToJSON(_filepath, _topicList);
+        int changes = NoteBlendContext.SaveChanges();
         return changes > 0 ? newUser : null;
     }
 

@@ -47,6 +47,7 @@ const Login = () => {
         const userDataJson = await getUserDataResponse.json();
         localStorage.setItem("loginToken", loginToken);
         localStorage.setItem("username", userDataJson['name']);
+        localStorage.setItem("userEmail", userDataJson['email']);
         // localStorage.setItem("loginSurname", userDataJson['surname']);
         setUserEmail(loginInputEmail);
         setUsername(userDataJson['name']);

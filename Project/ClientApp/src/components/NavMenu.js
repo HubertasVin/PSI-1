@@ -7,18 +7,31 @@ import {
     NavItem,
     NavLink,
 } from "reactstrap";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import "./NavMenu.css";
 import {useUserContext} from "../userContext";
 
 
 export const NavMenu = () => {
     const [collapsed, setCollapsed] = useState(true);
-    const {username, userEmail, setUsername} = useUserContext();
+    const {username, userEmail, setUsername, setUserEmail} = useUserContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
+        const setUserDetails = async () => {
+            const cachedUsername = localStorage.getItem("username");
+            const cachedUserEmail = localStorage.getItem("userEmail");
+            if (cachedUsername) {
+                setUsername(cachedUsername);
+            }
+            
+            if (cachedUserEmail) {
+                setUserEmail(cachedUserEmail);
+            }
+        };
         console.log("Username: ", username);
         console.log("UserEmail: ", userEmail);
+        setUserDetails();
     }, [username, userEmail]);
     
     const handleToggleNavbar = () => {
@@ -33,7 +46,8 @@ export const NavMenu = () => {
         }
         setUsername("");
         
-        window.location.reload();
+        navigate("/login");
+        // window.location.reload();
     }
 
     return (

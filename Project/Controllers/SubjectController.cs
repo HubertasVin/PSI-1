@@ -32,10 +32,9 @@ public class SubjectController : ControllerBase
     }
     
     [HttpPost("upload")]
-    public IActionResult UploadSubject([FromBody] JsonElement request)
+    public IActionResult UploadSubject([FromBody] Subject newSubject)
     {
-        // TODO pakeist kad siustu Subject objekta
-        Subject? addedSubject = _subjectRepository.CreateSubject(request);
+        Subject? addedSubject = _subjectRepository.CreateSubject(newSubject);
         return addedSubject == null
             ? BadRequest("Invalid request body")
             : Ok(addedSubject);

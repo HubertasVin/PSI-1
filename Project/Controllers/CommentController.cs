@@ -48,19 +48,8 @@ public class CommentController : ControllerBase
     }
     
     [HttpPost("add")]
-    public IActionResult AddComment([FromBody] JsonElement json)
+    public IActionResult AddComment([FromBody] Comment comment)
     {
-        string? message = json.GetProperty("message").GetString();
-        string? topicId = json.GetProperty("topicId").GetString();
-        string? userId = json.GetProperty("userId").GetString();
-        
-        if (message == null || topicId == null || userId == null)
-        {
-            return BadRequest("Invalid request body");
-        }
-
-        Comment comment = new Comment(userId, topicId, message);
-        _logger.LogInformation("Comment message: {comment}", json);
         try
         {
             bool result = _commentRepository.AddComment(comment);

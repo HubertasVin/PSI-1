@@ -22,9 +22,9 @@ public class CommentRepository : Repository<Comment>
             .Where(comment => comment.TopicId.Equals(topicId)).ToList();
     }
 
-    public bool Remove(string CommentId)
+    public bool Remove(string commentId)
     {
-        Comment comment = Get(CommentId);
+        Comment comment = Get(commentId);
         Remove(comment);
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0;

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Project.Contents;
 using Project.Models;
+using Project.Repository;
 
 namespace Project.Controllers;
 
@@ -9,23 +9,23 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class TopicController : ControllerBase
 {
-    private readonly TopicContents _topicContents;
+    private readonly TopicRepository _topicRepository;
 
-    public TopicController(TopicContents topicContents)
+    public TopicController(TopicRepository topicRepository)
     {
-        _topicContents = topicContents;
+        _topicRepository = topicRepository;
     }
     
     [HttpGet("get/{id}")]
     public IActionResult GetTopic(string id)
     {
-        return Ok(_topicContents.Get(id));
+        return Ok(_topicRepository.Get(id));
     }
     
     [HttpGet("list/{subjectId}")]
     public IActionResult ListTopics(string subjectId)
     {
-        return Ok(_topicContents.GetTopicsList(subjectId));
+        return Ok(_topicRepository.GetTopicsList(subjectId));
     }
 
     [HttpPost("upload")]
@@ -33,7 +33,7 @@ public class TopicController : ControllerBase
     {
         Console.WriteLine("In upload topic");
         // Console.WriteLine(request);
-        Topic? addedTopic = _topicContents.CreateTopic(request);
+        Topic? addedTopic = _topicRepository.CreateTopic(request);
         return addedTopic == null
             ? BadRequest("Invalid request body")
             : Ok(addedTopic);

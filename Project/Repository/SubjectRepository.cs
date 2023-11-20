@@ -2,16 +2,16 @@
 using Project.Data;
 using Project.Models;
 
-namespace Project.Contents;
+namespace Project.Repository;
 
-public class SubjectContents : Contents<Subject>
+public class SubjectRepository : Repository<Subject>
 {
 
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     // private List<Subject> _subjectsList;
     // private string _filePath = "src/SubjectData.json";
     
-    public SubjectContents(NoteBlendDbContext context) : base (context)
+    public SubjectRepository(NoteBlendDbContext context) : base (context)
     {
         
     }

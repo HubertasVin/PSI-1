@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Models;
 
-namespace Project.Contents;
+namespace Project.Repository;
 
-public class Contents<T>
+public class Repository<T>
     where T : BaseModel
 {
     protected readonly DbContext Context;
 
-    public Contents(NoteBlendDbContext context)
+    public Repository(NoteBlendDbContext context)
     {
         Context = context;
     }

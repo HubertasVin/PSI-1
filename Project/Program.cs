@@ -2,8 +2,8 @@ using Project.Hubs;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Project.Contents;
 using Project.Data;
+using Project.Repository;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -52,10 +52,10 @@ builder.Services.AddCors(options =>
 });
 
 // Dependency injection
-builder.Services.AddTransient<SubjectContents>();
-builder.Services.AddTransient<TopicContents>();
-builder.Services.AddTransient<UserContents>();
-builder.Services.AddTransient<CommentContents>();
+builder.Services.AddTransient<SubjectRepository>();
+builder.Services.AddTransient<TopicRepository>();
+builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<CommentRepository>();
 
 var app = builder.Build();
 

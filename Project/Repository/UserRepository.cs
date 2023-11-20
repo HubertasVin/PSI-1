@@ -3,16 +3,16 @@ using System.Text.RegularExpressions;
 using Project.Data;
 using Project.Models;
 
-namespace Project.Contents;
+namespace Project.Repository;
 
-public class UserContents : Contents<User>
+public class UserRepository : Repository<User>
 {
     public NoteBlendDbContext? NoteBlendContext => Context as NoteBlendDbContext;
     // private List<Topic> _topicList;
     // private string _filepath = "src/TopicData.json";
-    // private SubjectContents _subjectContents = new SubjectContents();
+    // private SubjectRepository _subjectContents = new SubjectRepository();
     
-    public UserContents(NoteBlendDbContext context) : base(context)
+    public UserRepository(NoteBlendDbContext context) : base(context)
     {
         
     }

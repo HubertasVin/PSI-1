@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Project.Contents;
 using Project.Models;
+using Project.Repository;
 
 namespace Project.Controllers;
 
@@ -9,21 +9,21 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class SubjectController : ControllerBase
 {
-    private readonly SubjectContents _subjectContents;
+    private readonly SubjectRepository _subjectRepository;
 
-    public SubjectController(SubjectContents subjectContents)
+    public SubjectController(SubjectRepository subjectRepository)
     {
-        _subjectContents = subjectContents;
+        _subjectRepository = subjectRepository;
     }
-    // public SubjectController(SubjectContents subjectContents)
+    // public SubjectController(SubjectRepository subjectRepository)
     // {
-    //     _subjectContents = subjectContents;
+    //     _subjectRepository = subjectRepository;
     // }
 
     [HttpGet("get/{id}")]
     public IActionResult GetSubject(string id)
     {
-        Subject? subject = _subjectContents.GetSubject(id);
+        Subject? subject = _subjectRepository.GetSubject(id);
         return subject == null
             ? NotFound(new { error = $"Subject with id {id} could not be found" })
             : Ok(subject);
@@ -32,7 +32,7 @@ public class SubjectController : ControllerBase
     [HttpGet("list")]
     public IActionResult ListSubjects()
     {
-        return Ok(_subjectContents.GetSubjectsList());
+        return Ok(_subjectRepository.GetSubjectsList());
     }
     
     [HttpPost("upload")]
@@ -41,7 +41,7 @@ public class SubjectController : ControllerBase
         // TODO pakeist kad siustu Subject objekta
         Console.WriteLine("In upload subject");
         // Console.WriteLine(request);
-        Subject? addedSubject = _subjectContents.CreateSubject(request);
+        Subject? addedSubject = _subjectRepository.CreateSubject(request);
         return addedSubject == null
             ? BadRequest("Invalid request body")
             : Ok(addedSubject);

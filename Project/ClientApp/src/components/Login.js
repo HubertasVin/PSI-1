@@ -1,14 +1,16 @@
 import React, {useState} from "react";
+import { useNavigate } from 'react-router-dom';
 import {useUserContext} from "../userContext";
 
 const Login = () => {
-    const {setUserEmail, setUserId, setUsername} = useUserContext();
+    const {setUserEmail, setUserId, setUsername, userEmail} = useUserContext();
     const [loginInputEmail, setLoginInputEmail] = useState("");
     const [loginInputPassword, setLoginInputPassword] = useState("");
     const [registerInputEmail, setRegisterInputEmail] = useState("");
     const [registerInputName, setRegisterInputName] = useState("");
     const [registerInputSurname, setRegisterInputSurname] = useState("");
     const [registerInputPassword, setRegisterInputPassword] = useState("");
+    const navigate = useNavigate();
 
     const requestBody = {
         userEmail: loginInputEmail,
@@ -42,14 +44,15 @@ const Login = () => {
                 "Content-Type": "application/json",
             },
         });
-        var userDataJson = await getUserDataResponse.json();
+        const userDataJson = await getUserDataResponse.json();
         localStorage.setItem("loginToken", loginToken);
         localStorage.setItem("username", userDataJson['name']);
         // localStorage.setItem("loginSurname", userDataJson['surname']);
         setUserEmail(loginInputEmail);
-        // setUserId(loginToken);
-        // setUsername(userDataJson['name']);
-
+        setUsername(userDataJson['name']);
+        
+        console.log("UserContext userEmail: ", userEmail);
+        navigate("/");
     };
 
     const handleRegister = async () => {

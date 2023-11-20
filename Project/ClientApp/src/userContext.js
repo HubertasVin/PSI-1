@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState } from 'react';
 
-export const UserContext = createContext(); // Add export here
+const UserContext = createContext();
 
 export const useUserContext = () => {
     return useContext(UserContext);
@@ -10,22 +10,6 @@ export const UserProvider = ({ children }) => {
     const [userEmail, setUserEmail] = useState('');
     const [username, setUsername] = useState('');
     const [userId, setUserId] = useState('');
-
-    useEffect(() => {
-        // Fetch user data using localStorage.getItem("loginToken")
-        // This could be an API call to get user information based on the login token
-
-        // Example API call:
-        fetch(`https://localhost:7015/user/get/${localStorage.getItem("loginToken")}`)
-        .then(response => response.json())
-        .then(data => {
-            setUsername(data.name); // Update user data obtained from the API
-            setUserEmail(data.email);
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-        });
-    }, []);
 
     return (
         <UserContext.Provider value={{ userId, setUserId, userEmail, setUserEmail, username, setUsername }}>

@@ -33,7 +33,7 @@ public class CommentController : ControllerBase
         return BadRequest("Error getting comments");
     }
     [HttpGet("getComment/{commentId}")]
-    public IActionResult GetCommentWithID(string commentId)
+    public IActionResult GetCommentWithId(string commentId)
     {
         try
         {

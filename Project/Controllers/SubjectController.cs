@@ -15,10 +15,6 @@ public class SubjectController : ControllerBase
     {
         _subjectRepository = subjectRepository;
     }
-    // public SubjectController(SubjectRepository subjectRepository)
-    // {
-    //     _subjectRepository = subjectRepository;
-    // }
 
     [HttpGet("get/{id}")]
     public IActionResult GetSubject(string id)
@@ -39,8 +35,6 @@ public class SubjectController : ControllerBase
     public IActionResult UploadSubject([FromBody] JsonElement request)
     {
         // TODO pakeist kad siustu Subject objekta
-        Console.WriteLine("In upload subject");
-        // Console.WriteLine(request);
         Subject? addedSubject = _subjectRepository.CreateSubject(request);
         return addedSubject == null
             ? BadRequest("Invalid request body")

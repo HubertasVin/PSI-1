@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Project.Chat;
-using static Project.Models.ChatModel;
 
 namespace Project.Hubs
 {

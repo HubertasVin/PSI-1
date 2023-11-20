@@ -229,11 +229,26 @@ export const Comment = ({show, onClose, topicId}) => {
         }
     };
 
-
+    const handleDelete = async (commentId) => {
+        try {
+            const response = await fetch(`https://localhost:7015/comment/delete/${commentId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setComments(comments => comments.filter(comment => comment.id !== commentId));
+            } else {
+                throw new Error('Failed to delete the comment');
+            }
+        } catch (error) {
+            console.error('Error deleting comment:', error);
+        }
+    };
+    
+    
     if (!show) {
         return null;
     }
-
+    
     return (
         <div className="comment-panel">
             <div className="comment-header">
@@ -246,6 +261,7 @@ export const Comment = ({show, onClose, topicId}) => {
                         <div className="comment-text-content">
                             {comment.text}
                         </div>
+                        <button onClick={() => handleDelete(comment.id)}>Delete</button>
                     </div>
                 ))}
             </div>

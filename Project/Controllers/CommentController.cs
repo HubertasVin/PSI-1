@@ -77,5 +77,24 @@ public class CommentController : ControllerBase
             return BadRequest("Error adding comment");
         }
     }
+    
+    [HttpDelete("delete/{commentId}")]
+    public IActionResult DeleteComment(string commentId)
+    {
+        try
+        {
+            bool result = _commentContents.Remove(commentId);
+            if (result)
+            {
+                return Ok("Comment deleted successfully");
+            }
+            return BadRequest("Failed to delete comment");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error deleting comment");
+            return BadRequest("Error deleting comment");
+        }
+    }
 
 }

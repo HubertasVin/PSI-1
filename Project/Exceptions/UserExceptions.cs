@@ -1,3 +1,5 @@
+namespace Project.Exceptions;
+
 public class UserLoginRegisterException : Exception
 {
     public new string Message { get; }

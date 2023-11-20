@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
+using Project.Exceptions;
 using Project.Models;
 
 namespace Project.Repository;

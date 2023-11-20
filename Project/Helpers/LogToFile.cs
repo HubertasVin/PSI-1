@@ -1,3 +1,5 @@
+namespace Project.Helpers;
+
 public class LogToFile
 {
     public static void LogException(Exception e)

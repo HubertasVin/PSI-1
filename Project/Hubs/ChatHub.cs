@@ -9,7 +9,7 @@ namespace Project.Hubs
         public async Task SendMessage(string topicId, string userId, string message)
         {
             Console.WriteLine("Sending to: " + topicId + " " + userId + " " + message);
-            await Clients.Group(topicId).SendAsync("ReceiveMessage", topicId, 123, message);
+            await Clients.Group(topicId).SendAsync("ReceiveMessage", topicId, userId, message);
         }
         
         public async Task JoinTopic(string topicId)

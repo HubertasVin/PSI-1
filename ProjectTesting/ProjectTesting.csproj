@@ -22,4 +22,12 @@
         </PackageReference>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="IntegrationTests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Project\Project.csproj" />
+    </ItemGroup>
+
 </Project>

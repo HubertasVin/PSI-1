@@ -8,9 +8,6 @@ namespace Project.Repository;
 public class UserRepository : Repository<User>
 {
     public NoteBlendDbContext? NoteBlendContext => Context as NoteBlendDbContext;
-    // private List<Topic> _topicList;
-    // private string _filepath = "src/TopicData.json";
-    // private SubjectRepository _subjectContents = new SubjectRepository();
     
     public UserRepository(NoteBlendDbContext context) : base(context)
     {

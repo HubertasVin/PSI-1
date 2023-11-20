@@ -31,8 +31,6 @@ public class TopicController : ControllerBase
     [HttpPost("upload")]
     public IActionResult UploadTopic([FromBody] JsonElement request)
     {
-        Console.WriteLine("In upload topic");
-        // Console.WriteLine(request);
         Topic? addedTopic = _topicRepository.CreateTopic(request);
         return addedTopic == null
             ? BadRequest("Invalid request body")

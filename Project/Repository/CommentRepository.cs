@@ -1,14 +1,13 @@
-﻿using System.Text.Json;
-using Project.Data;
+﻿using Project.Data;
 using Project.Models;
 
-namespace Project.Contents;
+namespace Project.Repository;
 
-public class CommentContents : Contents<Comment>
+public class CommentRepository : Repository<Comment>
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
-    public CommentContents(NoteBlendDbContext context) : base (context)
+    public CommentRepository(NoteBlendDbContext context) : base (context)
     {
     }
     
@@ -23,9 +22,9 @@ public class CommentContents : Contents<Comment>
             .Where(comment => comment.TopicId.Equals(topicId)).ToList();
     }
 
-    public bool Remove(string CommentId)
+    public bool Remove(string commentId)
     {
-        Comment comment = Get(CommentId);
+        Comment comment = Get(commentId);
         Remove(comment);
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0;

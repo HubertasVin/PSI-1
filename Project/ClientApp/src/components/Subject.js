@@ -49,7 +49,7 @@ export const Subject = () => {
     const handleAddSubject = async () => {
         if (newSubject) {
             const requestBody = {
-                subjectName: newSubject
+                name: newSubject
             };
             console.log(requestBody);
             const response = await fetch('https://localhost:7015/subject/upload', {

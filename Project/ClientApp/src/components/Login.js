@@ -13,8 +13,10 @@ const Login = () => {
     const navigate = useNavigate();
 
     const requestBody = {
-        userEmail: loginInputEmail,
-        userPassword: loginInputPassword,
+        name: "login",
+        surname: "login",
+        email: loginInputEmail,
+        password: loginInputPassword,
     };
 
     const handleLogin = async () => {
@@ -47,6 +49,7 @@ const Login = () => {
         const userDataJson = await getUserDataResponse.json();
         localStorage.setItem("loginToken", loginToken);
         localStorage.setItem("username", userDataJson['name']);
+        localStorage.setItem("userEmail", userDataJson['email']);
         // localStorage.setItem("loginSurname", userDataJson['surname']);
         setUserEmail(loginInputEmail);
         setUsername(userDataJson['name']);
@@ -67,10 +70,10 @@ const Login = () => {
         }
 
         const requestBody = {
-            userEmail: registerInputEmail,
-            userName: registerInputName,
-            userSurname: registerInputSurname,
-            userPassword: registerInputPassword,
+            name: registerInputName,
+            surname: registerInputSurname,
+            email: registerInputEmail,
+            password: registerInputPassword,
         };
         const response = await fetch("https://localhost:7015/user/register", {
             method: "POST",

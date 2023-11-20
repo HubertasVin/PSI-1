@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Project.Contents;
 using Project.Models;
+using Project.Repository;
 
 namespace Project.Controllers;
 
@@ -9,13 +9,13 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class CommentController : ControllerBase
 {
-    private readonly CommentContents _commentContents;
+    private readonly CommentRepository _commentRepository;
     private readonly ILogger<CommentController> _logger;
     
-    public CommentController(CommentContents commentContents, ILogger<CommentController> logger)
+    public CommentController(CommentRepository commentRepository, ILogger<CommentController> logger)
     {
         _logger = logger;
-        _commentContents = commentContents;
+        _commentRepository = commentRepository;
     }
     
     [HttpGet("get/{topicId}")]
@@ -23,7 +23,7 @@ public class CommentController : ControllerBase
     {
         try
         {
-            List<Comment> comments = _commentContents.GetAllComments(topicId);
+            List<Comment> comments = _commentRepository.GetAllComments(topicId);
             return Ok(comments);
         }
         catch (Exception e)
@@ -33,11 +33,11 @@ public class CommentController : ControllerBase
         return BadRequest("Error getting comments");
     }
     [HttpGet("getComment/{commentId}")]
-    public IActionResult GetCommentWithID(string commentId)
+    public IActionResult GetCommentWithId(string commentId)
     {
         try
         {
-            Comment? comment = _commentContents.GetCommentById(commentId);
+            Comment? comment = _commentRepository.GetCommentById(commentId);
             return Ok(comment);
         }
         catch (Exception e)
@@ -48,22 +48,11 @@ public class CommentController : ControllerBase
     }
     
     [HttpPost("add")]
-    public IActionResult AddComment([FromBody] JsonElement json)
+    public IActionResult AddComment([FromBody] Comment comment)
     {
-        string? message = json.GetProperty("message").GetString();
-        string? topicId = json.GetProperty("topicId").GetString();
-        string? userId = json.GetProperty("userId").GetString();
-        
-        if (message == null || topicId == null || userId == null)
-        {
-            return BadRequest("Invalid request body");
-        }
-
-        Comment comment = new Comment(userId, topicId, message);
-        _logger.LogInformation("Comment message: {comment}", json);
         try
         {
-            bool result = _commentContents.AddComment(comment);
+            bool result = _commentRepository.AddComment(comment);
             if (result)
             {
                 return Ok("Comment added successfully");

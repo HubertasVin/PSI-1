@@ -30,6 +30,18 @@ public class UserController : ControllerBase
         }
     }
     
+    [HttpGet("get-by-email/{email}")]
+    public IActionResult GetUserByEmail(string email)
+    {
+        try {
+            return Ok(_userContents.GetUserByEmail(email));
+        }
+        catch (UserNotFoundException e) {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+    }
+    
     [HttpGet("list")]
     public IActionResult ListUsers()
     {

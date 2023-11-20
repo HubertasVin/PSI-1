@@ -3,7 +3,7 @@ import {useUserContext} from "../userContext";
 import {HttpTransportType, HubConnectionBuilder, LogLevel} from "@microsoft/signalr";
 
 export const Comment = ({show, onClose, topicId}) => {
-    const {userID} = useUserContext();
+    const {userEmail} = useUserContext();
     const [comments, setComments] = useState([]);
     const [currentComment, setCurrentComment] = useState('');
     const [connection, setConnection] = useState(null);
@@ -77,6 +77,7 @@ export const Comment = ({show, onClose, topicId}) => {
     
     useEffect(() => {
         //fetching comments
+        // console.log("Current user email: " + userEmail);
         console.log("Fetching comments");
         fetch("https://localhost:7015/comment/get/" + topicId)
             .then(response => response.json())
@@ -172,30 +173,42 @@ export const Comment = ({show, onClose, topicId}) => {
         console.log("Sending message");
         if (connection) {
             console.log("Connection exists");
-            const commentId = Date.now();
-            const comment = {
-                userId: userID,
-                topicId: topicId,
-                message: currentComment,
-            };
+            console.log("Getting user info with email " + userEmail);
 
-            try {
-                console.error("Sending message: " + currentComment);
-                await connection.invoke("SendMessage", topicId, userID, currentComment);
-                await handleSaveComment(comment);
-                setCurrentComment('');
-            } catch (err) {
-                console.error("Unable to send message", err.toString());
-                setComments(prevComments => prevComments.filter(comment => comment.id !== commentId));
+            const response = await fetch("https://localhost:7015/user/get-by-email/" + userEmail);
+            if (response.ok) {
+                const data = await response.json();
+                const fetchedUserId = data.id;
+                console.log("User id: " + fetchedUserId);
+
+                const comment = {
+                    userId: fetchedUserId,
+                    topicId: topicId,
+                    message: currentComment,
+                };
+
+                try {
+                    console.error("Sending message: " + currentComment);
+                    await connection.invoke("SendMessage", topicId, fetchedUserId, currentComment);
+                    await handleSaveComment(comment);
+                    setCurrentComment('');
+                } catch (err) {
+                    console.error("Unable to send message", err.toString());
+                    // Handle the error appropriately
+                }
+            } else {
+                console.error("Failed to fetch user data");
+                // Handle the error appropriately
             }
         }
     };
+
 
     const handleSaveComment = async (comment) => {
         try {
             const requestBody = {
                 message: comment.message,
-                userId: "123",
+                userId: comment.userId,
                 topicId: comment.topicId
             };
             console.warn("Saving comment: " + comment.userId + " " + comment.topicId + " " + comment.message)

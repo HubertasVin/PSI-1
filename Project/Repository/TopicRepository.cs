@@ -1,18 +1,14 @@
 ﻿using System.Text.Json;
-using Project.Chat;
 using Project.Data;
 using Project.Models;
 
-namespace Project.Contents;
+namespace Project.Repository;
 
-public class TopicContents : Contents<Topic>
+public class TopicRepository : Repository<Topic>
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
-    // private List<Topic> _topicList;
-    // private string _filepath = "src/TopicData.json";
-    // private SubjectContents _subjectContents = new SubjectContents();
     
-    public TopicContents(NoteBlendDbContext context) : base(context)
+    public TopicRepository(NoteBlendDbContext context) : base(context)
     {
         
     }
@@ -31,9 +27,6 @@ public class TopicContents : Contents<Topic>
         string? topicName = topicNameProperty.GetString();
         string? subjectId = subjectIdProperty.GetString();
         
-        Console.WriteLine("Topic name: " + topicName);
-        Console.WriteLine("Subject ID: " + subjectId);
-        
         Subject? subject = NoteBlendContext.Subjects.Find(subjectId);
         
         Console.WriteLine($"Creating new topic named: {topicName}");
@@ -41,7 +34,6 @@ public class TopicContents : Contents<Topic>
         Topic newTopic = new Topic(topicName, subject);
         Add(newTopic);
         int changes = NoteBlendContext.SaveChanges();
-        // JSONParser.WriteToJSON(_filepath, _topicList);
         return changes > 0 ? newTopic : null;
     }
 }

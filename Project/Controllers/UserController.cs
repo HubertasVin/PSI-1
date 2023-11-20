@@ -1,7 +1,8 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
-using Project.Contents;
+using Project.Exceptions;
 using Project.Models;
+using Project.Repository;
 
 namespace Project.Controllers;
 
@@ -9,12 +10,12 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly UserContents _userContents;
+    private readonly UserRepository _userRepository;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(UserContents userContents, ILogger<UserController> logger)
+    public UserController(UserRepository userRepository, ILogger<UserController> logger)
     {
-        _userContents = userContents;
+        _userRepository = userRepository;
         _logger = logger;
     }
     
@@ -22,7 +23,7 @@ public class UserController : ControllerBase
     public IActionResult GetUserName(string id)
     {
         try {
-            return Ok(_userContents.Get(id));
+            return Ok(_userRepository.Get(id));
         }
         catch (UserNotFoundException e) {
             _logger.LogError(e, e.Message);
@@ -34,7 +35,7 @@ public class UserController : ControllerBase
     public IActionResult GetUserByEmail(string email)
     {
         try {
-            return Ok(_userContents.GetUserByEmail(email));
+            return Ok(_userRepository.GetUserByEmail(email));
         }
         catch (UserNotFoundException e) {
             _logger.LogError(e, e.Message);
@@ -45,31 +46,30 @@ public class UserController : ControllerBase
     [HttpGet("list")]
     public IActionResult ListUsers()
     {
-        return Ok(_userContents.GetUserList());
+        return Ok(_userRepository.GetUserList());
     }
 
     [HttpPost("register")]
-    public IActionResult UploadTopic([FromBody] JsonElement request)
+    public IActionResult UploadTopic([FromBody] User newUser)
     {
         try {
-            return Ok(_userContents.CreateUser(request));
+            return Ok(_userRepository.CreateUser(newUser));
         }
         catch (UserLoginRegisterException e) {
-            Console.WriteLine(e);
-            LogToFile.LogException(e);
+            _logger.LogError("Error occured when creating a new user", e);
             return BadRequest(e.Message);
         }
     }
 
     [HttpPost("login")]
-    public IActionResult Login([FromBody] JsonElement request)
+    public IActionResult Login([FromBody] User existingUser)
     {
-        try {
-            return Ok(_userContents.CheckLogin(request));
+        try
+        {
+            return Ok(_userRepository.CheckLogin(existingUser));
         }
         catch (UserLoginRegisterException e) {
-            Console.WriteLine(e);
-            LogToFile.LogException(e);
+            _logger.LogError("Error occured when checking credentials", e);
             return BadRequest(e.Message);
         }
     }

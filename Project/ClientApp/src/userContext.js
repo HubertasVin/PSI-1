@@ -9,7 +9,7 @@ export const useUserContext = () => {
 export const UserProvider = ({ children }) => {
     const [userEmail, setUserEmail] = useState('');
     const [username, setUsername] = useState('');
-    const [userID, setUserID] = useState('');
+    const [userId, setUserId] = useState('');
 
     useEffect(() => {
         // Fetch user data using localStorage.getItem("loginToken")
@@ -28,7 +28,7 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ userID, setUserID, userEmail, setUserEmail, username, setUsername }}>
+        <UserContext.Provider value={{ userId, setUserId, userEmail, setUserEmail, username, setUsername }}>
             {children}
         </UserContext.Provider>
     );

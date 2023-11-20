@@ -58,11 +58,6 @@ public class UserRepository : Repository<User>
         return changes > 0 ? newUser : null;
     }
 
-    private string? IsEmailTaken(object userEmail)
-    {
-        throw new NotImplementedException();
-    }
-
     private static bool IsEmailValid(string userEmail)
     {
         Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");

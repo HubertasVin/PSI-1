@@ -55,8 +55,7 @@ public class UserController : ControllerBase
             return Ok(_userRepository.CreateUser(request));
         }
         catch (UserLoginRegisterException e) {
-            Console.WriteLine(e);
-            LogToFile.LogException(e);
+            _logger.LogError("Error occured when creating a new user", e);
             return BadRequest(e.Message);
         }
     }
@@ -68,8 +67,7 @@ public class UserController : ControllerBase
             return Ok(_userRepository.CheckLogin(request));
         }
         catch (UserLoginRegisterException e) {
-            Console.WriteLine(e);
-            LogToFile.LogException(e);
+            _logger.LogError("Error occured when checking credentials", e);
             return BadRequest(e.Message);
         }
     }

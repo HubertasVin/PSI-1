@@ -74,7 +74,7 @@ export const NavMenu = () => {
                             )}
                         </NavItem>
                         <NavItem>
-                            <p className="welcome-msg">Welcome, {username ? username : "Guest"}!</p>
+                            <p className="welcome-msg">Welcome, {localStorage.getItem("username") ? localStorage.getItem("username") : "Guest"}!</p>
                         </NavItem>
                     </ul>
                 </Collapse>

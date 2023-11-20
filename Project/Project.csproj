@@ -92,6 +92,7 @@
     <_ContentIncludedByDefault Remove="src\data.json" />
     <_ContentIncludedByDefault Remove="src\SignalRData.json" />
     <_ContentIncludedByDefault Remove="src\SubjectData.json" />
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 
 </Project>

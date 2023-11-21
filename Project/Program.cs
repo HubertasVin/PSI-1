@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Repository;
+using Project.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,11 +38,14 @@ builder.Services.AddCors(options =>
     );
 });
 
-// Dependency injection
+// Dependency injection for repositories
 builder.Services.AddTransient<SubjectRepository>();
 builder.Services.AddTransient<TopicRepository>();
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<CommentRepository>();
+
+// Dependency injection for services
+builder.Services.AddTransient<ChatService>();
 
 var app = builder.Build();
 

@@ -1,23 +1,30 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Project.Models;
+using Project.Services;
 
 namespace Project.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string messageId, string topicId, string userId, string message)
+        private readonly ChatService _chatService;
+
+        public ChatHub(ChatService chatService)
         {
+            _chatService = chatService;
+        }
+        
+        public async Task SendMessage(string topicId, string userId, string message)
+        {
+            Comment? newComment = _chatService.SaveCommentToDb(userId, topicId, message);
+            if (newComment != null)
+            {
+                await Clients.Group(topicId).SendAsync("ReceiveMessage", newComment.id, topicId, userId, message);
+            }
             Console.WriteLine("Sending to: " + topicId + " " + userId + " " + message);
-            await Clients.Group(topicId).SendAsync("ReceiveMessage", messageId, topicId, userId, message);
         }
 
         public async Task DeleteMessage(string messageId, string topicId)
         {
-            await Clients.Group(topicId).SendAsync("DeleteMessage", messageId);
-        }
-        
-        public async Task DeleteMessage(string topicId, string messageId)
-        {
-            Console.WriteLine("Deleting message: " + messageId + "in topic:" + topicId);
             await Clients.Group(topicId).SendAsync("DeleteMessage", messageId);
         }
         

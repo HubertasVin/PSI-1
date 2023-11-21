@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace ProjectTesting.Tests
+namespace ProjectTesting.UnitTests
 {
     public class TopicRepositoryUnitTests
     {

@@ -9,7 +9,7 @@ using Project.Models;
 using Project.Repository;
 using Xunit;
 
-namespace ProjectTesting.Tests
+namespace ProjectTesting.UnitTests
 {
     public class UserRepositoryUnitTests
     {

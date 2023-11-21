@@ -5,7 +5,7 @@ using Project.Models;
 using Project.Repository;
 using Xunit;
 
-namespace ProjectTesting;
+namespace ProjectTesting.UnitTests;
 
 public class SubjectRepositoryUnitTests
 {
@@ -23,7 +23,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void I_GetSubjectList_IsEmpty_ReturnEmpty() //Sitas testas, kai leidi visus testus failina, bet kai leidi tik sita testa atskirai, tai passina lol what
+    public void GetSubjectList_IsEmpty_ReturnEmpty() //Sitas testas, kai leidi visus testus failina, bet kai leidi tik sita testa atskirai, tai passina lol what
     {
         // Arrange
         
@@ -35,7 +35,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void II_CreateSubject_InvalidSubject_ReturnsNull()
+    public void CreateSubject_InvalidSubject_ReturnsNull()
     {
         // Arrange
         var invalidSubject = new Subject(null); // invalid name
@@ -48,7 +48,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void III_CreateSubject_ValidSubject_ReturnsCreatedSubject()
+    public void CreateSubject_ValidSubject_ReturnsCreatedSubject()
     {
         // Arrange
         var newSubject = new Subject("Math");
@@ -63,7 +63,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void IV_GetSubjectList_NotEmpty_ReturnsNonEmptyList()
+    public void GetSubjectList_NotEmpty_ReturnsNonEmptyList()
     {
         // Arrange
         _subjectRepository.CreateSubject(new Subject("History"));
@@ -76,7 +76,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void V_GetSubject_ExistingId_ReturnsSubject()
+    public void GetSubject_ExistingId_ReturnsSubject()
     {
         // Arrange
         var newSubject = new Subject("Physics");

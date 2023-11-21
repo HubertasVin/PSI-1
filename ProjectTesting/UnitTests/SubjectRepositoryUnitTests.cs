@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Models;
@@ -22,7 +23,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void GetSubjectList_IsEmpty_ReturnEmpty() //Sitas testas, kai leidi visus testus failina, bet kai leidi tik sita testa atskirai, tai passina lol what
+    public void I_GetSubjectList_IsEmpty_ReturnEmpty() //Sitas testas, kai leidi visus testus failina, bet kai leidi tik sita testa atskirai, tai passina lol what
     {
         // Arrange
         
@@ -34,7 +35,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void CreateSubject_InvalidSubject_ReturnsNull()
+    public void II_CreateSubject_InvalidSubject_ReturnsNull()
     {
         // Arrange
         var invalidSubject = new Subject(null); // invalid name
@@ -47,7 +48,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void CreateSubject_ValidSubject_ReturnsCreatedSubject()
+    public void III_CreateSubject_ValidSubject_ReturnsCreatedSubject()
     {
         // Arrange
         var newSubject = new Subject("Math");
@@ -62,7 +63,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void GetSubjectList_NotEmpty_ReturnsNonEmptyList()
+    public void IV_GetSubjectList_NotEmpty_ReturnsNonEmptyList()
     {
         // Arrange
         _subjectRepository.CreateSubject(new Subject("History"));
@@ -75,7 +76,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void GetSubject_ExistingId_ReturnsSubject()
+    public void V_GetSubject_ExistingId_ReturnsSubject()
     {
         // Arrange
         var newSubject = new Subject("Physics");

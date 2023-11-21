@@ -15,7 +15,7 @@ public class TopicRepository : Repository<Topic>
     
     public List<Topic> GetTopicsList(string subjectId)
     {
-        return NoteBlendContext.Topics.Select(topic => topic).Where(topic => topic.Subject.id == subjectId).ToList();
+        return Find(topic => topic.Subject.id == subjectId).ToList();
     }
 
     public Topic? CreateTopic(JsonElement req)

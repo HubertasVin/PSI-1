@@ -17,9 +17,7 @@ public class CommentRepository : Repository<Comment>
     }
     public List<Comment> GetAllComments(string topicId)
     {
-        return NoteBlendContext.Comments
-            .Select(comment => comment)
-            .Where(comment => comment.TopicId.Equals(topicId)).ToList();
+        return Find(comment => comment.TopicId.Equals(topicId)).ToList();
     }
 
     public bool Remove(string commentId)

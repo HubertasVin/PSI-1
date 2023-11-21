@@ -14,17 +14,46 @@ namespace ProjectTesting.Tests
     public class UserRepositoryUnitTests
     {
         
+        private readonly NoteBlendDbContext _context;
+        private readonly UserRepository _userRepository;
+        private readonly DbContextOptions<NoteBlendDbContext> _options;
+    
+        public UserRepositoryUnitTests()
+        {
+            _options = new DbContextOptionsBuilder<NoteBlendDbContext>()
+                .UseInMemoryDatabase(databaseName: "UserDB")
+                .Options;
+            _context = new NoteBlendDbContext(_options);
+            _userRepository = new UserRepository(_context);
+            
+            //adding user for first test
+            var user = new User("Johnny", "Bonnie", "test@testing.com", "password");
+            _context.Users.Add(user);
+            _context.SaveChanges();
+        }
+        
+        [Fact]
+        public void CreateUser_ValidUser_ReturnsCreatedUser()
+        {
+            // Arrange
+            var newUser = new User("John", "Doe", "newuser@example.com", "password123");
+
+            // Act
+            var result = _userRepository.CreateUser(newUser);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.Equal(newUser.Email, result?.Email);
+        }
         
         [Fact]   ////CIA BISKI KAZKA BANDZIAU, BET JEI TIE TESTAI FAILINA NE DEL KODO O DEL MANO KLAIDOS TAI SORRY BISKI NZN KA DARAU
         public void GetUserByEmail_ValidEmail_ReturnsUser()
         {
             // Arrange
-            var userEmail = "test@example.com";
-            var mockContext = GetMockContext();
-            var userRepository = new UserRepository(mockContext.Object);
+            var userEmail = "test@testing.com";
 
             // Act
-            var result = userRepository.GetUserByEmail(userEmail);
+            var result = _userRepository.GetUserByEmail(userEmail);
 
             // Assert
             Assert.NotNull(result);
@@ -36,46 +65,12 @@ namespace ProjectTesting.Tests
         {
             // Arrange
             var userEmail = "nonexistent@example.com";
-            var mockContext = GetMockContext();
-            var userRepository = new UserRepository(mockContext.Object);
 
             // Act
-            var result = userRepository.GetUserByEmail(userEmail);
+            var result = _userRepository.GetUserByEmail(userEmail);
 
             // Assert
             Assert.Null(result);
-        }
-
-        [Fact]
-        public void CreateUser_ValidUser_ReturnsCreatedUser()
-        {
-            // Arrange
-            var newUser = new User("John", "Doe", "newuser@example.com", "password123");
-            var mockContext = GetMockContext();
-            var userRepository = new UserRepository(mockContext.Object);
-
-            // Act
-            var result = userRepository.CreateUser(newUser);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(newUser.Email, result?.Email);
-        }
-
-        // Helper method to create a mock DbContext
-        private static Mock<NoteBlendDbContext> GetMockContext()
-        {
-            // Use the DbContextOptionsBuilder to create an in-memory database
-            var options = new DbContextOptionsBuilder<NoteBlendDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-
-            // Create a mock DbContext
-            var mockContext = new Mock<NoteBlendDbContext>(options);
-
-            // Setup any specific DbSet interactions if needed...
-
-            return mockContext;
         }
     }
 }

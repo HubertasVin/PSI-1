@@ -60,8 +60,6 @@ namespace ProjectTesting.Tests
             Assert.Equal(newUser.Email, result?.Email);
         }
 
-        // Add more test cases as needed...
-
         // Helper method to create a mock DbContext
         private static Mock<NoteBlendDbContext> GetMockContext()
         {

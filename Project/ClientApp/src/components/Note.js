@@ -10,6 +10,8 @@ export const Note = () => {
   const [fileInput, setFileInput] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
+  const [conspects, setConspects] = useState([]);
  
   const onFileChange = (event) => {
     setFileInput(event.target.files[0]);
@@ -35,7 +37,7 @@ export const Note = () => {
         method: "POST",
         body: formData, // Use FormData instead of JSON.stringify
       });
- 
+
       if (response.ok) {
         setUploadStatus("Upload successful");
         setUploadSuccess(true);
@@ -47,6 +49,28 @@ export const Note = () => {
     } catch (e) {
       console.error(e);
       setUploadStatus(`Upload failed ${e}.`);
+    }
+
+    const conspectFile = await fetch("https://localhost:7015/conspect/get-conspect-file/442eaef0-80c7-4656-b6a1-ec3392b38fa7/0");
+    if (conspectFile.ok) {
+      const fileBlob = await conspectFile.blob();
+      setFileUrl(URL.createObjectURL(fileBlob));
+    } else {
+      console.error('Failed to fetch file:', conspectFile.status, conspectFile.statusText);
+    }
+  };
+
+  const fetchConspects = async () => {
+    try {
+      const response = await fetch('https://localhost:7015/conspect/get-conspects-list-by-id/' + topicId);
+      if (response.ok) {
+        const data = await response.json();
+        setConspects(data);
+      } else {
+        console.error('Failed to fetch conspects:', response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
  
@@ -60,6 +84,8 @@ export const Note = () => {
     } catch (e) {
       console.log(e);
     }
+
+    fetchConspects();
   }, []);
  
   const OpenedComments = () => {
@@ -77,7 +103,7 @@ export const Note = () => {
       <h1>{topicName}</h1>
       <div
         className="upload-conspect-panel"
-        style={{ display: "inline-block" }}
+        style={{ display: "inline-block", width: "100%" }}
       >
         <input
           id="file-input"
@@ -92,6 +118,19 @@ export const Note = () => {
         <p style={{ color: uploadSuccess ? "green" : "red" }}>
           {uploadStatus}
         </p>
+        <p>
+          Available conspects:
+          <ul>
+            {conspects.map((conspect) => (
+              <li key={conspect.topicId}>
+                <a href={`https://localhost:7015/conspect/get-conspect-file/${conspect.topicId}/${conspect.index}`}>
+                  test
+                </a>
+              </li>
+            ))}
+          </ul>
+        </p>
+        {fileUrl && <embed src={fileUrl} type="application/pdf" width="100%" height="600px" />}
       </div>
       <div className="comment-panel">
         <button onClick={() => setShowComments(true)}>Comments</button>

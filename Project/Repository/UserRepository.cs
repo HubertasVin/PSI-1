@@ -50,8 +50,8 @@ public class UserRepository : Repository<User>
     {
         if (newUser.Email != null && !IsEmailTaken(newUser.Email))
             throw new UserLoginRegisterException("Email already exists");
-        // if (newUser.Email != null && !IsEmailValid(newUser.Email))
-        //     throw new UserLoginRegisterException("Email is not valid");
+        if (newUser.Email != null && !IsEmailValid(newUser.Email))
+            throw new UserLoginRegisterException("Email is not valid");
 
         Add(newUser);
         int changes = NoteBlendContext.SaveChanges();

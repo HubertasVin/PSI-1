@@ -72,6 +72,7 @@ public class CommentController : ControllerBase
     {
         try
         {
+            
             bool result = _commentRepository.Remove(commentId);
             if (result)
             {

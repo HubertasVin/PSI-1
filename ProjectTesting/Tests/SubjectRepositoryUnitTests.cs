@@ -22,7 +22,7 @@ public class SubjectRepositoryUnitTests
     }
 
     [Fact]
-    public void GetSubjectList_IsEmpty_ReturnEmpty()
+    public void GetSubjectList_IsEmpty_ReturnEmpty() //Sitas testas, kai leidi visus testus failina, bet kai leidi tik sita testa atskirai, tai passina lol what
     {
         // Arrange
         

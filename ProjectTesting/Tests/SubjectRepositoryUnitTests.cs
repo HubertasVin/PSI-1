@@ -32,77 +32,45 @@ public class SubjectRepositoryUnitTests
         // Assert
         Assert.Empty(subjectList);
     }
-    
-    /*
 
     [Fact]
-    public void GetSubjectList_NotEmpty_ReturnListWithSubjects()
+    public void CreateSubject_InvalidSubject_ReturnsNull()
     {
         // Arrange
-        var subject = new Subject { Id = "1", Name = "Math" };
-        _context.Subjects.Add(subject);
-        _context.SaveChanges();
+        var invalidSubject = new Subject(null); // invalid name
 
         // Act
-        List<Subject> subjectList = _subjectRepository.GetSubjectsList();
+        var createdSubject = _subjectRepository.CreateSubject(invalidSubject);
 
         // Assert
-        Assert.NotEmpty(subjectList);
-        Assert.Contains(subject, subjectList);
-    }
-
-    [Fact]
-    public void GetSubject_ExistingId_ReturnsSubject()
-    {
-        // Arrange
-        var subject = new Subject { Id = "1", Name = "Physics" };
-        _context.Subjects.Add(subject);
-        _context.SaveChanges();
-
-        // Act
-        Subject retrievedSubject = _subjectRepository.GetSubject("1");
-
-        // Assert
-        Assert.NotNull(retrievedSubject);
-        Assert.Equal(subject, retrievedSubject);
-    }
-
-    [Fact]
-    public void GetSubject_NonExistingId_ReturnsNull()
-    {
-        // Arrange
-
-        // Act
-        Subject retrievedSubject = _subjectRepository.GetSubject("nonexistentId");
-
-        // Assert
-        Assert.Null(retrievedSubject);
+        Assert.Null(createdSubject);
     }
 
     [Fact]
     public void CreateSubject_ValidSubject_ReturnsCreatedSubject()
     {
         // Arrange
-        var newSubject = new Subject { Id = "2", Name = "History" };
+        var newSubject = new Subject("Math");
 
         // Act
-        Subject createdSubject = _subjectRepository.CreateSubject(newSubject);
+        var createdSubject = _subjectRepository.CreateSubject(newSubject);
 
         // Assert
         Assert.NotNull(createdSubject);
-        Assert.Equal(newSubject, createdSubject);
+        Assert.Equal(newSubject.Name, createdSubject.Name);
+        Assert.NotEmpty(createdSubject.id);
     }
 
     [Fact]
-    public void CreateSubject_InvalidSubject_ReturnsNull()
+    public void GetSubjectList_NotEmpty_ReturnsNonEmptyList()
     {
         // Arrange
-        var invalidSubject = new Subject(); // This subject is invalid as it lacks required properties.
+        _subjectRepository.CreateSubject(new Subject("History"));
 
         // Act
-        Subject createdSubject = _subjectRepository.CreateSubject(invalidSubject);
+        var subjectList = _subjectRepository.GetSubjectsList();
 
         // Assert
-        Assert.Null(createdSubject);
-    }*/
+        Assert.NotEmpty(subjectList);
+    }
 }

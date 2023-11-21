@@ -167,7 +167,9 @@ export const Comment = ({show, onClose, topicId}) => {
                 method: 'DELETE',
             });
             if (response.ok) {
-                setComments(comments => comments.filter(comment => comment.id !== commentId));
+                if (connection) {
+                    await connection.invoke("DeleteMessage", topicId, commentId);
+                }
             } else {
                 throw new Error('Failed to delete the comment');
             }

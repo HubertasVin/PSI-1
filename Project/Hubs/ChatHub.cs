@@ -10,6 +10,12 @@ namespace Project.Hubs
             await Clients.Group(topicId).SendAsync("ReceiveMessage", topicId, userId, message);
         }
         
+        public async Task DeleteMessage(string topicId, string messageId)
+        {
+            Console.WriteLine("Deleting message: " + messageId + "in topic:" + topicId);
+            await Clients.Group(topicId).SendAsync("DeleteMessage", messageId);
+        }
+        
         public async Task JoinTopic(string topicId)
         {
             Console.WriteLine("Joining topic: " + topicId);

@@ -96,4 +96,8 @@
     <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="ProjectTesting" />
+  </ItemGroup>
+
 </Project>

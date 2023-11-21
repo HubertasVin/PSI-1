@@ -73,4 +73,19 @@ public class SubjectRepositoryUnitTests
         // Assert
         Assert.NotEmpty(subjectList);
     }
+
+    [Fact]
+    public void GetSubject_ExistingId_ReturnsSubject()
+    {
+        // Arrange
+        var newSubject = new Subject("Physics");
+        _subjectRepository.CreateSubject(newSubject);
+
+        // Act
+        var retrievedSubject = _subjectRepository.GetSubject(newSubject.id);
+
+        // Assert
+        Assert.NotNull(retrievedSubject);
+        Assert.Equal(newSubject.Name, retrievedSubject.Name);
+    }
 }

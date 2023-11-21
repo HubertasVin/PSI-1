@@ -73,6 +73,14 @@ export const Note = () => {
       console.error('Error:', error);
     }
   };
+
+  function fetchConspect(topicId, index) {
+    fetch(`https://localhost:7015/conspect/get-conspect-file/${topicId}/${index}`)
+      .then((response) => response.blob())
+      .then((blob) => {
+        setFileUrl(URL.createObjectURL(blob));
+      });
+  }
  
   useEffect(() => {
     try {
@@ -123,9 +131,8 @@ export const Note = () => {
           <ul>
             {conspects.map((conspect) => (
               <li key={conspect.topicId}>
-                <a href={`https://localhost:7015/conspect/get-conspect-file/${conspect.topicId}/${conspect.index}`}>
-                  test
-                </a>
+                <p style={{ display: "inline" }}>{conspect.title} </p>
+                <button onClick={() => fetchConspect(conspect.topicId, conspect.index)}>Open</button>
               </li>
             ))}
           </ul>

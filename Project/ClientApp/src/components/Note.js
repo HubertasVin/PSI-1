@@ -50,14 +50,6 @@ export const Note = () => {
       console.error(e);
       setUploadStatus(`Upload failed ${e}.`);
     }
-
-    const conspectFile = await fetch("https://localhost:7015/conspect/get-conspect-file/442eaef0-80c7-4656-b6a1-ec3392b38fa7/0");
-    if (conspectFile.ok) {
-      const fileBlob = await conspectFile.blob();
-      setFileUrl(URL.createObjectURL(fileBlob));
-    } else {
-      console.error('Failed to fetch file:', conspectFile.status, conspectFile.statusText);
-    }
   };
 
   const fetchConspects = async () => {

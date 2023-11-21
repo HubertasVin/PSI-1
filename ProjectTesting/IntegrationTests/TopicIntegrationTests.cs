@@ -50,6 +50,28 @@ public class TopicIntegrationTests : IDisposable
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         Assert.Empty(data!);
     }
+
+    [Fact]
+    public async Task GetTopicById_ValidId_ReturnsOk()
+    {
+        // Arrange
+        var responseSubjects = await _client.GetAsync("/Subject/list");
+        var responseStringSubjects = await responseSubjects.Content.ReadAsStringAsync();
+        var listOfSubjects = JsonConvert.DeserializeObject<List<Subject>>(responseStringSubjects);
+        
+        var responseTopics = await _client.GetAsync($"/Topic/list/{listOfSubjects[0].id}");
+        var responseStringTopics = await responseTopics.Content.ReadAsStringAsync();
+        var listOfTopics = JsonConvert.DeserializeObject<List<Topic>>(responseStringTopics);
+        
+        // Act
+        var response = await _client.GetAsync($"/Topic/get/{listOfTopics[0].id}");
+        var responseString = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<Topic>(responseString);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("Algebra", data?.Name);
+    }
     
     [Fact]
     public async Task GetTopicById_InvalidId_ReturnsNotFound()

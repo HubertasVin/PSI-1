@@ -9,11 +9,6 @@ namespace Project.Hubs
             Console.WriteLine("Sending to: " + topicId + " " + userId + " " + message);
             await Clients.Group(topicId).SendAsync("ReceiveMessage", messageId, topicId, userId, message);
         }
-
-        public async Task DeleteMessage(string messageId, string topicId)
-        {
-            await Clients.Group(topicId).SendAsync("DeleteMessage", messageId);
-        }
         
         public async Task DeleteMessage(string topicId, string messageId)
         {

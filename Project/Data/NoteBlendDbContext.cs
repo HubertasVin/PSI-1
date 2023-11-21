@@ -10,6 +10,7 @@ public class NoteBlendDbContext : DbContext
     public DbSet<Note> Notes { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<Comment> Comments { get; set; }
+    public DbSet<Conspect> Conspects { get; set; }
     
     public NoteBlendDbContext(DbContextOptions<NoteBlendDbContext> options) : base(options)
     {

@@ -33,5 +33,10 @@ namespace Project.Hubs
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, topicId);
         }
+        
+        public async Task DeleteMessage(string messageId, string topicId)
+        {
+            await Clients.Group(topicId).SendAsync("DeleteMessage", messageId);
+        }
     }
 }

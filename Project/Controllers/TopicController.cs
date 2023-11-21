@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Project.Exceptions;
 using Project.Models;
 using Project.Repository;
 
@@ -10,16 +11,32 @@ namespace Project.Controllers;
 public class TopicController : ControllerBase
 {
     private readonly TopicRepository _topicRepository;
+    private readonly ILogger<TopicController> _logger;
 
-    public TopicController(TopicRepository topicRepository)
+    public TopicController(TopicRepository topicRepository, ILogger<TopicController> logger)
     {
         _topicRepository = topicRepository;
+        _logger = logger;
     }
     
     [HttpGet("get/{id}")]
     public IActionResult GetTopic(string id)
     {
-        return Ok(_topicRepository.Get(id));
+        try
+        {
+            return Ok(_topicRepository.Get(id));
+        }
+        catch (ObjectNotFoundException)
+        {
+            _logger.LogWarning("Topic with id {id} could not be found", id);
+            return NotFound("Topic not found");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while getting topic with id {id}", id);
+            return BadRequest("Topic not found");
+        }
+        
     }
     
     [HttpGet("list/{subjectId}")]

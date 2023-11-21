@@ -18,7 +18,7 @@ public class Repository<T>
 
     public T? Get(string id)
     {
-        return Context.Set<T>().Find(id) ?? throw new UserNotFoundException("User not found");
+        return Context.Set<T>().Find(id) ?? throw new ObjectNotFoundException("Object not found");
     }
 
     public List<T> GetAll()

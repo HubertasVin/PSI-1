@@ -1,8 +1,0 @@
-{
-"SpaProxyServer": {
-"ServerUrl": "https://localhost:44465",
-"LaunchCommand": "npm start",
-"WorkingDirectory": "C:\\Users\\vytna\\Universitetas\\II.I\\PSI\\PSI-1\\PSI-1\\Project\\ClientApp\\",
-"MaxTimeoutInSeconds": "120"
-}
-}

@@ -23,12 +23,12 @@ export const Comment = ({show, onClose, topicId}) => {
             .withAutomaticReconnect()
             .build();
 
-        newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
+        newConnection.on("ReceiveMessage", (messageId, topicId, senderId, messageContent) => {
             console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
             setComments(prevComments => {
                 console.warn("Doing magic with comments")
                 console.warn("Received messageContent: " + messageContent)
-                return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
+                return [...prevComments, {id: messageId, userId: senderId, text: messageContent, isReal: true}];
             });
             setPrevComments(comments);
             // return prevComments.map(comment => {
@@ -95,79 +95,6 @@ export const Comment = ({show, onClose, topicId}) => {
                 setPrevComments(commentData);
             });
     }, []);
-    /*     useEffect(() => {
-             const initConnection = async () => {
-                 console.log("Creating connection")
-                 const newConnection = new HubConnectionBuilder()
-                    .withUrl("https://localhost:7015/chatHub", {
-                        skipNegotiation: true,
-                         transport: HttpTransportType.WebSockets/             })
-                     .configureLogging(LogLevel.Information)
-                    .withAutomaticReconnect()
-                     .build();
-        
-                newConnection.on("ReceiveMessage", (topicId, senderId, messageContent) => {
-        console.log("Received: topicId: " + topicId + " senderId: " + senderId + " messageContent: " + messageContent)
-                    setComments(prevComments => {
-                       console.warn("Doing magic with comments")
-        console.warn("Received messageContent: " + messageContent)
-                         return [...prevComments, {id: Date.now(), userId: senderId, text: messageContent, isReal: true}];
-                     });
-                     setPrevComments(comments);
-                         // return prevComments.map(comment => {
-                             // console.warn("Doing magic with comments")
-                            // console.warn("Received messageContent: " + messageContent)
-                            // return { ...comment, id: comment.id, isReal: true };
-                             // return comment;
-                        // });
-        
-                    console.warn(comments)
-                 });
-        
-                 newConnection.on("DeleteMessage", (messageId) => {
-                     setComments(prevComments => {
-                         return prevComments.filter(comment => comment.id !== messageId);
-                    });
-                 });
-               
-                // newConnection.stop()
-                console.log("Starting connection")
-                newConnection.start()
-                    .then(() => {
-                        console.log("Connection started");
-                       console.log(topicId);
-                         newConnection.invoke("JoinTopic", topicId);
-                        setConnection(newConnection);
-                    })
-                     .catch(err => console.error("Connection failed", err.toString()));
-        
-                 // TODO need to fetch all comments for the topic
-            }
-        
-           // console.log("Show state near if: " + show)
-           // console.log("Connection state near IF: " + connection)
-            
-           if (show && (connection === undefined || connection?.state !== "Connected")) {
-               initConnection()
-                   .then(newConnection => {
-                       setConnection(newConnection);
-                    })
-                     .catch(err => console.error("Connection failed", err.toString()));
-             }
-            // console.log("Connection after IF: " + connection)
-        
-           return() => {
-               if (connection) {
-                    connection.stop()
-                        .then(() => {
-                           console.log("Connection has been stopped");
-                            setConnection(null);
-                        })
-                        .catch(err => console.error("Unable to stop connection", err.toString()));
-                 }
-             };
-         }, [show, connection, topicId]); */
-
 
     const handleSend = async () => {
         console.log("Sending message");
@@ -189,8 +116,7 @@ export const Comment = ({show, onClose, topicId}) => {
 
                 try {
                     console.error("Sending message: " + currentComment);
-                    await connection.invoke("SendMessage", topicId, fetchedUserId, currentComment);
-                    await handleSaveComment(comment);
+                    await handleSaveComment(comment, fetchedUserId);
                     setCurrentComment('');
                 } catch (err) {
                     console.error("Unable to send message", err.toString());
@@ -204,7 +130,7 @@ export const Comment = ({show, onClose, topicId}) => {
     };
 
 
-    const handleSaveComment = async (comment) => {
+    const handleSaveComment = async (comment, fetchedUserId) => {
         try {
             const requestBody = {
                 message: comment.message,
@@ -223,6 +149,11 @@ export const Comment = ({show, onClose, topicId}) => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+            const data = await response.json()
+                .then (async data => {
+                    await connection.invoke("SendMessage", data.id, topicId, fetchedUserId, currentComment);
+                });
+            
 
         } catch (error) {
             console.error('Failed to save the comment:', error);
@@ -231,6 +162,7 @@ export const Comment = ({show, onClose, topicId}) => {
 
     const handleDelete = async (commentId) => {
         try {
+            connection.invoke("DeleteMessage", commentId, topicId);
             const response = await fetch(`https://localhost:7015/comment/delete/${commentId}`, {
                 method: 'DELETE',
             });

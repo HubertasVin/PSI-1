@@ -4,10 +4,15 @@ namespace Project.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(string topicId, string userId, string message)
+        public async Task SendMessage(string messageId, string topicId, string userId, string message)
         {
             Console.WriteLine("Sending to: " + topicId + " " + userId + " " + message);
-            await Clients.Group(topicId).SendAsync("ReceiveMessage", topicId, userId, message);
+            await Clients.Group(topicId).SendAsync("ReceiveMessage", messageId, topicId, userId, message);
+        }
+
+        public async Task DeleteMessage(string messageId, string topicId)
+        {
+            await Clients.Group(topicId).SendAsync("DeleteMessage", messageId);
         }
         
         public async Task JoinTopic(string topicId)

@@ -52,10 +52,10 @@ public class CommentController : ControllerBase
     {
         try
         {
-            bool result = _commentRepository.AddComment(comment);
-            if (result)
+            Comment result = _commentRepository.AddComment(comment);
+            if (result != null)
             {
-                return Ok("Comment added successfully");
+                return Ok(result.id);
             }
             
             return BadRequest("Failed to add comment");
@@ -72,7 +72,7 @@ public class CommentController : ControllerBase
     {
         try
         {
-            bool result = _commentContents.Remove(commentId);
+            bool result = _commentRepository.Remove(commentId);
             if (result)
             {
                 return Ok("Comment deleted successfully");

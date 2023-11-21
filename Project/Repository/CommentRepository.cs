@@ -24,7 +24,7 @@ public class CommentRepository : Repository<Comment>
 
     public bool Remove(string commentId)
     {
-        Comment comment = Get(commentId);
+        Comment comment = GetCommentById(commentId);
         Remove(comment);
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0;

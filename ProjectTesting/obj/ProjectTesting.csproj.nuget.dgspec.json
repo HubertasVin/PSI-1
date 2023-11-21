@@ -167,6 +167,10 @@
               "target": "Package",
               "version": "[7.0.9, )"
             },
+            "Moq": {
+              "target": "Package",
+              "version": "[4.16.1, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"

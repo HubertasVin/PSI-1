@@ -349,3 +349,5 @@ C:\Users\vytna\Universitetas\II.I\PSI\PSI-1\PSI-1\ProjectTesting\obj\Debug\net7.
 C:\Users\vytna\Universitetas\II.I\PSI\PSI-1\PSI-1\ProjectTesting\obj\Debug\net7.0\ProjectTesting.pdb
 C:\Users\vytna\Universitetas\II.I\PSI\PSI-1\PSI-1\ProjectTesting\obj\Debug\net7.0\ProjectTesting.genruntimeconfig.cache
 C:\Users\vytna\Universitetas\II.I\PSI\PSI-1\PSI-1\ProjectTesting\obj\Debug\net7.0\ref\ProjectTesting.dll
+C:\Users\vytna\Universitetas\II.I\PSI\PSI-1\PSI-1\ProjectTesting\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\vytna\Universitetas\II.I\PSI\PSI-1\PSI-1\ProjectTesting\bin\Debug\net7.0\Moq.dll

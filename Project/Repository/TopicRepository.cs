@@ -4,13 +4,18 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class TopicRepository : Repository<Topic>
+public class TopicRepository : Repository<Topic>, ITopicRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
     public TopicRepository(NoteBlendDbContext context) : base(context)
     {
         
+    }
+    
+    public Topic? GetTopic(string id)
+    {
+        return Find(topic => topic.id == id).FirstOrDefault();
     }
     
     public List<Topic> GetTopicsList(string subjectId)

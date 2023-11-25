@@ -9,10 +9,10 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class CommentController : ControllerBase
 {
-    private readonly CommentRepository _commentRepository;
+    private readonly ICommentRepository _commentRepository;
     private readonly ILogger<CommentController> _logger;
     
-    public CommentController(CommentRepository commentRepository, ILogger<CommentController> logger)
+    public CommentController(ICommentRepository commentRepository, ILogger<CommentController> logger)
     {
         _logger = logger;
         _commentRepository = commentRepository;

@@ -6,13 +6,18 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class UserRepository : Repository<User>
+public class UserRepository : Repository<User>, IUserRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
     public UserRepository(NoteBlendDbContext context) : base(context)
     {
         
+    }
+
+    public User? GetUser(string id)
+    {
+        return Find(user => user.id == id).FirstOrDefault();
     }
     
     public List<User> GetUserList()
@@ -58,7 +63,7 @@ public class UserRepository : Repository<User>
         return changes > 0 ? newUser : null;
     }
 
-    private static bool IsEmailValid(string userEmail)
+    public bool IsEmailValid(string userEmail)
     {
         Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
         return regex.IsMatch(userEmail);

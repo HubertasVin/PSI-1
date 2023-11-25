@@ -10,10 +10,10 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class TopicController : ControllerBase
 {
-    private readonly TopicRepository _topicRepository;
+    private readonly ITopicRepository _topicRepository;
     private readonly ILogger<TopicController> _logger;
 
-    public TopicController(TopicRepository topicRepository, ILogger<TopicController> logger)
+    public TopicController(ITopicRepository topicRepository, ILogger<TopicController> logger)
     {
         _topicRepository = topicRepository;
         _logger = logger;
@@ -24,7 +24,7 @@ public class TopicController : ControllerBase
     {
         try
         {
-            return Ok(_topicRepository.Get(id));
+            return Ok(_topicRepository.GetTopic(id));
         }
         catch (ObjectNotFoundException)
         {

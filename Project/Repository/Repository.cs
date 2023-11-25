@@ -5,7 +5,7 @@ using Project.Exceptions;
 using Project.Models;
 
 namespace Project.Repository;
-
+// TODO: Interface
 public class Repository<T>
     where T : BaseModel
 {

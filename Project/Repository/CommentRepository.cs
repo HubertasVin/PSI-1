@@ -3,7 +3,7 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class CommentRepository : Repository<Comment>
+public class CommentRepository : Repository<Comment>, ICommentRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     

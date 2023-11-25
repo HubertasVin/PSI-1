@@ -3,7 +3,7 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class CommentRepository : Repository<Comment>
+public class CommentRepository : Repository<Comment>, ICommentRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
@@ -17,9 +17,7 @@ public class CommentRepository : Repository<Comment>
     }
     public List<Comment> GetAllComments(string topicId)
     {
-        return NoteBlendContext.Comments
-            .Select(comment => comment)
-            .Where(comment => comment.TopicId.Equals(topicId)).ToList();
+        return Find(comment => comment.TopicId.Equals(topicId)).ToList();
     }
 
     public bool Remove(string commentId)

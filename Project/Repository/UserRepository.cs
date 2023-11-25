@@ -6,13 +6,18 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class UserRepository : Repository<User>
+public class UserRepository : Repository<User>, IUserRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
     public UserRepository(NoteBlendDbContext context) : base(context)
     {
         
+    }
+
+    public User? GetUser(string id)
+    {
+        return Find(user => user.id == id).FirstOrDefault();
     }
     
     public List<User> GetUserList()
@@ -50,15 +55,15 @@ public class UserRepository : Repository<User>
     {
         if (newUser.Email != null && !IsEmailTaken(newUser.Email))
             throw new UserLoginRegisterException("Email already exists");
-        // if (newUser.Email != null && !IsEmailValid(newUser.Email))
-        //     throw new UserLoginRegisterException("Email is not valid");
+        if (newUser.Email != null && !IsEmailValid(newUser.Email))
+            throw new UserLoginRegisterException("Email is not valid");
 
         Add(newUser);
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0 ? newUser : null;
     }
 
-    private static bool IsEmailValid(string userEmail)
+    public bool IsEmailValid(string userEmail)
     {
         Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
         return regex.IsMatch(userEmail);

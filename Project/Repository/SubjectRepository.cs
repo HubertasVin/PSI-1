@@ -4,7 +4,7 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class SubjectRepository : Repository<Subject>
+public class SubjectRepository : Repository<Subject>, ISubjectRepository
 {
 
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;

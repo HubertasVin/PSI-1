@@ -4,7 +4,7 @@ using Project.Models;
 
 namespace Project.Repository;
 
-public class TopicRepository : Repository<Topic>
+public class TopicRepository : Repository<Topic>, ITopicRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
@@ -13,9 +13,14 @@ public class TopicRepository : Repository<Topic>
         
     }
     
+    public Topic? GetTopic(string id)
+    {
+        return Find(topic => topic.id == id).FirstOrDefault();
+    }
+    
     public List<Topic> GetTopicsList(string subjectId)
     {
-        return NoteBlendContext.Topics.Select(topic => topic).Where(topic => topic.Subject.id == subjectId).ToList();
+        return Find(topic => topic.Subject.id == subjectId).ToList();
     }
 
     public Topic? CreateTopic(JsonElement req)

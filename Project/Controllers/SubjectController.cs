@@ -9,9 +9,9 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class SubjectController : ControllerBase
 {
-    private readonly SubjectRepository _subjectRepository;
+    private readonly ISubjectRepository _subjectRepository;
 
-    public SubjectController(SubjectRepository subjectRepository)
+    public SubjectController(ISubjectRepository subjectRepository)
     {
         _subjectRepository = subjectRepository;
     }

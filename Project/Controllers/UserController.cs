@@ -10,10 +10,10 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    private readonly UserRepository _userRepository;
+    private readonly IUserRepository _userRepository;
     private readonly ILogger<UserController> _logger;
 
-    public UserController(UserRepository userRepository, ILogger<UserController> logger)
+    public UserController(IUserRepository userRepository, ILogger<UserController> logger)
     {
         _userRepository = userRepository;
         _logger = logger;
@@ -23,7 +23,7 @@ public class UserController : ControllerBase
     public IActionResult GetUserName(string id)
     {
         try {
-            return Ok(_userRepository.Get(id));
+            return Ok(_userRepository.GetUser(id));
         }
         catch (UserNotFoundException e) {
             _logger.LogError(e, e.Message);

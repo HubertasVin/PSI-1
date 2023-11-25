@@ -38,10 +38,10 @@ builder.Services.AddCors(options =>
 });
 
 // Dependency injection
-builder.Services.AddTransient<SubjectRepository>();
-builder.Services.AddTransient<TopicRepository>();
-builder.Services.AddTransient<UserRepository>();
-builder.Services.AddTransient<CommentRepository>();
+builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
+builder.Services.AddTransient<ITopicRepository, TopicRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 
 var app = builder.Build();
 

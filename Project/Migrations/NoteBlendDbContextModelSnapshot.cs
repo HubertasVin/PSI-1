@@ -44,26 +44,29 @@ namespace Project.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("Project.Models.Message", b =>
+            modelBuilder.Entity("Project.Models.Conspect", b =>
                 {
                     b.Property<string>("id")
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Noteid")
+                    b.Property<string>("AuthorId")
                         .HasColumnType("text");
 
-                    b.Property<string>("Text")
-                        .IsRequired()
+                    b.Property<string>("FileName")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Index")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("text");
+
+                    b.Property<string>("TopicId")
                         .HasColumnType("text");
 
                     b.HasKey("id");
 
-                    b.HasIndex("Noteid");
-
-                    b.ToTable("Messages");
+                    b.ToTable("Conspects");
                 });
 
             modelBuilder.Entity("Project.Models.Note", b =>
@@ -124,7 +127,6 @@ namespace Project.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Password")
@@ -132,19 +134,11 @@ namespace Project.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Surname")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Project.Models.Message", b =>
-                {
-                    b.HasOne("Project.Models.Note", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("Noteid");
                 });
 
             modelBuilder.Entity("Project.Models.Topic", b =>
@@ -156,11 +150,6 @@ namespace Project.Migrations
                         .IsRequired();
 
                     b.Navigation("Subject");
-                });
-
-            modelBuilder.Entity("Project.Models.Note", b =>
-                {
-                    b.Navigation("Messages");
                 });
 #pragma warning restore 612, 618
         }

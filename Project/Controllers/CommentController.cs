@@ -52,10 +52,10 @@ public class CommentController : ControllerBase
     {
         try
         {
-            bool result = _commentRepository.AddComment(comment);
-            if (result)
+            Comment result = _commentRepository.AddComment(comment);
+            if (result != null)
             {
-                return Ok("Comment added successfully");
+                return Ok(result.id);
             }
             
             return BadRequest("Failed to add comment");
@@ -64,6 +64,26 @@ public class CommentController : ControllerBase
         {
             _logger.LogError(e, "Error adding comment");
             return BadRequest("Error adding comment");
+        }
+    }
+    
+    [HttpDelete("delete/{commentId}")]
+    public IActionResult DeleteComment(string commentId)
+    {
+        try
+        {
+            
+            bool result = _commentRepository.Remove(commentId);
+            if (result)
+            {
+                return Ok("Comment deleted successfully");
+            }
+            return BadRequest("Failed to delete comment");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error deleting comment");
+            return BadRequest("Error deleting comment");
         }
     }
 

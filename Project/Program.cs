@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
 using Project.Repository;
+using Project.Services;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);

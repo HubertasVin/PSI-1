@@ -28,10 +28,10 @@ public class CommentRepository : Repository<Comment>, ICommentRepository
         return changes > 0;
     }
     
-    public bool AddComment(Comment comment)
+    public Comment AddComment(Comment comment)
     {
         Add(comment);
         int changes = NoteBlendContext.SaveChanges();
-        return changes > 0;
+        return changes > 0 ? comment : null;
     }
 }

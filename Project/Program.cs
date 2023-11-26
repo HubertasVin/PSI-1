@@ -9,10 +9,7 @@ using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var logger = new LoggerConfiguration()
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .CreateLogger();
+var logger = new LoggerConfiguration().Enrich.FromLogContext().WriteTo.Console().CreateLogger();
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);

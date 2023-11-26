@@ -5,16 +5,16 @@ import Login from "./components/Login";
 const AppRoutes = [
   {
     index: true,
-    element: <Home />
+    element: <Home />,
   },
   {
-    path: '/subjects',
-    element: <Subject/>
+    path: "/subjects",
+    element: <Subject />,
   },
   {
-    path: '/login',
-    element: <Login />
-  }
+    path: "/login",
+    element: <Login />,
+  },
 ];
 
 export default AppRoutes;

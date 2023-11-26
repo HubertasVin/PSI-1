@@ -4,3 +4,4 @@ obj
 log.txt
 
 /node_modules
+/public/uploads

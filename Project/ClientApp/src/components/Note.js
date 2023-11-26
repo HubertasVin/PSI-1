@@ -2,7 +2,7 @@
 // import { Document, Page } from 'react-pdf';
 import { useParams } from "react-router-dom";
 import { Comment } from "./Comment";
- 
+
 export const Note = () => {
   const { topicId } = useParams();
   const [showComments, setShowComments] = useState(false);
@@ -12,7 +12,7 @@ export const Note = () => {
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const [fileUrl, setFileUrl] = useState(null);
   const [conspects, setConspects] = useState([]);
- 
+
   const onFileChange = (event) => {
     setFileInput(event.target.files[0]);
   };
@@ -23,14 +23,14 @@ export const Note = () => {
       return;
     }
     console.log(fileInput.name.replace(/\.[^/.]+$/, ""));
- 
+
     const formData = new FormData();
     formData.append("title", fileInput.name.replace(/\.[^/.]+$/, ""));
     formData.append("authorId", localStorage.getItem("loginToken"));
     formData.append("topicId", topicId);
     formData.append("fileName", fileInput.name);
     formData.append("file", fileInput);
- 
+
     try {
       setUploadStatus("Uploading...");
       const response = await fetch("https://localhost:7015/conspect/upload", {
@@ -54,26 +54,34 @@ export const Note = () => {
 
   const fetchConspects = async () => {
     try {
-      const response = await fetch('https://localhost:7015/conspect/get-conspects-list-by-id/' + topicId);
+      const response = await fetch(
+        "https://localhost:7015/conspect/get-conspects-list-by-id/" + topicId
+      );
       if (response.ok) {
         const data = await response.json();
         setConspects(data);
       } else {
-        console.error('Failed to fetch conspects:', response.status, response.statusText);
+        console.error(
+          "Failed to fetch conspects:",
+          response.status,
+          response.statusText
+        );
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     }
   };
 
   function fetchConspect(topicId, index) {
-    fetch(`https://localhost:7015/conspect/get-conspect-file/${topicId}/${index}`)
+    fetch(
+      `https://localhost:7015/conspect/get-conspect-file/${topicId}/${index}`
+    )
       .then((response) => response.blob())
       .then((blob) => {
         setFileUrl(URL.createObjectURL(blob));
       });
   }
- 
+
   useEffect(() => {
     try {
       fetch("https://localhost:7015/topic/get/" + topicId)
@@ -87,17 +95,17 @@ export const Note = () => {
 
     fetchConspects();
   }, []);
- 
+
   const OpenedComments = () => {
     setShowComments(true);
     console.log("Set show comments to true");
   };
- 
+
   const ClosedComments = () => {
     setShowComments(false);
     console.log("Set show comments set to" + showComments);
   };
- 
+
   return (
     <div>
       <h1>{topicName}</h1>
@@ -115,21 +123,32 @@ export const Note = () => {
         <p>
           Supported file types: <i>.pdf</i>
         </p>
-        <p style={{ color: uploadSuccess ? "green" : "red" }}>
-          {uploadStatus}
-        </p>
+        <p style={{ color: uploadSuccess ? "green" : "red" }}>{uploadStatus}</p>
         <p>
           Available conspects:
           <ul>
             {conspects.map((conspect) => (
               <li key={conspect.topicId}>
                 <p style={{ display: "inline" }}>{conspect.title} </p>
-                <button onClick={() => fetchConspect(conspect.topicId, conspect.index)}>Open</button>
+                <button
+                  onClick={() =>
+                    fetchConspect(conspect.topicId, conspect.index)
+                  }
+                >
+                  Open
+                </button>
               </li>
             ))}
           </ul>
         </p>
-        {fileUrl && <embed src={fileUrl} type="application/pdf" width="100%" height="600px" />}
+        {fileUrl && (
+          <embed
+            src={fileUrl}
+            type="application/pdf"
+            width="100%"
+            height="600px"
+          />
+        )}
       </div>
       <div className="comment-panel">
         <button onClick={() => setShowComments(true)}>Comments</button>

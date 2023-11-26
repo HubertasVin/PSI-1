@@ -14,10 +14,10 @@ namespace Project.Controllers;
 [Route("[controller]")]
 public class ConspectController : ControllerBase
 {
-    private readonly ConspectRepository _conspectRepository;
+    private readonly IConspectRepository _conspectRepository;
     private readonly ILogger<ConspectController> _logger;
  
-    public ConspectController(ConspectRepository conspectRepository, ILogger<ConspectController> logger)
+    public ConspectController(IConspectRepository conspectRepository, ILogger<ConspectController> logger)
     {
         _conspectRepository = conspectRepository;
         _logger = logger;

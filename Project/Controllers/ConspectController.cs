@@ -7,30 +7,37 @@ using System.Web;
 using Project.Exceptions;
 using Project.Models;
 using Project.Repository;
- 
+using Project.Helpers;
+
 namespace Project.Controllers;
- 
+
 [ApiController]
 [Route("[controller]")]
 public class ConspectController : ControllerBase
 {
     private readonly IConspectRepository _conspectRepository;
     private readonly ILogger<ConspectController> _logger;
- 
-    public ConspectController(IConspectRepository conspectRepository, ILogger<ConspectController> logger)
+
+    public ConspectController(
+        IConspectRepository conspectRepository,
+        ILogger<ConspectController> logger
+    )
     {
         _conspectRepository = conspectRepository;
         _logger = logger;
     }
- 
+
     [HttpGet("get/{id}/{index}")]
     public IActionResult GetConspect(string id, int index)
     {
-        try {
+        try
+        {
             return Ok(_conspectRepository.GetConspectByTopicIdAndIndex(id, index));
         }
-        catch (ConspectNotFoundException e) {
+        catch (ConspectNotFoundException e)
+        {
             _logger.LogError(e, e.Message);
+            Logger.LogException(e);
             return BadRequest(e.Message);
         }
     }
@@ -38,42 +45,56 @@ public class ConspectController : ControllerBase
     [HttpGet("get-conspect-file/{id}/{index}")]
     public IActionResult GetConspectFile(string id, int index)
     {
-        try {
-            Conspect? conspect = _conspectRepository.GetConspectByTopicIdAndIndex(id, index) ?? throw new ConspectNotFoundException("Conspect not found");
+        try
+        {
+            Conspect? conspect =
+                _conspectRepository.GetConspectByTopicIdAndIndex(id, index)
+                ?? throw new ConspectNotFoundException("Conspect not found");
             return File(System.IO.File.ReadAllBytes(conspect.ConspectLocation), "application/pdf");
         }
-        catch (ConspectNotFoundException e) {
+        catch (ConspectNotFoundException e)
+        {
             _logger.LogError(e, e.Message);
+            Logger.LogException(e);
             return BadRequest(e.Message);
         }
     }
- 
+
     [HttpGet("get-conspects-list-by-id/{id}")]
     public IActionResult GetUserByEmail(string id)
     {
-        try {
+        try
+        {
             return Ok(_conspectRepository.GetConspectListByTopicId(id));
         }
-        catch (ConspectNotFoundException e) {
+        catch (ConspectNotFoundException e)
+        {
             _logger.LogError(e, e.Message);
+            Logger.LogException(e);
             return BadRequest(e.Message);
         }
     }
- 
+
     [HttpGet("list")]
     public IActionResult ListConspects()
     {
         return Ok(_conspectRepository.GetConspectList());
     }
- 
+
     [HttpPost("upload")]
-    public async Task<IActionResult> UploadConspect([FromForm] Conspect newConspect, [FromForm] IFormFile file)
+    public async Task<IActionResult> UploadConspect(
+        [FromForm] Conspect newConspect,
+        [FromForm] IFormFile file
+    )
     {
-        try {
+        try
+        {
             return Ok(await _conspectRepository.CreateConspect(newConspect, file));
         }
-        catch (ConspectAlreadyExistsException e) {
+        catch (ConspectAlreadyExistsException e)
+        {
             _logger.LogError("Error occured when uploading a new conspect", e);
+            Logger.LogException(e);
             return BadRequest(e.Message);
         }
     }

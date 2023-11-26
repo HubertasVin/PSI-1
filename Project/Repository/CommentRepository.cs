@@ -34,4 +34,9 @@ public class CommentRepository : Repository<Comment>, ICommentRepository
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0 ? comment : null;
     }
+
+    public int saveChanges()
+    {
+        return NoteBlendContext.SaveChanges();
+    }
 }

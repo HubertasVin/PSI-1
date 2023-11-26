@@ -8,4 +8,5 @@ public interface ICommentRepository
     public List<Comment> GetAllComments(string topicId);
     public bool Remove(string commentId);
     public Comment AddComment(Comment comment);
+    public int saveChanges();
 }

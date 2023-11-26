@@ -38,11 +38,15 @@ builder.Services.AddCors(options =>
     );
 });
 
-// Dependency injection
+// Dependency injection for repositories
 builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
 builder.Services.AddTransient<ITopicRepository, TopicRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
+builder.Services.AddTransient<IConspectRepository, ConspectRepository>();
+
+// Dependency injection for services
+builder.Services.AddTransient<ChatService>();
 
 var app = builder.Build();
 

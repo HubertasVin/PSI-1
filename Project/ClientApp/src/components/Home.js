@@ -1,13 +1,15 @@
-import React, { Component } from "react";
+import {useContext, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
-export class Home extends Component {
-  static displayName = Home.name;
+export const Home = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("loginToken");
 
-  render() {
-    return (
-      <div>
-        <h1>Home page for NoteBlend, currently under construction!</h1>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (token) {
+      navigate("/Subjects");
+    } else {
+      navigate("/Login");
+    }
+  }, []);
 }

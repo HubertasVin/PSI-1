@@ -75,7 +75,7 @@ const Login = () => {
         setUsername(userDataJson["name"]);
 
         console.log("UserContext userEmail: ", userEmail);
-        navigate("/");
+        navigate("/Subjects");
     };
 
     const handleRegister = async () => {
@@ -117,7 +117,7 @@ const Login = () => {
     };
 
     if (localStorage.getItem("loginToken")) {
-        window.location.href = "/";
+        window.location.href = "/Subjects";
         return;
     }
 
@@ -129,7 +129,7 @@ const Login = () => {
             <div className="authContainer">
                 <div className="authForm">
                     <h2 className="login">Login</h2>
-                    <form onSubmit={handleLogin}>
+                    {/*<form onSubmit={handleLogin}>*/}
                         <input
                             type="email"
                             placeholder="Enter email"
@@ -142,12 +142,12 @@ const Login = () => {
                             value={loginInputPassword}
                             onChange={(e) => setLoginInputPassword(e.target.value)}
                         />
-                        <button type="submit">Login</button>
-                    </form>
+                        <button onClick={handleLogin}>Login</button>
+                    {/*</form>*/}
                 </div>
                 <div className="authForm">
                     <h2 className="login">Register</h2>
-                    <form onSubmit={handleRegister}>
+                    {/*<form onSubmit={handleRegister}>*/}
                         <input
                             type="email"
                             placeholder="Enter email"
@@ -180,11 +180,11 @@ const Login = () => {
                             value={registerInputRepeatPassword}
                             onChange={(e) => setRegisterInputRepeatPassword(e.target.value)}
                         />
-                        <button type="submit" disabled={!passwordsMatch}>Register</button>
+                        <button onClick={handleRegister} disabled={!passwordsMatch}>Register</button>
                         {!passwordsMatch && (
                             <p className="error-message">Passwords do not match.</p>
                         )}
-                    </form>
+                    {/*</form>*/}
                 </div>
             </div>
         </div>

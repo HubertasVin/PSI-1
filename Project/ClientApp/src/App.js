@@ -17,7 +17,7 @@ export default class App extends Component {
   render() {
     return (
       <UserProvider>
-        <Layout>
+        {/*<Layout>*/}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/Subjects" element={<Subject />} />
@@ -29,7 +29,7 @@ export default class App extends Component {
             {/*  return <Route key={index} {...rest} element={element} />;*/}
             {/*})}*/}
           </Routes>
-        </Layout>
+        {/*</Layout>*/}
       </UserProvider>
     );
   }

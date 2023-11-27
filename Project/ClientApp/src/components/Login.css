@@ -1,0 +1,86 @@
+body{
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #0073e6, #40a4e6);
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.project-name {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for contrast */
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    /*margin-bottom: 20px;*/
+    margin: 20px 0;
+}
+
+.project-name h1 {
+    font-size: 36px;
+    color: #0073e6; /* Primary color */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the main container */
+.authContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /*background-color: #f6f6f6; !* Light gray background *!*/
+}
+
+/* Style the authentication forms */
+.authForm {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+/* Style the form headings (Login and Register) */
+.login {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #0073e6; /* Primary color */
+}
+
+/* Style form inputs */
+input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+/* Style form buttons */
+button{
+    background-color: #0073e6; /* Primary color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #005bab; /* Slightly darker primary color on hover */
+}
+
+.passwordMismatch{
+    border: 1px solid red;
+}

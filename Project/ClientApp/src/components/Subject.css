@@ -1,0 +1,170 @@
+.subjects-page-container {
+    width: 100vw;
+    max-height: 100vh;
+    flex-grow: 1; /* Allow the subjects page container to grow and fill the remaining space */
+    /*background-color: #f6f6f6; !* Light gray background *!*/
+    padding: 20px;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+}
+
+/* Style the subjects container */
+.subjects-container {
+    padding-top: 2rem;
+    /*max-height: calc(100vh - 7.5rem);*/
+    height: calc(100vh - 2rem); /* Subtracting the padding-top from the viewport height */
+}
+
+/* Style the "Add Subject" button */
+.add-subject {
+    margin-left: 3vw;
+    background-color: #000000; /* Primary color */
+    color: white;
+    font-size: 16px; /* Adjust the font size to make it smaller */
+    padding: 8px 20px; /* Adjust padding for button size */
+    height: 100px;
+    width: 100px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    /*margin-right: 10px; !* Add margin to separate it from the heading *!*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.add-subject:hover {
+    transform: scale(1.05); /* Scale up the block on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+}
+
+/* Style the plus icon within the "Add Subject" button */
+.plus-icon {
+    font-size: 20px; /* Adjust the font size to make the plus icon smaller */
+    /*margin-right: 6px; !* Add margin to separate it from the text *!*/
+}
+
+.subjects-top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.main-text {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for contrast */
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    /*margin-bottom: 20px;*/
+    margin: 25px 0;
+}
+
+.main-text h1 {
+    font-size: 36px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    color: #0073e6; /* Primary color */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the subjects grid */
+.subjects-grid {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns */
+    gap: 20px; /* Gap between grid items */
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+/* Style each subject grid item */
+.subject-grid-item {
+    background-color: #f6f6f6; /* Light gray background */
+    border: 1px solid #ddd;
+    padding: 10vh 0;
+    width: 25vw;
+    height: 25vh;
+    text-align: center;
+    overflow: hidden; /* Hide overflowing content */
+    word-wrap: break-word; /* Wrap long words onto the next line */
+    white-space: normal; /* Ensure text doesn't overflow horizontally */
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out; /* Add a smooth hover animation */
+}
+
+/* Change the border-radius for a more rectangular shape */
+.subject-grid-item h2 {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Hide overflowing content */
+    text-overflow: ellipsis; /* Show ellipsis (...) for long text */
+    white-space: nowrap; /* Prevent text from wrapping horizontally */
+}
+
+/* Apply hover styles and animation */
+.subject-grid-item:hover {
+    transform: scale(1.05); /* Scale up the block on hover */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow on hover */
+}
+
+/* Style the dialog for adding a new subject */
+.dialog-s {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%; /* Vertically center */
+    left: 50%; /* Horizontally center */
+    transform: translate(-50%, -50%); /* Center it precisely */
+    height: 25vh;
+    width: 30vw;
+    background: linear-gradient(to bottom, #0073e6, #40a4e6);
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 1000; /* Ensure it appears above other elements */
+    animation: slideCenter 0.5s forwards;
+}
+
+/* Style the input and buttons within the dialog */
+.dialog-s input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.dialog-s button {
+    display: flex;
+    flex-direction: row;
+    background-color: #0073e6; /* Primary color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.dialog-s button:hover {
+    background-color: #005bab; /* Slightly darker primary color on hover */
+}
+
+@keyframes slideCenter {
+    0% {
+        transform: translate(-50%, -50%) translateY(-100%);
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+}

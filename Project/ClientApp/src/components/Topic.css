@@ -1,0 +1,188 @@
+.topics-page-container {
+    width: 100vw;
+    max-height: 100vh;
+    flex-grow: 1;
+    padding: 20px;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.topics-container {
+    padding-top: 2rem;
+    height: calc(100vh - 2rem);
+}
+
+.button-container{
+    display: flex;
+}
+
+.back-button-container {
+    margin-left: 3vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100px;
+    background-color: #000000;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 20px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/*.back-button {*/
+/*    background-color: #dddddd; !* Light grey background *!*/
+/*    color: #333333; !* Dark text color for contrast *!*/
+/*    border: 1px solid #cccccc; !* Slightly darker border *!*/
+/*    padding: 10px 20px;*/
+/*    font-size: 16px;*/
+/*    cursor: pointer;*/
+/*    border-radius: 4px;*/
+/*    margin-left: 3vw; !* Consistent with the rest of your layout *!*/
+/*}*/
+
+.back-button-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Style the "Add Topic" button to be square using viewport units */
+.add-topic {
+    margin-left: 3vw;
+    background-color: #000000; /* Primary color */
+    color: white;
+    font-size: 16px;
+    padding: 0; /* Padding removed to make the button square */
+    height: 8vw; /* Height and width set to the same viewport width unit for a square */
+    width: 8vw;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.add-topic:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.topics-grid {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+.topic-grid-item {
+    background-color: #f6f6f6;
+    border: 1px solid #ddd;
+    padding: 10vh 0; /* Adjust padding to maintain aspect ratio */
+    width: 25vw;
+    height: 25vh; /* Adjust height based on design preference */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.topic-grid-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.plus-icon {
+    font-size: 20px; /* Adjust the size as needed */
+}
+
+.topics-top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.main-text {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background for contrast */
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-align: center;
+    margin: 25px 0;
+}
+
+.main-text h1 {
+    font-size: 36px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    color: #0073e6; /* Primary color */
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the dialog for adding a new subject */
+.dialog-t {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%; /* Vertically center */
+    left: 50%; /* Horizontally center */
+    transform: translate(-50%, -50%); /* Center it precisely */
+    height: 25vh;
+    width: 30vw;
+    background: linear-gradient(to bottom, #0073e6, #40a4e6);
+    border: 1px solid #ddd;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    z-index: 1000; /* Ensure it appears above other elements */
+    animation: slideCenter 0.5s forwards;
+}
+
+/* Style the input and buttons within the dialog */
+.dialog-t input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.dialog-t button {
+    display: flex;
+    flex-direction: row;
+    background-color: #0073e6; /* Primary color */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.dialog-t button:hover {
+    background-color: #005bab; /* Slightly darker primary color on hover */
+}
+
+@keyframes slideCenter {
+    0% {
+        transform: translate(-50%, -50%) translateY(-100%);
+    }
+    100% {
+        transform: translate(-50%, -50%) translateY(0);
+    }
+}

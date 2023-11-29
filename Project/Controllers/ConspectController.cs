@@ -37,7 +37,7 @@ public class ConspectController : ControllerBase
         catch (ConspectNotFoundException e)
         {
             _logger.LogError(e, e.Message);
-            Logger.LogException(e);
+            Logger.Log("Error occured when getting conspect" + e.ToString());
             return BadRequest(e.Message);
         }
     }
@@ -55,7 +55,7 @@ public class ConspectController : ControllerBase
         catch (ConspectNotFoundException e)
         {
             _logger.LogError(e, e.Message);
-            Logger.LogException(e);
+            Logger.Log("Error occured when getting conspect\n" + e.ToString());
             return BadRequest(e.Message);
         }
     }
@@ -70,7 +70,7 @@ public class ConspectController : ControllerBase
         catch (ConspectNotFoundException e)
         {
             _logger.LogError(e, e.Message);
-            Logger.LogException(e);
+            Logger.Log("Error occured when getting conspects list\n" + e.ToString());
             return BadRequest(e.Message);
         }
     }
@@ -94,7 +94,7 @@ public class ConspectController : ControllerBase
         catch (ConspectAlreadyExistsException e)
         {
             _logger.LogError("Error occured when uploading a new conspect", e);
-            Logger.LogException(e);
+            Logger.Log("Error occured when uploading a new conspect\n" + e.ToString());
             return BadRequest(e.Message);
         }
     }

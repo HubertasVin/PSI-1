@@ -1,22 +1,22 @@
 namespace Project.Helpers
 {
+    // Define a delegate for logging
     public delegate void LogHandler(string message);
 
     public class Logger
     {
         private static readonly string logFilePath = "log.txt";
 
-        public static LogHandler? LogEvent;
+        // The delegate instance for logging
+        public static LogHandler LogMethod = LogToFile;
 
-        public static void LogException(Exception e)
+        public static void Log(string message)
         {
-            string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {e}";
+            // Prefix the message with a timestamp
+            string logMessage = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} {message}";
 
-            // Log to file
-            LogToFile(logMessage);
-
-            // Invoke the delegate if it's subscribed
-            LogEvent?.Invoke(logMessage);
+            // Invoke the delegate to log the message
+            LogMethod(logMessage);
         }
 
         private static void LogToFile(string message)

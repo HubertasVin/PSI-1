@@ -14,6 +14,7 @@ export const Note = () => {
     const [uploadSuccess, setUploadSuccess] = useState(null);
     const [fileUrl, setFileUrl] = useState(null);
     const [conspects, setConspects] = useState([]);
+    const [seed, setSeed] = useState(0); // Used to force re-rendering of the conspect's list
     const fileRef = useRef(null);
 
     const onFileChange = (event) => {
@@ -49,6 +50,7 @@ export const Note = () => {
                 setUploadStatus(`Upload failed: ${errorMessage}.`);
                 setUploadSuccess(false);
             }
+            setSeed(seed + 1);
         } catch (e) {
             console.error(e);
             setUploadStatus(`Upload failed ${e}.`);
@@ -101,7 +103,7 @@ export const Note = () => {
         }
 
         fetchConspects();
-    }, []);
+    }, [seed]);
 
     const OpenedComments = () => {
         setShowComments(true);
@@ -139,15 +141,39 @@ export const Note = () => {
                     <div className="conspect-list-panel">
                         <p>
                             Available conspects:
-                            <ul>
+                            <ul key={seed}>
                                 {conspects.map((conspect) => (
                                     <li key={conspect.topicId}>
+                                        <a>{conspect.title}</a>
                                         <button
                                             className="open-pdf-button"
                                             onClick={() => fetchConspect(conspect.topicId, conspect.index)}
                                         >
-                                            {conspect.title}
+                                            Open
                                         </button>
+                                        {localStorage.getItem("loginToken") === conspect.authorId && (
+                                            <button 
+                                                className="delete-conspect-button"
+                                                onClick={() => {
+                                                    fetch(`https://localhost:7015/conspect/delete/${conspect.topicId}/${conspect.index}/${conspect.authorId}`, {
+                                                        method: "DELETE",
+                                                    })
+                                                    .then((response) => {
+                                                        if (!response.ok) {
+                                                            throw new Error(response.statusText);
+                                                        }
+                                                        setSeed(seed + 1);
+                                                        return response;
+                                                    })
+                                                    .catch((error) => {
+                                                        alert(error);
+                                                    });
+                                                    setSeed(seed + 1);
+                                                }}
+                                            >
+                                                Delete
+                                            </button>
+                                        )}
                                     </li>
                                 ))}
                             </ul>

@@ -39,4 +39,6 @@ public class SubjectController : ControllerBase
             ? BadRequest("Invalid request body")
             : Ok(addedSubject);
     }
+
+    
 }

@@ -50,7 +50,11 @@ public class ConspectController : ControllerBase
             Conspect? conspect =
                 _conspectRepository.GetConspectByTopicIdAndIndex(id, index)
                 ?? throw new ConspectNotFoundException("Conspect not found");
-            return File(System.IO.File.ReadAllBytes(conspect.ConspectLocation), "application/pdf");
+            return File(
+                System.IO.File.ReadAllBytes(conspect.ConspectLocation),
+                "application/pdf",
+                conspect.AuthorId
+            );
         }
         catch (ConspectNotFoundException e)
         {
@@ -94,7 +98,22 @@ public class ConspectController : ControllerBase
         catch (ConspectAlreadyExistsException e)
         {
             _logger.LogError("Error occured when uploading a new conspect", e);
-            Logger.Log("Error occured when uploading a new conspect\n" + e.ToString());
+            Logger.Log("Error occured when uploading a new conspect\n" + e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete("delete/{id}/{index}/{authorId}")]
+    public IActionResult DeleteConspect(string id, int index, string authorId) { 
+        try
+        {
+            _conspectRepository.DeleteConspect(id, index, authorId);
+            return Ok();
+        }
+        catch (ConspectAlreadyExistsException e)
+        {
+            _logger.LogError("Error occured when deleting a conspect", e);
+            Logger.Log("Error occured when deleting a conspect\n" + e);
             return BadRequest(e.Message);
         }
     }

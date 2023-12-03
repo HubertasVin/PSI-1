@@ -50,6 +50,25 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         }
         return null;
     }
+
+    public void DeleteConspect(string id, int index, string authorId)
+    {
+        Conspect? conspect = GetConspectByTopicIdAndIndex(id, index);
+        if (conspect == null)
+        {
+            throw new ConspectNotFoundException("Conspect not found");
+        }
+        if (conspect.AuthorId != authorId)
+        {
+            throw new ConspectNotDeletedException("You are not the original author of the conspect");
+        }
+        NoteBlendContext?.Conspects.Remove(conspect);
+        NoteBlendContext?.SaveChanges();
+        if (DoesFileExist(conspect.ConspectLocation))
+        {
+            File.Delete(conspect.ConspectLocation);
+        }
+    }
  
     public bool DoesFileExist(string conspectLocation)
     {

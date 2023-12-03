@@ -17,3 +17,12 @@ public class ConspectNotFoundException : Exception
         Message = message;
     }
 }
+
+public class ConspectNotDeletedException : Exception
+{
+    public new string Message { get; }
+
+    public ConspectNotDeletedException(string message) : base(message) {
+        Message = message;
+    }
+}

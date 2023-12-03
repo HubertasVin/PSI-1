@@ -109,15 +109,15 @@ const Login = () => {
 
         if (response.ok) {
             alert("Registration successful, you can now log in.");
+
+            setLoginInputEmail(registerInputEmail);
+            setLoginInputPassword(registerInputPassword);
+    
+            handleLogin();
         } else {
             const errorMessage = await response.text();
             alert(`Registration failed: ${errorMessage}` + ".");
         }
-
-        setLoginInputEmail(registerInputEmail);
-        setLoginInputPassword(registerInputPassword);
-
-        handleLogin();
     };
 
     if (localStorage.getItem("loginToken")) {

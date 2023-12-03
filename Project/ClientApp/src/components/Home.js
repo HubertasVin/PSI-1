@@ -1,5 +1,5 @@
-import {useContext, useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const navigate = useNavigate();
@@ -12,4 +12,4 @@ export const Home = () => {
       navigate("/Login");
     }
   }, []);
-}
+};

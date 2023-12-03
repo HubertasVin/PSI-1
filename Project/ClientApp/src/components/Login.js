@@ -113,6 +113,11 @@ const Login = () => {
             const errorMessage = await response.text();
             alert(`Registration failed: ${errorMessage}` + ".");
         }
+
+        setLoginInputEmail(registerInputEmail);
+        setLoginInputPassword(registerInputPassword);
+
+        handleLogin();
     };
 
     if (localStorage.getItem("loginToken")) {

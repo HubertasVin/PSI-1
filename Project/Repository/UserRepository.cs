@@ -1,4 +1,6 @@
-using System.Text.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Project.Data;
 using Project.Exceptions;
@@ -67,5 +69,28 @@ public class UserRepository : Repository<User>, IUserRepository
     {
         Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
         return regex.IsMatch(userEmail);
+    }
+
+    public List<string> GetUserNotes(string userId)
+    {
+        User user = NoteBlendContext?.Users.FirstOrDefault(u => u.id == userId)
+            ?? throw new UserNotFoundException($"User with ID {userId} not found.");
+
+        return user.Notes ?? new List<string>();
+    }
+
+    public void SaveUserNote(string userId, string note)
+    {
+        User user = NoteBlendContext?.Users.FirstOrDefault(u => u.id == userId)
+            ?? throw new UserNotFoundException($"User with ID {userId} not found.");
+
+        if (user.Notes == null)
+        {
+            user.Notes = new List<string>();
+        }
+
+        user.Notes.Add(note);
+
+        NoteBlendContext?.SaveChanges();
     }
 }

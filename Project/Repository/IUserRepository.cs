@@ -11,4 +11,6 @@ public interface IUserRepository
     public string? CheckLogin(User existingUser);
     public User? CreateUser(User newUser);
     public bool IsEmailValid(string userEmail);
+    public List<string> GetUserNotes(string userId);
+    public void SaveUserNote(string userId, string note);
 }

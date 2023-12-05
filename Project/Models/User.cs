@@ -6,7 +6,8 @@ public class User : BaseModel
     private string? _surname;
     public string Email { get; set; }
     public string Password { get; set; }
-    
+    public List<string>? Notes { get; set; }
+
     public string? Name
     {
         get => _name;

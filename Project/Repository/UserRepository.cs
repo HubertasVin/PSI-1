@@ -15,29 +15,29 @@ public class UserRepository : Repository<User>, IUserRepository
         
     }
 
-    public User? GetUser(string id)
+    public virtual User? GetUser(string id)
     {
         return Find(user => user.id == id).FirstOrDefault();
     }
     
-    public List<User> GetUserList()
+    public virtual List<User> GetUserList()
     {
         return NoteBlendContext?.Users.ToList() ?? new List<User>();
     }
 
-    public User? GetUserByEmail(string email)
+    public virtual User? GetUserByEmail(string email)
     {
         User? user = NoteBlendContext?.Users.FirstOrDefault(user => user.Email == email);
         return user ?? null;
     }
 
-    public bool IsEmailTaken(string email)
+    public virtual bool IsEmailTaken(string email)
     {
         User? user = GetUserByEmail(email);
         return user == null;
     }
 
-    public string? CheckLogin(User existingUser)
+    public virtual string? CheckLogin(User existingUser)
     {
         Console.WriteLine("in check login");
         if (existingUser.Email == null || existingUser.Password == null)
@@ -51,7 +51,7 @@ public class UserRepository : Repository<User>, IUserRepository
         throw new UserLoginRegisterException("Either email or password is incorrect");
     }
 
-    public User? CreateUser(User newUser)
+    public virtual User? CreateUser(User newUser)
     {
         if (newUser.Email != null && !IsEmailTaken(newUser.Email))
             throw new UserLoginRegisterException("Email already exists");
@@ -63,7 +63,7 @@ public class UserRepository : Repository<User>, IUserRepository
         return changes > 0 ? newUser : null;
     }
 
-    public bool IsEmailValid(string userEmail)
+    public virtual bool IsEmailValid(string userEmail)
     {
         Regex regex = new(@"[\w.+-]+@\[?[\w-]+\.[\w.-]+\]?");
         return regex.IsMatch(userEmail);

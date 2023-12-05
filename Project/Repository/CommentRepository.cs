@@ -11,16 +11,16 @@ public class CommentRepository : Repository<Comment>, ICommentRepository
     {
     }
     
-    public Comment? GetCommentById(string commentId)
+    public virtual Comment? GetCommentById(string commentId)
     {
         return NoteBlendContext.Comments.Find(commentId);
     }
-    public List<Comment> GetAllComments(string topicId)
+    public virtual List<Comment> GetAllComments(string topicId)
     {
         return Find(comment => comment.TopicId.Equals(topicId)).ToList();
     }
 
-    public bool Remove(string commentId)
+    public virtual bool Remove(string commentId)
     {
         Comment comment = Get(commentId);
         Remove(comment);
@@ -28,14 +28,14 @@ public class CommentRepository : Repository<Comment>, ICommentRepository
         return changes > 0;
     }
     
-    public Comment AddComment(Comment comment)
+    public virtual Comment AddComment(Comment comment)
     {
         Add(comment);
         int changes = NoteBlendContext.SaveChanges();
         return changes > 0 ? comment : null;
     }
 
-    public int saveChanges()
+    public virtual int saveChanges()
     {
         return NoteBlendContext.SaveChanges();
     }

@@ -42,12 +42,12 @@ builder.Services.AddCors(options =>
 });
 
 // Dependency injection for repositories
-builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
+builder.Services.AddRepositoryWithLogging<ISubjectRepository, SubjectRepository>(proxyGenerator);
 builder.Services.AddRepositoryWithLogging<ITopicRepository, TopicRepository>(proxyGenerator);
 // builder.Services.AddTransient<ITopicRepository, TopicRepository>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-builder.Services.AddTransient<ICommentRepository, CommentRepository>();
-builder.Services.AddTransient<IConspectRepository, ConspectRepository>();
+builder.Services.AddRepositoryWithLogging<IUserRepository, UserRepository>(proxyGenerator);
+builder.Services.AddRepositoryWithLogging<ICommentRepository, CommentRepository>(proxyGenerator);
+builder.Services.AddRepositoryWithLogging<IConspectRepository, ConspectRepository>(proxyGenerator);
 
 // Dependency injection for services
 builder.Services.AddTransient<ChatService>();

@@ -15,23 +15,23 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
  
     }
  
-    public List<Conspect> GetConspectList()
+    public virtual List<Conspect> GetConspectList()
     {
         return NoteBlendContext?.Conspects.ToList() ?? new List<Conspect>();
     }
  
-    public List<Conspect> GetConspectListByTopicId(string topicId)
+    public virtual List<Conspect> GetConspectListByTopicId(string topicId)
     {
         return NoteBlendContext?.Conspects.Where(conspect => conspect.TopicId == topicId).ToList() ?? new List<Conspect>();
     }
  
-    public Conspect? GetConspectByTopicIdAndIndex(string topicId, int index)
+    public virtual Conspect? GetConspectByTopicIdAndIndex(string topicId, int index)
     {
         Conspect? conspect = NoteBlendContext?.Conspects.FirstOrDefault(conspect => conspect.TopicId == topicId && conspect.Index == index);
         return conspect ?? null;
     }
  
-    public async Task<Conspect?> CreateConspect(Conspect newConspect, IFormFile file)
+    public virtual async Task<Conspect?> CreateConspect(Conspect newConspect, IFormFile file)
     {
         if (file != null && file.Length > 0)
         {
@@ -51,7 +51,7 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         return null;
     }
 
-    public void DeleteConspect(string id, int index, string authorId)
+    public virtual void DeleteConspect(string id, int index, string authorId)
     {
         Conspect? conspect = GetConspectByTopicIdAndIndex(id, index);
         if (conspect == null)
@@ -70,7 +70,7 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         }
     }
  
-    public bool DoesFileExist(string conspectLocation)
+    public virtual bool DoesFileExist(string conspectLocation)
     {
         return File.Exists(conspectLocation);
     }

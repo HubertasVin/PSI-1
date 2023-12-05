@@ -14,17 +14,17 @@ public class SubjectRepository : Repository<Subject>, ISubjectRepository
         
     }
     
-    public List<Subject> GetSubjectsList()
+    public virtual List<Subject> GetSubjectsList()
     {
         return NoteBlendContext.Subjects.ToList();
     }
     
-    public Subject GetSubject(string id)
+    public virtual Subject GetSubject(string id)
     {
         return NoteBlendContext.Subjects.Find(id);
     }
 
-    public Subject? CreateSubject(Subject newSubject)
+    public virtual Subject? CreateSubject(Subject newSubject)
     {
         Add(newSubject);
         int changes = NoteBlendContext.SaveChanges();

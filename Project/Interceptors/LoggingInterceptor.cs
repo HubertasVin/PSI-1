@@ -15,8 +15,11 @@ public class LoggingInterceptor : IInterceptor
     public void Intercept(IInvocation invocation)
     {
         var logger = _serviceProvider.GetRequiredService<ILogger<LoggingInterceptor>>();
-
-        logger.LogInformation(
+        
+        if (invocation.Arguments.Length == 0)
+            logger.LogInformation($"Calling method {invocation.Method.Name}");
+        else
+            logger.LogInformation(
             $"Calling method {invocation.Method.Name} with arguments {string.Join(", ", invocation.Arguments)}");
         invocation.Proceed();
         logger.LogInformation($"Method {invocation.Method.Name} returned {invocation.ReturnValue}");

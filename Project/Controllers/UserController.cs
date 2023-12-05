@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Project.Exceptions;
 using Project.Models;
 using Project.Repository;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace Project.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase
@@ -70,6 +73,38 @@ public class UserController : ControllerBase
         }
         catch (UserLoginRegisterException e) {
             _logger.LogError("Error occured when checking credentials", e);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("get-notes/{userId}")]
+    public IActionResult GetUserNotes(string userId)
+    {
+        try
+        {
+            // Retrieve and return the private notes for the user
+            List<string> userNotes = _userRepository.GetUserNotes(userId);
+            return Ok(userNotes);
+        }
+        catch (UserNotFoundException e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpPost("save-note/{userId}")]
+    public IActionResult SaveUserNote(string userId, [FromBody] string note)
+    {
+        try
+        {
+            // Save the private note for the user
+            _userRepository.SaveUserNote(userId, note);
+            return Ok("Note saved successfully");
+        }
+        catch (UserNotFoundException e)
+        {
+            _logger.LogError(e, e.Message);
             return BadRequest(e.Message);
         }
     }

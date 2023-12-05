@@ -8,22 +8,23 @@ public class TopicRepository : Repository<Topic>, ITopicRepository
 {
     public NoteBlendDbContext NoteBlendContext => Context as NoteBlendDbContext;
     
+    
     public TopicRepository(NoteBlendDbContext context) : base(context)
     {
         
     }
     
-    public Topic? GetTopic(string id)
+    public virtual Topic? GetTopic(string id)
     {
         return Find(topic => topic.id == id).FirstOrDefault();
     }
     
-    public List<Topic> GetTopicsList(string subjectId)
+    public virtual List<Topic> GetTopicsList(string subjectId)
     {
         return Find(topic => topic.Subject.id == subjectId).ToList();
     }
 
-    public Topic? CreateTopic(JsonElement req)
+    public virtual Topic? CreateTopic(JsonElement req)
     {
         if (!req.TryGetProperty("topicName", out var topicNameProperty) ||
             !req.TryGetProperty("subjectId", out var subjectIdProperty))

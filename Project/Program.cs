@@ -1,13 +1,19 @@
+using Castle.DynamicProxy;
 using Project.Hubs;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Project.Data;
+using Project.Interceptors;
 using Project.Repository;
 using Project.Services;
+using Project.Helpers;
+using Project.Middlewares;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var proxyGenerator = new ProxyGenerator();
 
 var logger = new LoggerConfiguration().Enrich.FromLogContext().WriteTo.Console().CreateLogger();
 
@@ -37,13 +43,16 @@ builder.Services.AddCors(options =>
 
 // Dependency injection for repositories
 builder.Services.AddTransient<ISubjectRepository, SubjectRepository>();
-builder.Services.AddTransient<ITopicRepository, TopicRepository>();
+builder.Services.AddRepositoryWithLogging<ITopicRepository, TopicRepository>(proxyGenerator);
+// builder.Services.AddTransient<ITopicRepository, TopicRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<ICommentRepository, CommentRepository>();
 builder.Services.AddTransient<IConspectRepository, ConspectRepository>();
 
 // Dependency injection for services
 builder.Services.AddTransient<ChatService>();
+
+// Dependency injection for Interceptors
 
 var app = builder.Build();
 
@@ -62,6 +71,8 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+app.UseMiddleware<AllowedPathsMiddleware>();
 
 app.UseAuthorization();
 app.UseCors();

@@ -2,12 +2,14 @@
 // import { Document, Page } from 'react-pdf';
 import { useParams } from "react-router-dom";
 import { Comment } from "./Comment";
+import { PrivateNote } from "./PrivateNote";
 import "./Note.css";
 import "./common.css";
 
 export const Note = () => {
   const { topicId } = useParams();
   const [showComments, setShowComments] = useState(false);
+  const [showPrivateNotes, setShowPrivateNotes] = useState(false);
   const [topicName, setTopicName] = useState("");
   const [fileInput, setFileInput] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
@@ -16,6 +18,7 @@ export const Note = () => {
   const [conspects, setConspects] = useState([]);
   const [seed, setSeed] = useState(0); // Used to force re-rendering of the conspect's list
   const fileRef = useRef(null);
+
 
   const onFileChange = (event) => {
     setFileInput(event.target.files[0]);
@@ -75,6 +78,14 @@ export const Note = () => {
     } catch (error) {
       console.error("Error:", error);
     }
+    };
+
+  const openPrivateNotes = () => {
+    setShowPrivateNotes(true);
+  };
+
+  const closePrivateNotes = () => {
+    setShowPrivateNotes(false);
   };
 
   function fetchConspect(topicId, index) {
@@ -125,6 +136,7 @@ export const Note = () => {
           <div className="button-panel">
             <button onClick={() => setShowComments(true)}>Comments</button>
             <button onClick={onFileUpload}>Upload</button>
+            <button onClick={openPrivateNotes}>Notes</button>
           </div>
           <div
             className="upload-conspect-panel"
@@ -196,6 +208,7 @@ export const Note = () => {
         </div>
       </div>
       <Comment show={showComments} onClose={ClosedComments} topicId={topicId} />
+      <PrivateNote show={showPrivateNotes} onClose={closePrivateNotes} topicId={topicId} />
     </div>
   );
 };

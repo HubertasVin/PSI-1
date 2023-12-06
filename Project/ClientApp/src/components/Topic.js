@@ -106,7 +106,7 @@ export const Topic = () => {
   };
 
   return (
-    <div className="gradient-background">
+    <div className="default-page-background">
       <div className="topics-page-container">
         <div className="topics-top-container">
           <div className="button-container">

@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../userContext";
 import "./Login.css";
+import "./common.css";
 
-const Login = () => {
+const Login = ({ onUpdateSeed }) => {
   const { setUserEmail, setUserId, setUsername, userEmail } = useUserContext();
   const [loginInputEmail, setLoginInputEmail] = useState("");
   const [loginInputPassword, setLoginInputPassword] = useState("");
@@ -85,7 +86,7 @@ const Login = () => {
     setUserEmail(loginInputEmail);
     setUsername(userDataJson["name"]);
 
-    console.log("UserContext userEmail: ", userEmail);
+    onUpdateSeed();
     navigate("/Subjects");
   };
 
@@ -124,7 +125,7 @@ const Login = () => {
 
       setLoginInputEmail(registerInputEmail);
       setLoginInputPassword(registerInputPassword);
-
+      
       handleLogin();
     } else {
       const errorMessage = await response.text();
@@ -140,7 +141,7 @@ const Login = () => {
   return (
     <div className="container">
       <div className="project-name">
-        <h1>NoteBlend</h1>
+        <h1>Login / Register</h1>
       </div>
       <div className="authContainer">
         <div className="authForm">
@@ -170,11 +171,14 @@ const Login = () => {
             type="email"
             placeholder="Enter email"
             value={registerInputEmail}
-            onChange={(e) => {setRegisterInputEmail(e.target.value); validateEmail(e);}}
+            onChange={(e) => {
+              setRegisterInputEmail(e.target.value);
+              validateEmail(e);
+            }}
             required
           />
           {isValidEmail === false && (
-            <a style={{color: "red"}}>Email is not valid</a>
+            <a style={{ color: "red" }}>Email is not valid</a>
           )}
           <input
             type="text"

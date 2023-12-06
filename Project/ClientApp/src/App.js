@@ -8,6 +8,7 @@ import { Subject } from "./components/Subject";
 import { Topic } from "./components/Topic";
 import { Note } from "./components/Note";
 import Login from "./components/Login";
+import NavBar from "./components/NavBar";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -15,12 +16,17 @@ export default class App extends Component {
   render() {
     return (
       <UserProvider>
+        <NavBar onUpdateSeed={() => this.forceUpdate()} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Subjects" element={<Subject />} />
           <Route path="/Subjects/:id" element={<Topic />} />
           <Route path="/Subjects/:id/:topicId" element={<Note />} />
-          <Route path="/Login" element={<Login />} />
+          <Route
+            style={{ width: "100%" }}
+            path="/Login"
+            element={<Login onUpdateSeed={() => this.forceUpdate()} />}
+          />
         </Routes>
       </UserProvider>
     );

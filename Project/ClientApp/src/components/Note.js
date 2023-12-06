@@ -116,7 +116,7 @@ export const Note = () => {
   };
 
   return (
-    <div className="gradient-background">
+    <div className="default-page-background">
       <div className="header">
         <h1>Topic: {topicName}</h1>
       </div>

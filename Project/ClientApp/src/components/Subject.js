@@ -86,7 +86,7 @@ export const Subject = () => {
   };
 
   return (
-    <div className="gradient-background">
+    <div className="default-page-background">
       <div className="subjects-page-container">
         <div className="subjects-top-container">
           <div className="add-subject" onClick={toggleDialog}>

@@ -36,14 +36,14 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         if (file != null && file.Length > 0)
         {
             newConspect.Index = NoteBlendContext?.Conspects.Where(conspect => conspect.TopicId == newConspect.TopicId).Count() ?? 0;
-            Directory.CreateDirectory("public/uploads/" + newConspect.SubjectId + "/" + newConspect.TopicId);
-            if (DoesFileExist(newConspect.ConspectLocation))
+            Directory.CreateDirectory("ClientApp/public/uploads/" + newConspect.SubjectId + "/" + newConspect.TopicId);
+            if (DoesFileExist("ClientApp/" + newConspect.ConspectLocation))
             {
                 throw new ConspectAlreadyExistsException("Conspect already exists");
             }
             Add(newConspect);
             int changes = NoteBlendContext.SaveChanges();
-            using (Stream FileStream = new FileStream(newConspect.ConspectLocation, FileMode.Create))
+            using (Stream FileStream = new FileStream("ClientApp/public/" + newConspect.ConspectLocation, FileMode.Create))
             {
                 await file.CopyToAsync(FileStream);
             }
@@ -65,12 +65,12 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         }
         NoteBlendContext?.Conspects.Remove(conspect);
         NoteBlendContext?.SaveChanges();
-        if (DoesFileExist(conspect.ConspectLocation))
+        if (DoesFileExist("ClientApp/public/" + conspect.ConspectLocation))
         {
-            File.Delete(conspect.ConspectLocation);
+            File.Delete("ClientApp/public/" + conspect.ConspectLocation);
         }
     }
- 
+
     public bool DoesFileExist(string conspectLocation)
     {
         return File.Exists(conspectLocation);

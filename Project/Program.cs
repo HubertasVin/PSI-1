@@ -2,7 +2,9 @@ using Castle.DynamicProxy;
 using Project.Hubs;
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Project.Data;
 using Project.Interceptors;
 using Project.Repository;
@@ -55,6 +57,7 @@ builder.Services.AddTransient<ChatService>();
 // Dependency injection for Interceptors
 
 var app = builder.Build();
+var env = builder.Environment;
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -81,5 +84,12 @@ app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Inde
 
 app.MapFallbackToFile("index.html");
 app.MapHub<ChatHub>("chatHub");
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(env.ContentRootPath, "ClientApp", "public")),
+    RequestPath = "/public"
+});
 
 app.Run();

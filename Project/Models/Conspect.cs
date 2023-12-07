@@ -113,7 +113,7 @@ namespace Project.Models
  
         public string? ConspectLocation
         {
-            get => "public/uploads/" + _subjectId + "/" + _topicId + "/" + _fileName;
+            get => "uploads/" + _subjectId + "/" + _topicId + "/" + _fileName;
         }
     }
 }

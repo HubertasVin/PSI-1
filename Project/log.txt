@@ -17,3 +17,10 @@ Project.Exceptions.ConspectNotFoundException: Conspect not found
 Project.Exceptions.ConspectAlreadyExistsException: Conspect already exists
    at Project.Repository.ConspectRepository.CreateConspect(Conspect newConspect, IFormFile file) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Repository/ConspectRepository.cs:line 41
    at Project.Controllers.ConspectController.UploadConspect(Conspect newConspect, IFormFile file) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Controllers/ConspectController.cs:line 96
+2023-12-07 13:57:57 Error occured when getting conspect
+Project.Exceptions.ConspectNotFoundException: Conspect not found
+   at Project.Controllers.ConspectController.GetConspectFile(String id, Int32 index) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Controllers/ConspectController.cs:line 50
+2023-12-07 14:15:23 Error occured when uploading a new conspect
+Project.Exceptions.ConspectAlreadyExistsException: Conspect already exists
+   at Project.Repository.ConspectRepository.CreateConspect(Conspect newConspect, IFormFile file) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Repository/ConspectRepository.cs:line 42
+   at Project.Controllers.ConspectController.UploadConspect(Conspect newConspect, IFormFile file) in /home/hubertas/Documents/BackupFolder/Programming/CS/PSI-1/Project/Controllers/ConspectController.cs:line 96

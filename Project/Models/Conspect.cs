@@ -4,6 +4,7 @@ namespace Project.Models
     {
         private string? _title;
         private string? _authorId;
+        private string? _subjectId;
         private string? _topicId;
         private string? _fileName;
         private int? _index;
@@ -41,7 +42,24 @@ namespace Project.Models
                 _authorId = value;
             }
         }
- 
+
+        public string? SubjectId
+        {
+            get => _subjectId;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException("SubjectId cannot be null");
+                }
+                if (value.Length < 3)
+                {
+                    throw new ArgumentException("SubjectId must be at least 3 characters long");
+                }
+                _subjectId = value;
+            }
+        }
+
         public string? TopicId
         {
             get => _topicId;
@@ -95,7 +113,7 @@ namespace Project.Models
  
         public string? ConspectLocation
         {
-            get => "public/uploads/" + _fileName;
+            get => "public/uploads/" + _subjectId + "/" + _topicId + "/" + _fileName;
         }
     }
 }

@@ -21,7 +21,7 @@ export default class App extends Component {
           <Route path="/" element={<Home />} />
           <Route path="/Subjects" element={<Subject />} />
           <Route path="/Subjects/:id" element={<Topic />} />
-          <Route path="/Subjects/:id/:topicId" element={<Note />} />
+          <Route path="/Subjects/:subjectId/:topicId" element={<Note />} />
           <Route
             style={{ width: "100%" }}
             path="/Login"

@@ -6,13 +6,12 @@ import "./Note.css";
 import "./common.css";
 
 export const Note = () => {
-  const { topicId } = useParams();
+  const { subjectId, topicId } = useParams();
   const [showComments, setShowComments] = useState(false);
   const [topicName, setTopicName] = useState("");
   const [fileInput, setFileInput] = useState(null);
   const [uploadStatus, setUploadStatus] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(null);
-  const [fileUrl, setFileUrl] = useState(null);
   const [conspects, setConspects] = useState([]);
   const [seed, setSeed] = useState(0); // Used to force re-rendering of the conspect's list
   const fileRef = useRef(null);
@@ -31,6 +30,7 @@ export const Note = () => {
     const formData = new FormData();
     formData.append("title", fileInput.name.replace(/\.[^/.]+$/, ""));
     formData.append("authorId", localStorage.getItem("loginToken"));
+    formData.append("subjectId", subjectId)
     formData.append("topicId", topicId);
     formData.append("fileName", fileInput.name);
     formData.append("file", fileInput);
@@ -116,7 +116,7 @@ export const Note = () => {
   };
 
   return (
-    <div className="default-page-background">
+    <div className="gradient-background">
       <div className="header">
         <h1>Topic: {topicName}</h1>
       </div>

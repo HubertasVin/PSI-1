@@ -15,27 +15,28 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
  
     }
  
-    public virtual List<Conspect> GetConspectList()
+    public List<Conspect> GetConspectList()
     {
         return NoteBlendContext?.Conspects.ToList() ?? new List<Conspect>();
     }
  
-    public virtual List<Conspect> GetConspectListByTopicId(string topicId)
+    public List<Conspect> GetConspectListByTopicId(string topicId)
     {
         return NoteBlendContext?.Conspects.Where(conspect => conspect.TopicId == topicId).ToList() ?? new List<Conspect>();
     }
  
-    public virtual Conspect? GetConspectByTopicIdAndIndex(string topicId, int index)
+    public Conspect? GetConspectByTopicIdAndIndex(string topicId, int index)
     {
         Conspect? conspect = NoteBlendContext?.Conspects.FirstOrDefault(conspect => conspect.TopicId == topicId && conspect.Index == index);
         return conspect ?? null;
     }
  
-    public virtual async Task<Conspect?> CreateConspect(Conspect newConspect, IFormFile file)
+    public async Task<Conspect?> CreateConspect(Conspect newConspect, IFormFile file)
     {
         if (file != null && file.Length > 0)
         {
             newConspect.Index = NoteBlendContext?.Conspects.Where(conspect => conspect.TopicId == newConspect.TopicId).Count() ?? 0;
+            Directory.CreateDirectory("public/uploads/" + newConspect.SubjectId + "/" + newConspect.TopicId);
             if (DoesFileExist(newConspect.ConspectLocation))
             {
                 throw new ConspectAlreadyExistsException("Conspect already exists");
@@ -51,7 +52,7 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         return null;
     }
 
-    public virtual void DeleteConspect(string id, int index, string authorId)
+    public void DeleteConspect(string id, int index, string authorId)
     {
         Conspect? conspect = GetConspectByTopicIdAndIndex(id, index);
         if (conspect == null)
@@ -70,7 +71,7 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         }
     }
  
-    public virtual bool DoesFileExist(string conspectLocation)
+    public bool DoesFileExist(string conspectLocation)
     {
         return File.Exists(conspectLocation);
     }

@@ -1,6 +1,11 @@
 ﻿import React, { useState, useEffect, useRef } from "react";
 // import { Document, Page } from 'react-pdf';
 import { useParams } from "react-router-dom";
+import DocViewer, {
+  DocViewerRenderers,
+  PDFRenderer,
+} from "@cyntler/react-doc-viewer";
+import Markdown from "react-markdown";
 import { Comment } from "./Comment";
 import "./Note.css";
 import "./common.css";
@@ -14,18 +19,45 @@ export const Note = () => {
   const [uploadSuccess, setUploadSuccess] = useState(null);
   const [conspects, setConspects] = useState([]);
   const [seed, setSeed] = useState(0); // Used to force re-rendering of the conspect's list
-  const fileRef = useRef(null);
+  const [filePath, setFilePath] = useState(null);
+  const [fileContent, setFileContent] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [fileExtension, setFileExtension] = useState("");
+  const [index, setIndex] = useState(0);
+
+  const extraFileTypes = ["md", "txt"];
+  const documentFileTypes = [
+    "pdf",
+    "docx",
+    "doc",
+    "odt",
+    "ppt",
+    "pptx",
+    "xls",
+    "xlsx",
+  ];
+  const imageFileTypes = ["png", "jpg", "jpeg"];
+  const unsupportedFileTypes = [
+    "docx",
+    "doc",
+    "odt",
+    "ppt",
+    "pptx",
+    "xls",
+    "xlsx",
+  ];
+
+  let newWindow = null;
 
   const onFileChange = (event) => {
     setFileInput(event.target.files[0]);
   };
-  console.log(topicId);
   const onFileUpload = async () => {
     if (!fileInput) {
       alert("Please select a file to upload");
       return;
     }
-    console.log(fileInput.name.replace(/\.[^/.]+$/, ""));
+    // console.log(fileInput.name.replace(/\.[^/.]+$/, ""));
 
     const formData = new FormData();
     formData.append("title", fileInput.name.replace(/\.[^/.]+$/, ""));
@@ -77,17 +109,19 @@ export const Note = () => {
     }
   };
 
-  function fetchConspect(topicId, index) {
-    console.log(index);
-    fetch(
-      `https://localhost:7015/conspect/get-conspect-file/${topicId}/${index}`
+  async function fetchConspectPath(topicId, index) {
+    await fetch(
+      `https://localhost:7015/conspect/get-conspect-file-path/${topicId}/${index}`
     )
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = URL.createObjectURL(blob);
-        if (fileRef.current) {
-          fileRef.current.src = url;
-        }
+      .then((response) => response.text())
+      .then((data) => {
+        setFilePath(data);
+        setFileName(data.split("/")[data.split("/").length - 1]);
+        setFileExtension(getExtension(data));
+        return data;
+      })
+      .catch((error) => {
+        console.error("Error fetching conspect path:", error);
       });
   }
 
@@ -106,24 +140,48 @@ export const Note = () => {
         return response;
       })
       .catch((error) => {
-        setSeed(seed + 1);
         alert(error);
       });
   }
 
   useEffect(() => {
-    try {
-      fetch("https://localhost:7015/topic/get/" + topicId)
-        .then((response) => response.json())
-        .then((data) => {
-          setTopicName(data.name);
-        });
-    } catch (e) {
-      console.log(e);
-    }
+    const fetchData = async () => {
+      try {
+        // Fetch topic name
+        const topicResponse = await fetch(
+          "https://localhost:7015/topic/get/" + topicId
+        );
+        const topicData = await topicResponse.json();
+        setTopicName(topicData.name);
 
-    fetchConspects();
-  }, [seed]);
+        // Fetch conspects
+        const conspectsResponse = await fetch(
+          "https://localhost:7015/conspect/get-conspects-list-by-id/" + topicId
+        );
+        if (conspectsResponse.ok) {
+          const conspectsData = await conspectsResponse.json();
+          setConspects(conspectsData);
+        } else {
+          console.error(
+            "Failed to fetch conspects:",
+            conspectsResponse.status,
+            conspectsResponse.statusText
+          );
+        }
+
+        // Fetch content when filePath is not null
+        if (extraFileTypes.includes(getExtension(filePath))) {
+          const content = await fetchFileContent(filePath);
+          setFileContent(content);
+          console.log("The file content is:", content);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [filePath]);
 
   const OpenedComments = () => {
     setShowComments(true);
@@ -133,6 +191,36 @@ export const Note = () => {
   const ClosedComments = () => {
     setShowComments(false);
     console.log("Set show comments set to" + showComments);
+  };
+
+  function getExtension(path) {
+    if (!path) {
+      return null;
+    }
+
+    const pathArray = path.split("/");
+    const nameArray = pathArray[pathArray.length - 1].split(".");
+    return nameArray[nameArray.length - 1];
+  }
+
+  const onOpenButtonClick = async (conspect) => {
+    try {
+      setIndex(conspect.index);
+      await fetchConspectPath(topicId, conspect.index);
+      await fetchFileContent(filePath);
+      setSeed(seed + 1);
+      console.log("The seed is: " + seed);
+      console.log("The file path is: " + filePath);
+      console.log("The file extension is: " + fileExtension);
+    } catch (error) {
+      console.error("Error opening conspect:", error);
+    }
+  };
+
+  const fetchFileContent = async (path) => {
+    const response = await fetch("https://localhost:44465/" + path);
+    const text = await response.text();
+    return text;
   };
 
   return (
@@ -154,10 +242,14 @@ export const Note = () => {
               id="file-input"
               type="file"
               onChange={onFileChange}
-              accept="application/pdf"
+              accept=".pdf,.docx,.doc,.odt,.ppt,.pptx,.xls,.xlsx,.png,.jpg,.jpeg,.txt,.md"
             />
             <p className="file-type-text">
-              Supported file types: <i>.pdf</i>
+              Supported file types:{" "}
+              <i>
+                .pdf, .docx, .doc, .odt, .ppt, .pptx, .xls, .xlsx, .png, .jpg,
+                .jpeg, .txt, .md
+              </i>
             </p>
             <p style={{ color: uploadSuccess ? "green" : "red" }}>
               {uploadStatus}
@@ -168,16 +260,20 @@ export const Note = () => {
               Available conspects:
               <ul key={seed}>
                 {conspects.map((conspect) => (
-                  <li key={conspect.topicId}>
-                    <a>{conspect.title}</a>
+                  <li key={`${conspect.topicId}-${conspect.index}`}>
+                    <a>{conspect.fileName}</a>
+
                     <button
                       className="open-pdf-button"
-                      onClick={() =>
-                        fetchConspect(conspect.topicId, conspect.index)
-                      }
+                      onClick={async () => await onOpenButtonClick(conspect)}
                     >
-                      Open
+                      {!unsupportedFileTypes.includes(
+                        getExtension(conspect.fileName)
+                      )
+                        ? "Open"
+                        : "Download"}
                     </button>
+
                     {localStorage.getItem("loginToken") ===
                       conspect.authorId && (
                       <button
@@ -199,9 +295,35 @@ export const Note = () => {
             </p>
           </div>
         </div>
-        <div className="pdf-viewer">
-          <iframe ref={fileRef} type="application/pdf" />
-        </div>
+        {filePath != null ? (
+          <div className="document-viewer" key={filePath}>
+            {fileExtension === "md" ? (
+              <Markdown className="doc-viewer">{fileContent}</Markdown>
+            ) : fileExtension === "txt" ? (
+              <p className="doc-viewer">{fileContent}</p>
+            ) : documentFileTypes.includes(fileExtension) ? (
+              <iframe
+                className="doc-viewer"
+                src={"https://localhost:44465/" + filePath}
+              ></iframe>
+            ) : imageFileTypes.includes(fileExtension) ? (
+              <img
+                className="doc-viewer"
+                src={"https://localhost:44465/" + filePath}
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
+                }}
+              ></img>
+            ) : (
+              <DocViewer
+                className="doc-viewer"
+                documents={[{ uri: "https://localhost:44465/" + filePath }]}
+              />
+            )}
+          </div>
+        ) : null}
       </div>
       <Comment show={showComments} onClose={ClosedComments} topicId={topicId} />
     </div>

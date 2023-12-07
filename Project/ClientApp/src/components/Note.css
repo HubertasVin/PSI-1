@@ -31,7 +31,7 @@
     margin-left: 10px;
 }
 
-.pdf-viewer{
+.document-viewer{
     flex: 1;
     margin-right: 1.5rem;
     overflow: auto;
@@ -39,7 +39,7 @@
     position: relative;
 }
 
-.pdf-viewer iframe {
+.document-viewer .doc-viewer {
     position: absolute;
     top: 0;
     left: 0;

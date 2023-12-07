@@ -64,6 +64,24 @@ public class ConspectController : ControllerBase
         }
     }
 
+    [HttpGet("get-conspect-file-path/{id}/{index}")]
+    public IActionResult GetConspectFilePath(string id, int index)
+    {
+        try
+        {
+            Conspect? conspect =
+                _conspectRepository.GetConspectByTopicIdAndIndex(id, index)
+                ?? throw new ConspectNotFoundException("Conspect not found");
+            return Ok(conspect.ConspectLocation);
+        }
+        catch (ConspectNotFoundException e)
+        {
+            _logger.LogError(e, e.Message);
+            Logger.Log("Error occured when getting conspect\n" + e.ToString());
+            return BadRequest(e.Message);
+        }
+    }
+
     [HttpGet("get-conspects-list-by-id/{id}")]
     public IActionResult GetUserByEmail(string id)
     {

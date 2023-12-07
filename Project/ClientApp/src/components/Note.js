@@ -30,7 +30,7 @@ export const Note = () => {
     const formData = new FormData();
     formData.append("title", fileInput.name.replace(/\.[^/.]+$/, ""));
     formData.append("authorId", localStorage.getItem("loginToken"));
-    formData.append("subjectId", subjectId)
+    formData.append("subjectId", subjectId);
     formData.append("topicId", topicId);
     formData.append("fileName", fileInput.name);
     formData.append("file", fileInput);
@@ -88,6 +88,26 @@ export const Note = () => {
         if (fileRef.current) {
           fileRef.current.src = url;
         }
+      });
+  }
+
+  function deleteConspect(topicId, index, authorId) {
+    fetch(
+      `https://localhost:7015/conspect/delete/${topicId}/${index}/${authorId}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+        setSeed(seed + 1);
+        return response;
+      })
+      .catch((error) => {
+        setSeed(seed + 1);
+        alert(error);
       });
   }
 
@@ -163,23 +183,11 @@ export const Note = () => {
                       <button
                         className="delete-conspect-button"
                         onClick={() => {
-                          fetch(
-                            `https://localhost:7015/conspect/delete/${conspect.topicId}/${conspect.index}/${conspect.authorId}`,
-                            {
-                              method: "DELETE",
-                            }
-                          )
-                            .then((response) => {
-                              if (!response.ok) {
-                                throw new Error(response.statusText);
-                              }
-                              setSeed(seed + 1);
-                              return response;
-                            })
-                            .catch((error) => {
-                              alert(error);
-                            });
-                          setSeed(seed + 1);
+                          deleteConspect(
+                            conspect.topicId,
+                            conspect.index,
+                            conspect.authorId
+                          );
                         }}
                       >
                         Delete

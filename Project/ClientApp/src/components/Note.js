@@ -137,11 +137,12 @@ export const Note = () => {
           throw new Error(response.statusText);
         }
         setSeed(seed + 1);
-        return response;
+        window.location.reload();
       })
       .catch((error) => {
         alert(error);
       });
+      console.log("The seed is: " + seed);
   }
 
   useEffect(() => {
@@ -237,6 +238,7 @@ export const Note = () => {
           <div
             className="upload-conspect-panel"
             style={{ display: "inline-block", width: "100%" }}
+            key={uploadStatus}
           >
             <input
               id="file-input"
@@ -258,45 +260,46 @@ export const Note = () => {
           <div className="conspect-list-panel">
             <p>
               Available conspects:
-              <ul key={seed}>
-                {conspects.map((conspect) => (
-                  <li key={`${conspect.topicId}-${conspect.index}`}>
-                    <a>{conspect.fileName}</a>
-
-                    <button
-                      className="open-pdf-button"
-                      onClick={async () => await onOpenButtonClick(conspect)}
-                    >
-                      {!unsupportedFileTypes.includes(
-                        getExtension(conspect.fileName)
-                      )
-                        ? "Open"
-                        : "Download"}
-                    </button>
-
-                    {localStorage.getItem("loginToken") ===
-                      conspect.authorId && (
-                      <button
-                        className="delete-conspect-button"
-                        onClick={() => {
-                          deleteConspect(
-                            conspect.topicId,
-                            conspect.index,
-                            conspect.authorId
-                          );
-                        }}
-                      >
-                        Delete
-                      </button>
-                    )}
-                  </li>
-                ))}
-              </ul>
             </p>
+            <ul key={seed}>
+              {conspects.map((conspect) => (
+                <li key={`${conspect.topicId}-${conspect.index}`}>
+                  <a>{conspect.fileName}</a>
+
+                  <button
+                    className="open-pdf-button"
+                    onClick={async () => await onOpenButtonClick(conspect)}
+                  >
+                    {!unsupportedFileTypes.includes(
+                      getExtension(conspect.fileName)
+                    )
+                      ? "Open"
+                      : "Download"}
+                  </button>
+
+                  {localStorage.getItem("loginToken") ===
+                    conspect.authorId && (
+                    <button
+                      className="delete-conspect-button"
+                      onClick={() => {
+                        deleteConspect(
+                          conspect.topicId,
+                          conspect.index,
+                          conspect.authorId
+                        );
+                      }}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
         {filePath != null ? (
           <div className="document-viewer" key={filePath}>
+            <h2 className="conspect-name">{fileName}</h2>
             {fileExtension === "md" ? (
               <Markdown className="doc-viewer">{fileContent}</Markdown>
             ) : fileExtension === "txt" ? (

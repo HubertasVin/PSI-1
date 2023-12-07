@@ -65,9 +65,9 @@ public class ConspectRepository : Repository<Conspect>, IConspectRepository
         }
         NoteBlendContext?.Conspects.Remove(conspect);
         NoteBlendContext?.SaveChanges();
-        if (DoesFileExist("ClientApp/" + conspect.ConspectLocation))
+        if (DoesFileExist("ClientApp/public/" + conspect.ConspectLocation))
         {
-            File.Delete("ClientApp/" + conspect.ConspectLocation);
+            File.Delete("ClientApp/public/" + conspect.ConspectLocation);
         }
     }
 

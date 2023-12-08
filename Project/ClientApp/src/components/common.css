@@ -1,7 +1,7 @@
 :root {
     --primary-color: rgb(0 115 230);
-    --secondary-color: rgb(14 165 233);
-    --secondary-color-light: rgb(3 105 161);
+    --secondary-color: rgb(3 105 161);
+    --secondary-color-light: rgb(14 165 233);
     --tertiary-color: #f6f6f6;
 }
 
@@ -19,14 +19,14 @@ button {
     border: none;
     border-radius: 4px;
     font-size: 14px;
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-light);
     color: #fff;
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 button:hover {
-    background-color: var(--secondary-color-light);
+    background-color: var(--secondary-color);
     color: #fff;
 }
 
@@ -35,15 +35,28 @@ h1 {
     color: #2c3e50;
     text-shadow: 1px 1px 1px #ecf0f1;
 }
-
 h2 {
     font-size: 24px;
     color: #2c3e50;
     text-shadow: 1px 1px 1px #ecf0f1;
 }
-
 h3 {
     font-size: 18px;
+    color: #2c3e50;
+    text-shadow: 1px 1px 1px #ecf0f1;
+}
+h4 {
+    font-size: 16px;
+    color: #2c3e50;
+    text-shadow: 1px 1px 1px #ecf0f1;
+}
+h5 {
+    font-size: 14px;
+    color: #2c3e50;
+    text-shadow: 1px 1px 1px #ecf0f1;
+}
+h6 {
+    font-size: 12px;
     color: #2c3e50;
     text-shadow: 1px 1px 1px #ecf0f1;
 }

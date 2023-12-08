@@ -251,10 +251,10 @@ export const Note = () => {
               {uploadStatus}
             </p>
           </div>
+          <h3>
+            Available conspects:
+          </h3>
           <div className="conspect-list-panel">
-            <h3>
-              Available conspects:
-            </h3>
             <ul key={seed}>
               {conspects.map((conspect) => (
                 <li key={`${conspect.topicId}-${conspect.index}`}>
@@ -281,10 +281,11 @@ export const Note = () => {
               ))}
             </ul>
           </div>
+          <Comment show={showComments} onClose={ClosedComments} topicId={topicId} className="comment-panel" />
         </div>
         {filePath != null ? (
           <div className="document-viewer" key={filePath}>
-            <h2 className="conspect-name">{fileName}</h2>
+            <h2 className="conspect-name">Conspect name: {fileName}</h2>
             {fileExtension === "md" ? (
               <Markdown className="doc-viewer">{fileContent}</Markdown>
             ) : fileExtension === "txt" ? (
@@ -313,7 +314,6 @@ export const Note = () => {
           </div>
         ) : null}
       </div>
-      <Comment show={showComments} onClose={ClosedComments} topicId={topicId} />
     </div>
   );
 };

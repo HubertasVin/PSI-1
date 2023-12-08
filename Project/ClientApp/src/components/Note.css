@@ -48,9 +48,21 @@
     border: 1px solid rgb(171, 171, 171);
 }
 
+.conspect-panel {
+    position: relative;
+    height: 60vh;
+}
+
+.conspect-list-panel {
+    max-height: 100%; /* Set a maximum height relative to the parent */
+    overflow-y: auto; /* Add a vertical scrollbar if needed */
+}
+
 .conspect-list-panel ul {
     list-style: none;
     padding: 0;
+    max-height: auto;
+    overflow: auto;
 }
 
 .conspect-list-panel li {
@@ -72,7 +84,6 @@
 
 .conspect-buttons {
     display: flex;
-    gap: 10px;
 }
 
 .conspect-buttons button {
@@ -86,4 +97,103 @@
 .delete-conspect-button {
     display: inline-flex;
     align-items: center;
+}
+
+
+
+
+.comment-panel {
+    display: flex;
+    position: absolute;
+    top: 50%; /* Align to the vertical center */
+    left: 50%; /* Align to the horizontal center */
+    width: 80%;
+    transform: translate(-50%, -50%); /* Center the panel precisely */
+    flex-direction: column;
+    align-items: start;
+    background-color: var(--primary-color);
+    border: 5px solid #ddd;
+    border-radius: 0.8rem;
+    padding: 20px;
+    box-shadow: 0rem 0rem 30px rgba(0, 0, 0, 0.3);
+    margin: 1vh 1vh;
+}
+
+.comment-header h3 {
+    color: white;
+    text-shadow: 1px 1px 2px #06068f;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.comment-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.comment-header button {
+    padding: 1px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.comment-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    min-height: 30vh;
+    overflow: auto;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+.comment {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 2px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-list a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+.comment button {
+    padding: 1px 8px;
+    margin-left: 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.comment-footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.comment-footer button {
+    position: relative;
+    margin-left: 1rem;
+    transform: translate(0, -20%);
 }

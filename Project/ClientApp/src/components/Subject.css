@@ -6,7 +6,7 @@
 
 /* Style the "Add Subject" button */
 .add-subject {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color-light);
     color: white;
     font-size: 20px;
     padding: 0.3rem 1.2rem;
@@ -16,7 +16,7 @@
 }
 
 .add-subject:hover {
-    background-color: var(--secondary-color-light);
+    background-color: var(--secondary-color);
     color: #fff;
 }
 

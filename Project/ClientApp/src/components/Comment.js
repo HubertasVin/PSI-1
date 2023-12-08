@@ -234,16 +234,18 @@ export const Comment = ({ show, onClose, topicId }) => {
   return (
     <div className="comment-panel">
       <div className="comment-header">
-        <h2>Comments</h2>
+        <h3>Comments</h3>
         <button onClick={onClose}>Close</button>
       </div>
-      <div className="comment-body">
-        {comments?.map((comment, index) => (
-          <div key={index} className="comment">
-            <div className="comment-text-content">{comment.text}</div>
-            <button onClick={() => handleDelete(comment.id)}>Delete</button>
-          </div>
-        ))}
+      <div className="comment-content">
+        <ul className="comment-list">
+          {comments?.map((comment, index) => (
+            <li key={index} className="comment">
+              <div className="comment-text-content">{comment.text}</div>
+              <button onClick={() => handleDelete(comment.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
       <div className="comment-footer">
         <input

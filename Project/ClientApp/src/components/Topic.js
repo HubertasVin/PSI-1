@@ -11,6 +11,7 @@ export const Topic = () => {
   const [newTopic, setNewTopic] = useState("");
   const [refreshTopics, setRefreshTopics] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [keepDialog, setKeepDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -98,6 +99,7 @@ export const Topic = () => {
 
   const toggleDialog = () => {
     setShowDialog(!showDialog);
+    setKeepDialog(true);
   };
 
   // Function to go back to the previous page
@@ -107,46 +109,51 @@ export const Topic = () => {
 
   return (
     <div className="default-page-background">
-      <div className="topics-page-container">
-        <div className="topics-top-container">
-          <div className="button-container">
-            <div className="back-button-container" onClick={goBack}>
-              <span className="back-button">Back</span>
-            </div>
-            <div className="add-subject" onClick={toggleDialog}>
-              <span className="plus-icon">+</span>
-            </div>
+      <div className="subjects-top-container">
+        <h1>Topics in subject: {subjectName}</h1>
+        <div className="button-container">
+          <div className="add-subject" onClick={goBack}>
+            <span className="back-button">Back</span>
           </div>
-          <div className="main-text">
-            <h1>Topics in subject: {subjectName}</h1>
+          <div className="add-subject" onClick={toggleDialog}>
+            <span className="plus-icon">+</span>
           </div>
         </div>
-        <div className="topics-container">
-          <div className="topics-grid">
-            {topics.map((topic, index) => (
-              <div
-                key={index}
-                className="topic-grid-item"
-                title={topic.name}
-                onClick={() => navigate("/Subjects/" + id + "/" + topic.id)}
-              >
-                <h2>{topicNames[index]}</h2>
-              </div>
-            ))}
-          </div>
-          {showDialog && (
-            <div className="dialog-t">
-              <input
-                type="text"
-                placeholder="Topic Name"
-                value={newTopic}
-                onChange={(e) => setNewTopic(e.target.value)}
-              />
+      </div>
+      <div className="subjects-container">
+        <div className="subjects-grid">
+          {topics.map((topic, index) => (
+            <div
+              key={index}
+              className="subject-grid-item"
+              title={topic.name}
+              onClick={() => navigate("/Subjects/" + id + "/" + topic.id)}
+            >
+              <h2>{topicNames[index]}</h2>
+            </div>
+          ))}
+        </div>
+        {keepDialog && (
+          <div
+            className={`dialog ${showDialog ? "" : "closing"}`}
+            style={{
+              animation: showDialog
+                ? "slideInCenter 0.2s forwards"
+                : "slideOutCenter 0.2s forwards",
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Topic Name"
+              value={newTopic}
+              onChange={(e) => setNewTopic(e.target.value)}
+            />
+            <div className="dialog-buttons">
               <button onClick={handleAddTopic}>Create</button>
               <button onClick={() => setShowDialog(false)}>Cancel</button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

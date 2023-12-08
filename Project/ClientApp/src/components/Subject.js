@@ -9,6 +9,7 @@ export const Subject = () => {
   const [refreshSubjects, setRefreshSubjects] = useState(false);
   const [newSubject, setNewSubject] = useState("");
   const [showDialog, setShowDialog] = useState(false);
+  const [keepDialog, setKeepDialog] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -82,46 +83,53 @@ export const Subject = () => {
 
   const toggleDialog = () => {
     setShowDialog(!showDialog);
-    console.log(showDialog);
+    setKeepDialog(true);
   };
 
   return (
     <div className="default-page-background">
-      <div className="subjects-page-container">
-        <div className="subjects-top-container">
+      <div className="subjects-top-container">
+        <h1>Subjects</h1>
+        <div className="button-container">
           <div className="add-subject" onClick={toggleDialog}>
             <span className="plus-icon">+</span>
           </div>
-          <div className="main-text">
-            <h1>Subjects</h1>
-          </div>
         </div>
-        <div className="subjects-container">
-          <div className="subjects-grid">
-            {subjects.map((subject, index) => (
-              <div
-                key={index}
-                className="subject-grid-item"
-                title={subject.name}
-                onClick={() => navigate("/Subjects/" + subject.id)}
-              >
-                <h2>{subjectNames[index]}</h2>
-              </div>
-            ))}
-          </div>
-          {showDialog && (
-            <div className="dialog-s">
-              <input
-                type="text"
-                placeholder="Subject Name"
-                value={newSubject}
-                onChange={(e) => setNewSubject(e.target.value)}
-              />
+      </div>
+      <div className="subjects-container">
+        <div className="subjects-grid">
+          {subjects.map((subject, index) => (
+            <div
+              key={index}
+              className="subject-grid-item"
+              title={subject.name}
+              onClick={() => navigate("/Subjects/" + subject.id)}
+            >
+              <h2>{subjectNames[index]}</h2>
+            </div>
+          ))}
+        </div>
+        {keepDialog && (
+          <div
+            className={`dialog ${showDialog ? "" : "closing"}`}
+            style={{
+              animation: showDialog
+                ? "slideInCenter 0.2s forwards"
+                : "slideOutCenter 0.2s forwards",
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Subject Name"
+              value={newSubject}
+              onChange={(e) => setNewSubject(e.target.value)}
+            />
+            <div className="dialog-buttons">
               <button onClick={handleAddSubject}>Create</button>
               <button onClick={() => setShowDialog(false)}>Cancel</button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

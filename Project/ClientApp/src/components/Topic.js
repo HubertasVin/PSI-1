@@ -113,7 +113,7 @@ export const Topic = () => {
         <h1>Topics in subject: {subjectName}</h1>
         <div className="button-container">
           <div className="add-subject" onClick={goBack}>
-            <span className="back-button">Back</span>
+            <span className="plus-icon">Back</span>
           </div>
           <div className="add-subject" onClick={toggleDialog}>
             <span className="plus-icon">+</span>

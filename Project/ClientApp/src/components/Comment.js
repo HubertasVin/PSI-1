@@ -7,7 +7,7 @@ import {
 } from "@microsoft/signalr";
 
 export const Comment = ({ show, onClose, topicId }) => {
-  const { userEmail } = useUserContext();
+  const { userEmail, setUserEmail } = useUserContext();
   const [comments, setComments] = useState([]);
   const [currentComment, setCurrentComment] = useState("");
   const [connection, setConnection] = useState(null);
@@ -111,6 +111,16 @@ export const Comment = ({ show, onClose, topicId }) => {
   useEffect(() => {
     //fetching comments
     // console.log("Current user email: " + userEmail);
+    console.log("Setting userEmail if not set");
+    if (!userEmail) {
+      console.log("Setting userEmail");
+      setUserEmail(localStorage.getItem("userEmail"));
+      // console.log("User email: " + userEmail);
+      console.log("User email set")
+    } else {
+        console.log("User email already set");
+    }
+    
     console.log("Fetching comments");
     fetch("https://localhost:7015/comment/get/" + topicId)
       .then((response) => response.json())

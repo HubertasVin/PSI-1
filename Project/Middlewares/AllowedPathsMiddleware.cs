@@ -5,7 +5,7 @@ public class AllowedPathsMiddleware
     private readonly RequestDelegate _next;
     private readonly ILogger<AllowedPathsMiddleware> _logger;
     // private readonly string[] _allowedPaths;
-    private readonly string[] _allowedPaths = new string[] {"/Subject/", "/Topic/", "/User/", "/Comment/", "/Conspect/"};
+    private readonly string[] _allowedPaths = new string[] {"/Subject/", "/Topic/", "/User/", "/Comment/", "/Conspect/", "/chatHub"};
     
     public AllowedPathsMiddleware(RequestDelegate next, ILogger<AllowedPathsMiddleware> logger, IConfiguration configuration)
     {

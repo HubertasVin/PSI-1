@@ -55,7 +55,10 @@ internal class TestWebApplicationFactory : WebApplicationFactory<Program>
             db.Topics.Add(topic5);
             Topic topic6 = new Topic("Inorganic Chemistry", subject3);
             db.Topics.Add(topic6);
-
+            
+            Comment comment1 = new Comment(user1.id, topic1.id, "Test comment 1");
+            db.Comments.Add(comment1);
+            
             db.SaveChanges();
         });
     }

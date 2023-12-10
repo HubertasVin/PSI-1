@@ -27,7 +27,7 @@ public class UserController : ControllerBase
         }
         catch (UserNotFoundException e) {
             _logger.LogError(e, e.Message);
-            return BadRequest(e.Message);
+            return NotFound(e.Message);
         }
     }
     
@@ -37,9 +37,9 @@ public class UserController : ControllerBase
         try {
             return Ok(_userRepository.GetUserByEmail(email));
         }
-        catch (UserNotFoundException e) {
+        catch (ObjectNotFoundException e) {
             _logger.LogError(e, e.Message);
-            return BadRequest(e.Message);
+            return NotFound(e.Message);
         }
     }
     

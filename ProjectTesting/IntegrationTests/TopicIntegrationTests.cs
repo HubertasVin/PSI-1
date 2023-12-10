@@ -45,9 +45,12 @@ public class TopicIntegrationTests : IDisposable
         
         // Act
         var response = await _client.GetAsync($"/Topic/list/{id}");
+        var responseString = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<List<Topic>>(responseString);
         
         // Assert
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Empty(data);
     }
 
     [Fact]

@@ -25,7 +25,7 @@ public class UserController : ControllerBase
         try {
             return Ok(_userRepository.GetUser(id));
         }
-        catch (ObjectNotFoundException e) {
+        catch (UserNotFoundException e) {
             _logger.LogError(e, e.Message);
             return NotFound(e.Message);
         }

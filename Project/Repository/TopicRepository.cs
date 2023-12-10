@@ -16,6 +16,7 @@ public class TopicRepository : Repository<Topic>, ITopicRepository
     
     public virtual Topic? GetTopic(string id)
     {
+        return Get(id);
         return Find(topic => topic.id == id).FirstOrDefault();
     }
     

@@ -56,7 +56,6 @@ public class TopicController : ControllerBase
             _logger.LogError(ex, "Error while getting topics for subject with id {id}", subjectId);
             return BadRequest("Subject not found");
         }
-        
     }
 
     [HttpPost("upload")]

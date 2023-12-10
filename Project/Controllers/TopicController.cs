@@ -42,7 +42,21 @@ public class TopicController : ControllerBase
     [HttpGet("list/{subjectId}")]
     public IActionResult ListTopics(string subjectId)
     {
-        return Ok(_topicRepository.GetTopicsList(subjectId));
+        try
+        {
+            return Ok(_topicRepository.GetTopicsList(subjectId));
+        }
+        catch (ObjectNotFoundException)
+        {
+            _logger.LogWarning("Subject with id {id} could not be found", subjectId);
+            return NotFound("Subject not found");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error while getting topics for subject with id {id}", subjectId);
+            return BadRequest("Subject not found");
+        }
+        
     }
 
     [HttpPost("upload")]

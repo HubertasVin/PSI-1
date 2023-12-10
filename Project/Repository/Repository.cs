@@ -21,14 +21,13 @@ public class Repository<T>
         return Context.Set<T>().Find(id) ?? throw new ObjectNotFoundException("Object not found");
     }
 
-    public List<T> GetAll()
-    {
-        return Context.Set<T>().ToList();
-    }
-
     public List<T> Find(Expression<Func<T, bool>> pred)
     {
-        return Context.Set<T>().Where(pred).ToList();
+        var result = Context.Set<T>().Where(pred).ToList();
+        if (result.Count == 0)
+            throw new ObjectNotFoundException("Object not found");
+        return result;
+        // return Context.Set<T>().Where(pred).ToList();
     }
 
     public void Add(T item)

@@ -1,4 +1,6 @@
 using System.Net;
+using System.Text;
+using System.Text.Json;
 using Newtonsoft.Json;
 using Project.Models;
 
@@ -36,19 +38,16 @@ public class TopicIntegrationTests : IDisposable
     }
     
     [Fact]
-    public async Task ListTopics_InvalidSubjectId_ReturnsOkEmptyList()
+    public async Task ListTopics_InvalidSubjectId_ReturnsNotFound()
     {
         // Arrange
         var id = "123";
         
         // Act
         var response = await _client.GetAsync($"/Topic/list/{id}");
-        var responseString = await response.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<List<Topic>>(responseString);
         
         // Assert
-        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-        Assert.Empty(data!);
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
 
     [Fact]
@@ -84,6 +83,39 @@ public class TopicIntegrationTests : IDisposable
         
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+    
+    [Fact]
+    public async Task UploadTopic_ValidTopic_ReturnsOk()
+    {
+        // Arrange
+        var responseSubjects = await _client.GetAsync("/Subject/list");
+        var responseStringSubjects = await responseSubjects.Content.ReadAsStringAsync();
+        var listOfSubjects = JsonConvert.DeserializeObject<List<Subject>>(responseStringSubjects);
+        
+        var jsonElement = JsonDocument.Parse("{\"topicName\":\"Mechanics\",\"subjectId\":\"" + listOfSubjects[0].id + "\"}").RootElement;
+        
+        // Act
+        var response = await _client.PostAsync("/Topic/upload", new StringContent(jsonElement.ToString(), Encoding.UTF8, "application/json"));
+        var responseString = await response.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<Topic>(responseString);
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal("Mechanics", data?.Name);
+    }
+    
+    [Fact]
+    public async Task UploadTopic_InvalidTopic_ReturnsBadRequest()
+    {
+        // Arrange
+        var jsonElement = JsonDocument.Parse("{\"topicName\":\"Mechanics\"}").RootElement;
+        
+        // Act
+        var response = await _client.PostAsync("/Topic/upload", new StringContent(jsonElement.ToString(), Encoding.UTF8, "application/json"));
+        
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
     }
 
     public void Dispose()

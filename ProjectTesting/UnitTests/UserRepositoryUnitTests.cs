@@ -66,11 +66,8 @@ namespace ProjectTesting.UnitTests
             // Arrange
             var userEmail = "nonexistent@example.com";
 
-            // Act
-            var result = _userRepository.GetUserByEmail(userEmail);
-
-            // Assert
-            Assert.Null(result);
+            // Act & Assert
+            Assert.Throws<ObjectNotFoundException>(() => _userRepository.GetUserByEmail(userEmail));
         }
     }
 }

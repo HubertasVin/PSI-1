@@ -116,26 +116,36 @@ export const Comment = ({ show, onClose, topicId }) => {
       console.log("Setting userEmail");
       setUserEmail(localStorage.getItem("userEmail"));
       // console.log("User email: " + userEmail);
-      console.log("User email set")
+      console.log("User email set");
     } else {
-        console.log("User email already set");
+      console.log("User email already set");
     }
-    
+
     console.log("Fetching comments");
     fetch("https://localhost:7015/comment/get/" + topicId)
       .then((response) => response.json())
       .then((data) => {
         console.log("Comments: ", data);
-        const commentData = data.map((comment) => {
-          return {
-            id: comment.id,
-            userId: comment.userId,
-            text: comment.message,
-            isReal: true,
-          };
+        const commentPromises = data.map((comment) => {
+          return fetch("https://localhost:7015/user/get/" + comment.userId)
+            .then((response) => response.json())
+            .then((user) => {
+              console.log("User: ", user);
+              return {
+                id: comment.id,
+                userId: comment.userId,
+                name: user.name,
+                surname: user.surname,
+                text: comment.message,
+                email: user.email,
+                isReal: true,
+              };
+            });
         });
-        setComments(commentData);
-        setPrevComments(commentData);
+        Promise.all(commentPromises).then((commentData) => {
+          setComments(commentData);
+          setPrevComments(commentData);
+        });
       });
   }, []);
 
@@ -180,42 +190,6 @@ export const Comment = ({ show, onClose, topicId }) => {
     }
   };
 
-  // const handleSaveComment = async (comment, fetchedUserId) => {
-  //     try {
-  //         const requestBody = {
-  //             message: comment.message,
-  //             userId: comment.userId,
-  //             topicId: comment.topicId
-  //         };
-  //         console.warn("Saving comment: " + comment.userId + " " + comment.topicId + " " + comment.message)
-  //         const response = await fetch('https://localhost:7015/comment/add', {
-  //             method: 'POST',
-  //             headers: {
-  //                 'Content-Type': 'application/json',
-  //             },
-  //             body: JSON.stringify(requestBody),
-  //         });
-  //         console.error("Response: " + response);
-  //         if (!response.ok) {
-  //             throw new Error('Network response was not ok');
-  //         }
-  //         console.log("Is working?");
-  //         const data = await response.text()
-  //             .then(async data => {
-  //                 console.error("Responseeeeeee: " + data.id);
-  //                 await connection.invoke("SendMessage", data.id, topicId, fetchedUserId, currentComment);
-  //             })
-  //         // console.log("Responseeeeeee: " + data.id);
-  //             // .then (async data => {
-  //             //     await connection.invoke("SendMessage", data.id, topicId, fetchedUserId, currentComment);
-  //             // });
-  //
-  //
-  //     } catch (error) {
-  //         console.error('Failed to save the comment:', error);
-  //     }
-  // };
-
   const handleDelete = async (commentId) => {
     try {
       connection.invoke("DeleteMessage", commentId, topicId);
@@ -251,8 +225,15 @@ export const Comment = ({ show, onClose, topicId }) => {
         <ul className="comment-list">
           {comments?.map((comment, index) => (
             <li key={index} className="comment">
+              <a className="comment-author">
+                {comment.userId === localStorage.getItem("loginToken")
+                  ? "You - "
+                  : comment.name + " - "}
+              </a>
               <div className="comment-text-content">{comment.text}</div>
-              <button onClick={() => handleDelete(comment.id)}>Delete</button>
+              {comment.userId === localStorage.getItem("loginToken") && (
+                <button onClick={() => handleDelete(comment.id)}>Delete</button>
+              )}
             </li>
           ))}
         </ul>

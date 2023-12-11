@@ -105,13 +105,13 @@
 .comment-panel {
     display: flex;
     position: absolute;
-    top: 50%; /* Align to the vertical center */
-    left: 50%; /* Align to the horizontal center */
+    top: 50%;
+    left: 50%;
     width: 80%;
-    transform: translate(-50%, -50%); /* Center the panel precisely */
+    transform: translate(-50%, -50%);
     flex-direction: column;
     align-items: start;
-    background-color: var(--primary-color);
+    background-color: white;
     border: 5px solid #ddd;
     border-radius: 0.8rem;
     padding: 20px;
@@ -120,8 +120,8 @@
 }
 
 .comment-header h3 {
-    color: white;
-    text-shadow: 1px 1px 2px #06068f;
+    color: black;
+    text-shadow: 1px 1px 1px black;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -140,6 +140,7 @@
 .comment-header button {
     padding: 1px 8px;
     border-radius: 4px;
+    color: black;
     cursor: pointer;
     background-color: rgba(0, 0, 0, 0);
 }
@@ -155,25 +156,30 @@
     list-style: none;
     padding: 0;
     min-height: 30vh;
+    max-height: 30vh;
     overflow: auto;
     border-radius: 4px;
     background-color: #f8f8f8;
 }
 
 .comment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     padding: 2px;
     border-radius: 4px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.comment-list a {
+.comment-list .comment-author {
     text-decoration: none;
-    color: #333;
-    font-weight: bold;
+    color: rgba(79, 79, 79, 0.7);
+    margin-right: 5px;  /* Add some margin between author and text content */
+}
+
+.comment-text-content {
+    flex-grow: 1;
 }
 
 .comment button {

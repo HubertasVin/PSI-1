@@ -7,13 +7,15 @@ import {
 } from "@microsoft/signalr";
 
 export const Comment = ({ show, onClose, topicId }) => {
-  const { userEmail, setUserEmail } = useUserContext();
+  const { userEmail, setUserEmail, userId, setUserId } = useUserContext();
   const [comments, setComments] = useState([]);
   const [currentComment, setCurrentComment] = useState("");
   const [connection, setConnection] = useState(null);
   const [prevComments, setPrevComments] = useState([]);
 
   const [isConnecting, setIsConnecting] = useState(false);
+  
+  const currentUserId = localStorage.getItem("loginToken") || (userId);
 
   const initConnection = useCallback(async () => {
     setIsConnecting(true);
@@ -28,50 +30,34 @@ export const Comment = ({ show, onClose, topicId }) => {
       .build();
 
     newConnection.on(
-      "ReceiveMessage",
-      (messageId, topicId, senderId, messageContent) => {
-        console.log(
-          "Received: topicId: " +
-            topicId +
-            " senderId: " +
-            senderId +
-            " messageContent: " +
-            messageContent +
-            " messageId: " +
-            messageId
-        );
-        setComments((prevComments) => {
-          console.warn("Doing magic with comments");
-          console.warn("Received messageContent: " + messageContent);
-          return [
-            ...prevComments,
-            {
-              id: messageId,
-              userId: senderId,
-              text: messageContent,
-              isReal: true,
-            },
-          ];
-        });
-        setPrevComments(comments);
-        // return prevComments.map(comment => {
-        // console.warn("Doing magic with comments")
-        // console.warn("Received messageContent: " + messageContent)
-        // return { ...comment, id: comment.id, isReal: true };
-        // return comment;
-        // });
+        "ReceiveMessage",
+        (messageId, topicIdReceived, senderId, messageContent) => {
+          setComments(prevComments => {
+            // Remove the optimistic update with the tempId
+            const filteredComments = prevComments.filter(comment => !comment.tempId);
 
-        console.warn(comments);
-      }
+            // Add the new message from the server
+            return [
+              ...filteredComments,
+              {
+                id: messageId,
+                userId: senderId,
+                text: messageContent,
+                isAuthor: senderId === currentUserId,
+              },
+            ];
+          });
+        }
     );
+
+
 
     newConnection.on("DeleteMessage", (messageId) => {
       setComments((prevComments) => {
         return prevComments.filter((comment) => comment.id !== messageId);
       });
     });
-
-    // newConnection.stop()
+    
     console.log("Starting connection");
     newConnection
       .start()
@@ -131,13 +117,13 @@ export const Comment = ({ show, onClose, topicId }) => {
             id: comment.id,
             userId: comment.userId,
             text: comment.message,
-            isReal: true,
+            isAuthor: currentUserId === comment.userId,
           };
         });
         setComments(commentData);
         setPrevComments(commentData);
       });
-  }, []);
+  }, [topicId, currentUserId]);
 
   const handleSend = async () => {
     console.log("Sending message");
@@ -153,13 +139,20 @@ export const Comment = ({ show, onClose, topicId }) => {
         const fetchedUserId = data.id;
         console.log("User id: " + fetchedUserId);
 
-        const comment = {
+        const tempId = Date.now(); // Temporary unique ID for the optimistic update
+
+        const newComment = {
+          tempId, // Use tempId instead of id
           userId: fetchedUserId,
           topicId: topicId,
-          message: currentComment,
+          text: currentComment,
+          isAuthor: true,
         };
 
         try {
+          setComments(prevComments => [...prevComments, newComment]);
+          setCurrentComment("");
+          
           console.error("Sending message: " + currentComment);
           connection.invoke(
             "SendMessage",
@@ -167,10 +160,9 @@ export const Comment = ({ show, onClose, topicId }) => {
             fetchedUserId,
             currentComment
           );
-          // await handleSaveComment(comment, fetchedUserId);
-          setCurrentComment("");
         } catch (err) {
           console.error("Unable to send message", err.toString());
+          setComments(prevComments => prevComments.filter(comment => comment !== newComment));
           // Handle the error appropriately
         }
       } else {
@@ -179,42 +171,6 @@ export const Comment = ({ show, onClose, topicId }) => {
       }
     }
   };
-
-  // const handleSaveComment = async (comment, fetchedUserId) => {
-  //     try {
-  //         const requestBody = {
-  //             message: comment.message,
-  //             userId: comment.userId,
-  //             topicId: comment.topicId
-  //         };
-  //         console.warn("Saving comment: " + comment.userId + " " + comment.topicId + " " + comment.message)
-  //         const response = await fetch('https://localhost:7015/comment/add', {
-  //             method: 'POST',
-  //             headers: {
-  //                 'Content-Type': 'application/json',
-  //             },
-  //             body: JSON.stringify(requestBody),
-  //         });
-  //         console.error("Response: " + response);
-  //         if (!response.ok) {
-  //             throw new Error('Network response was not ok');
-  //         }
-  //         console.log("Is working?");
-  //         const data = await response.text()
-  //             .then(async data => {
-  //                 console.error("Responseeeeeee: " + data.id);
-  //                 await connection.invoke("SendMessage", data.id, topicId, fetchedUserId, currentComment);
-  //             })
-  //         // console.log("Responseeeeeee: " + data.id);
-  //             // .then (async data => {
-  //             //     await connection.invoke("SendMessage", data.id, topicId, fetchedUserId, currentComment);
-  //             // });
-  //
-  //
-  //     } catch (error) {
-  //         console.error('Failed to save the comment:', error);
-  //     }
-  // };
 
   const handleDelete = async (commentId) => {
     try {
@@ -252,7 +208,9 @@ export const Comment = ({ show, onClose, topicId }) => {
           {comments?.map((comment, index) => (
             <li key={index} className="comment">
               <div className="comment-text-content">{comment.text}</div>
-              <button onClick={() => handleDelete(comment.id)}>Delete</button>
+              {comment.isAuthor && (
+                  <button onClick={() => handleDelete(comment.id)}>Delete</button>
+              )}
             </li>
           ))}
         </ul>

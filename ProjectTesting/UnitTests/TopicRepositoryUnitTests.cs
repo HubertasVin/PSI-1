@@ -69,5 +69,18 @@ namespace ProjectTesting.UnitTests
             Assert.Equal("Mechanics", result.Name);
             Assert.Equal(subject.id, result.Subject.id);
         }
+        
+        [Fact]
+        public void CreateTopic_InvalidJson_ReturnsNull()
+        {
+            // Arrange
+            var jsonElement = JsonDocument.Parse("{\"topicName\":\"Mechanics\"}").RootElement;
+
+            // Act
+            var result = _topicRepository.CreateTopic(jsonElement);
+
+            // Assert
+            Assert.Null(result);
+        }
     }
 }

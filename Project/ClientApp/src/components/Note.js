@@ -57,7 +57,6 @@ export const Note = () => {
       alert("Please select a file to upload");
       return;
     }
-    // console.log(fileInput.name.replace(/\.[^/.]+$/, ""));
 
     const formData = new FormData();
     formData.append("title", fileInput.name.replace(/\.[^/.]+$/, ""));
@@ -142,7 +141,6 @@ export const Note = () => {
       .catch((error) => {
         alert(error);
       });
-      console.log("The seed is: " + seed);
   }
 
   useEffect(() => {
@@ -174,7 +172,6 @@ export const Note = () => {
         if (extraFileTypes.includes(getExtension(filePath))) {
           const content = await fetchFileContent(filePath);
           setFileContent(content);
-          console.log("The file content is:", content);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -210,9 +207,6 @@ export const Note = () => {
       await fetchConspectPath(topicId, conspect.index);
       await fetchFileContent(filePath);
       setSeed(seed + 1);
-      console.log("The seed is: " + seed);
-      console.log("The file path is: " + filePath);
-      console.log("The file extension is: " + fileExtension);
     } catch (error) {
       console.error("Error opening conspect:", error);
     }
@@ -225,7 +219,7 @@ export const Note = () => {
   };
 
   return (
-    <div className="gradient-background">
+    <div className="default-page-background">
       <div className="header">
         <h1>Topic: {topicName}</h1>
       </div>
@@ -257,49 +251,41 @@ export const Note = () => {
               {uploadStatus}
             </p>
           </div>
+          <h3>
+            Available conspects:
+          </h3>
           <div className="conspect-list-panel">
-            <p>
-              Available conspects:
-            </p>
             <ul key={seed}>
               {conspects.map((conspect) => (
                 <li key={`${conspect.topicId}-${conspect.index}`}>
                   <a>{conspect.fileName}</a>
-
-                  <button
-                    className="open-pdf-button"
-                    onClick={async () => await onOpenButtonClick(conspect)}
-                  >
-                    {!unsupportedFileTypes.includes(
-                      getExtension(conspect.fileName)
-                    )
-                      ? "Open"
-                      : "Download"}
-                  </button>
-
-                  {localStorage.getItem("loginToken") ===
-                    conspect.authorId && (
+                  <div className="conspect-buttons">
                     <button
-                      className="delete-conspect-button"
-                      onClick={() => {
-                        deleteConspect(
-                          conspect.topicId,
-                          conspect.index,
-                          conspect.authorId
-                        );
-                      }}
+                      className="open-conspect-button"
+                      onClick={async () => await onOpenButtonClick(conspect)}
                     >
-                      Delete
+                      {!unsupportedFileTypes.includes(getExtension(conspect.fileName)) ? "Open" : "Download"}
                     </button>
-                  )}
+                    {localStorage.getItem("loginToken") === conspect.authorId && (
+                      <button
+                        className="delete-conspect-button"
+                        onClick={() => {
+                          deleteConspect(conspect.topicId, conspect.index, conspect.authorId);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    )}
+                  </div>
                 </li>
               ))}
             </ul>
           </div>
+          <Comment show={showComments} onClose={ClosedComments} topicId={topicId} className="comment-panel" />
         </div>
         {filePath != null ? (
           <div className="document-viewer" key={filePath}>
-            <h2 className="conspect-name">{fileName}</h2>
+            <h2 className="conspect-name">Conspect name: {fileName}</h2>
             {fileExtension === "md" ? (
               <Markdown className="doc-viewer">{fileContent}</Markdown>
             ) : fileExtension === "txt" ? (
@@ -328,7 +314,6 @@ export const Note = () => {
           </div>
         ) : null}
       </div>
-      <Comment show={showComments} onClose={ClosedComments} topicId={topicId} />
     </div>
   );
 };

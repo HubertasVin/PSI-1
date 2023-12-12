@@ -13,14 +13,14 @@ namespace Project.Hubs
             _chatService = chatService;
         }
 
-        public async Task SendMessage(string topicId, string userId, string message)
+        public async Task SendMessage(string topicId, string userId, string message, string username)
         {
             Comment? newComment = _chatService.SaveCommentToDb(userId, topicId, message);
             if (newComment != null)
             {
                 await Clients
                     .Group(topicId)
-                    .SendAsync("ReceiveMessage", newComment.id, topicId, userId, message);
+                    .SendAsync("ReceiveMessage", newComment.id, topicId, userId, message, username);
             }
             Console.WriteLine("Sending to: " + topicId + " " + userId + " " + message);
         }

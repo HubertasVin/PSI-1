@@ -16,6 +16,8 @@ const Login = ({ onUpdateSeed }) => {
     useState("");
   const [isValidEmail, setIsValidEmail] = useState(null);
   const [passwordsMatch, setPasswordsMatch] = useState(false);
+  const [loginFail, setLoginFail] = useState(null);
+  const [registrationFail, setRegistrationFail] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,13 +34,6 @@ const Login = ({ onUpdateSeed }) => {
 
   const passwordClass = passwordsMatch ? "" : "passwordMismatch";
 
-  const requestBody = {
-    name: "login",
-    surname: "login",
-    email: loginInputEmail,
-    password: loginInputPassword,
-  };
-
   const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
   const validateEmail = (e) => {
@@ -49,11 +44,19 @@ const Login = ({ onUpdateSeed }) => {
     }
   };
 
-  const handleLogin = async () => {
-    if (!loginInputEmail || !loginInputPassword) {
-      alert("Login failed: All login fields have to be filled.");
+  const handleLogin = async (loginEmail, loginPassword) => {
+    if (!loginEmail || !loginPassword) {
+      // alert("Login failed: All login fields have to be filled.");
+      setLoginFail("All login fields have to be filled.");
       return;
     }
+
+    const requestBody = {
+      name: "login",
+      surname: "login",
+      email: loginEmail,
+      password: loginPassword,
+    };
 
     const response = await fetch("https://localhost:7015/user/login", {
       method: "POST",
@@ -65,7 +68,8 @@ const Login = ({ onUpdateSeed }) => {
 
     if (!response.ok) {
       const errorMessage = await response.text();
-      alert(`Login failed: ${errorMessage}` + ".");
+      // alert(`Login failed: ${errorMessage}` + ".");
+      setLoginFail(`${errorMessage}.`);
       return;
     }
 
@@ -83,7 +87,7 @@ const Login = ({ onUpdateSeed }) => {
     localStorage.setItem("loginToken", loginToken);
     localStorage.setItem("username", userDataJson["name"]);
     localStorage.setItem("userEmail", userDataJson["email"]);
-    setUserEmail(loginInputEmail);
+    setUserEmail(loginEmail);
     setUsername(userDataJson["name"]);
 
     onUpdateSeed();
@@ -97,7 +101,8 @@ const Login = ({ onUpdateSeed }) => {
       !registerInputSurname ||
       !registerInputPassword
     ) {
-      alert("Registration failed: All register fields have to be filled.");
+      // alert("Registration failed: All register fields have to be filled.");
+      setRegistrationFail("All register fields have to be filled.");
       return;
     }
 
@@ -123,13 +128,11 @@ const Login = ({ onUpdateSeed }) => {
     if (response.ok) {
       alert("Registration successful, you can now log in.");
 
-      setLoginInputEmail(registerInputEmail);
-      setLoginInputPassword(registerInputPassword);
-      
-      handleLogin();
+      handleLogin(registerInputEmail, registerInputPassword);
     } else {
       const errorMessage = await response.text();
-      alert(`Registration failed: ${errorMessage}` + ".");
+      setRegistrationFail(`${errorMessage}.`);
+      // alert(`Registration failed: ${errorMessage}` + ".");
     }
   };
 
@@ -146,7 +149,6 @@ const Login = ({ onUpdateSeed }) => {
       <div className="authContainer">
         <div className="authForm">
           <h2 className="login">Login</h2>
-          {/*<form onSubmit={handleLogin}>*/}
           <input
             type="email"
             placeholder="Enter email"
@@ -161,7 +163,12 @@ const Login = ({ onUpdateSeed }) => {
             onChange={(e) => setLoginInputPassword(e.target.value)}
             required
           />
-          <button onClick={handleLogin}>Login</button>
+          <button
+            onClick={() => handleLogin(loginInputEmail, loginInputPassword)}
+          >
+            Login
+          </button>
+          {loginFail !== null && <p style={{ color: "red" }}>{loginFail}</p>}
           {/*</form>*/}
         </div>
         <div className="authForm">
@@ -178,7 +185,7 @@ const Login = ({ onUpdateSeed }) => {
             required
           />
           {isValidEmail === false && (
-            <a style={{ color: "red" }}>Email is not valid</a>
+            <p style={{ color: "red" }}>Email is not valid.</p>
           )}
           <input
             type="text"
@@ -210,13 +217,15 @@ const Login = ({ onUpdateSeed }) => {
             onChange={(e) => setRegisterInputRepeatPassword(e.target.value)}
             required
           />
+          {!passwordsMatch && (
+            <p style={{ color: "red" }}>The passwords do not match.</p>
+          )}
           <button onClick={handleRegister} disabled={!passwordsMatch}>
             Register
           </button>
-          {!passwordsMatch && (
-            <p className="error-message">Passwords do not match.</p>
+          {registrationFail !== null && (
+            <p style={{ color: "red" }}>{registrationFail}</p>
           )}
-          {/*</form>*/}
         </div>
       </div>
     </div>

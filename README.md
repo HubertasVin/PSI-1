@@ -10,11 +10,12 @@ Interneto puslapis, kuriame galima platinti ir rasti kitų žmonių konspektus.
 - Vartotojas gali komentuoti po konspektais, taip pat like'inti ir dislike'inti juos. Gavęs access prie konspekto, gali jį redaguoti.
 - Paieškoje galima filruoti konspektus pagal like'ų kiekį ir kitus parametrus.
 - Apie konspektus galima pranešti administratoriams dėl savo nepadorios ar neteisingos informacijos. Report'intus konspektus administratoriai gali ištrinti.
+r
 
 
 ## UŽDUOTYS:
- - [ ] Duomenų bazė, į kurią galima įterpti konspektus ir informaciją apie juos
- - [ ] Būdas įtraukti konspektą į duomenų bazę (Su konspekto pavadinimu, aprašymu ir tag'ais (math, english))
+ - [x] Duomenų bazė, į kurią galima įterpti konspektus ir informaciją apie juos
+ - [x] Būdas įtraukti konspektą į duomenų bazę (Su konspekto pavadinimu, aprašymu ir tag'ais (math, english))
  - [ ] Nuskaityti docx, pdf ir kitus failus, kad jų turinį būtų galima atspausdinti ekrane
  - [ ] Paieškos sistema
  - [ ] Filtravimo sistema

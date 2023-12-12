@@ -1,0 +1,93 @@
+/* Style the subjects container */
+.subjects-container {
+    padding-top: 1.5rem;
+    height: calc(100vh - 2rem);
+}
+
+/* Style the "Add Subject" button */
+.add-subject {
+    background-color: var(--secondary-color-light);
+    color: white;
+    font-size: 20px;
+    padding: 0.3rem 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-subject:hover {
+    background-color: var(--secondary-color);
+    color: #fff;
+}
+
+.plus-icon {
+    font-size: 30px;
+}
+
+/* Style the subjects grid */
+.subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1rem;
+    margin: 0 0.5rem 0 0.5rem;
+}
+
+/* Style each subject grid item */
+.subject-grid-item {
+    background-color: var(--subject-background-color);
+    border: 1px solid #ddd;
+    padding: 2rem 0.5rem;
+    text-align: center;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Apply hover styles and animation */
+.subject-grid-item:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+/* Change the border-radius for a more rectangular shape */
+.subject-grid-item h2 {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Style the dialog for adding a new subject */
+.dialog {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 30vw;
+    background-color: var(--primary-color);
+    border: 5px solid #ddd;
+    border-radius: 0.8rem;
+    padding: 20px;
+    box-shadow: 0rem 0rem 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Style the input and buttons within the dialog */
+.dialog input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+.dialog-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}

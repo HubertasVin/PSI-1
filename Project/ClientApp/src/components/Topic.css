@@ -1,0 +1,20 @@
+.topics-page-container {
+    width: 100vw;
+    max-height: 100vh;
+    flex-grow: 1;
+    padding: 20px;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.topics-container {
+    padding-top: 2rem;
+    height: calc(100vh - 2rem);
+}
+
+.button-container{
+    display: flex;
+    gap: 1rem;
+}
+

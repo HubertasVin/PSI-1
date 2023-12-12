@@ -1,3 +1,8 @@
 ﻿bin
 obj
 .vs
+log.txt
+
+/node_modules
+/public/uploads
+/ClientApp/public/uploads

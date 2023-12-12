@@ -82,6 +82,10 @@ export const Subject = () => {
   };
 
   const toggleDialog = () => {
+    if (localStorage.getItem("loginToken") === null) {
+      alert("You must be logged in to add a subject");
+      return;
+    }
     setShowDialog(!showDialog);
     setKeepDialog(true);
   };

@@ -98,11 +98,14 @@ export const Topic = () => {
   };
 
   const toggleDialog = () => {
+    if (localStorage.getItem("loginToken") === null) {
+      alert("You must be logged in to add a topic");
+      return;
+    }
     setShowDialog(!showDialog);
     setKeepDialog(true);
   };
 
-  // Function to go back to the previous page
   const goBack = () => {
     navigate(-1);
   };

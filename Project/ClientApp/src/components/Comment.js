@@ -238,14 +238,20 @@ export const Comment = ({ show, onClose, topicId }) => {
           ))}
         </ul>
       </div>
-      <div className="comment-footer">
-        <input
-          value={currentComment}
-          onChange={(e) => setCurrentComment(e.target.value)}
-          placeholder="Enter your comment..."
-        />
-        <button onClick={handleSend}>Send</button>
-      </div>
+      {localStorage.getItem("loginToken") === null ? (
+        <div className="comment-login">
+          <p style={{color: "red"}}>You must be logged in to send comments</p>
+        </div>
+      ) : (
+        <div className="comment-footer">
+          <input
+            value={currentComment}
+            onChange={(e) => setCurrentComment(e.target.value)}
+            placeholder="Enter your comment..."
+          />
+          <button onClick={handleSend}>Send</button>
+        </div>
+        )}
     </div>
   );
 };

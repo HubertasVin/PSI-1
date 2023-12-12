@@ -14,7 +14,7 @@ export const Comment = ({ show, onClose, topicId }) => {
   const [prevComments, setPrevComments] = useState([]);
 
   const [isConnecting, setIsConnecting] = useState(false);
-
+  
   const initConnection = useCallback(async () => {
     setIsConnecting(true);
     console.log("Creating connection");
@@ -29,7 +29,7 @@ export const Comment = ({ show, onClose, topicId }) => {
 
     newConnection.on(
       "ReceiveMessage",
-      (messageId, topicId, senderId, messageContent) => {
+      (messageId, topicId, senderId, messageContent, senderName) => {
         console.log(
           "Received: topicId: " +
             topicId +
@@ -46,6 +46,7 @@ export const Comment = ({ show, onClose, topicId }) => {
           return [
             ...prevComments,
             {
+              name: senderName,
               id: messageId,
               userId: senderId,
               text: messageContent,
@@ -54,12 +55,6 @@ export const Comment = ({ show, onClose, topicId }) => {
           ];
         });
         setPrevComments(comments);
-        // return prevComments.map(comment => {
-        // console.warn("Doing magic with comments")
-        // console.warn("Received messageContent: " + messageContent)
-        // return { ...comment, id: comment.id, isReal: true };
-        // return comment;
-        // });
 
         console.warn(comments);
       }
@@ -161,6 +156,7 @@ export const Comment = ({ show, onClose, topicId }) => {
       if (response.ok) {
         const data = await response.json();
         const fetchedUserId = data.id;
+        const fetchedUserName = data.name;
         console.log("User id: " + fetchedUserId);
 
         const comment = {
@@ -175,7 +171,8 @@ export const Comment = ({ show, onClose, topicId }) => {
             "SendMessage",
             topicId,
             fetchedUserId,
-            currentComment
+            currentComment, 
+            fetchedUserName
           );
           // await handleSaveComment(comment, fetchedUserId);
           setCurrentComment("");

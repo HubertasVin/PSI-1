@@ -2,6 +2,16 @@
 
 Programų sistemų rudens semestro projekto saugykla
 
+## Demonstracija
+
+Prisijungimo ekranas:
+
+![Login](demonstration/Login.png)
+
+Konspektų ekranas:
+
+![Conspect](demonstration/Conspect.png)
+
 ## IDĖJA:
 
 Interneto puslapis, kuriame galima platinti ir rasti kitų žmonių konspektus.
